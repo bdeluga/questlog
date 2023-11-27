@@ -5,7 +5,6 @@ import { auth } from "~/app/auth";
 
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
   const user = await auth();
-  console.log(user);
   return (
     <>
       <header className="flex justify-end p-4 border-b border-mauve3">
