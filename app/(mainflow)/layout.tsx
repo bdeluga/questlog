@@ -1,17 +1,16 @@
-import { getServerSession } from "next-auth";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import UserBadge from "./components/UserBadge";
+import { auth } from "~/app/auth";
 
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
-  const user = await getServerSession();
-
+  const user = await auth();
+  console.log(user);
   return (
     <>
       <header className="flex justify-end p-4 border-b border-mauve3">
         {user?.user ? (
-          <UserBadge session={user} />
+          <UserBadge user={user.user} />
         ) : (
           <div className="flex gap-4">
             <Link
