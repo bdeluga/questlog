@@ -4,7 +4,12 @@ import { DefaultSession } from "next-auth";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
-function UserBadge({ user }: { user: DefaultSession }) {
+
+interface Props {
+  user: DefaultSession["user"];
+}
+
+function UserBadge({ user }: Props) {
   return (
     <div className="flex items-center gap-2 bg-mauve2 p-2 rounded-md">
       {user?.name}
