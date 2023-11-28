@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { animate } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import StaggeredList from "./components/UserBadge/StaggeredList";
+import StaggeredList from "./components/StaggeredList";
 
 export default function Home() {
   return (
