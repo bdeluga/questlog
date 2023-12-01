@@ -28,5 +28,10 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.next();
   }
+
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
   return NextResponse.next();
 }
