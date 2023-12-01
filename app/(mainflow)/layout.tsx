@@ -12,15 +12,15 @@ import {
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
   const user = await auth();
 
-  const selectedProject = false || "Project #1";
+  const selectedProject = false || "Village #1";
 
   return (
     <>
-      <header className="flex justify-between items-center p-4 ">
+      <header className="flex justify-between items-center p-4 border-mauve3 border-b">
         {user?.user ? (
           <>
             <nav className="flex items-center gap-3 h-full ">
-              <Link href={"/"} className="text-4xl">
+              <Link href={"/dashboard"} className="text-4xl">
                 <FontAwesomeIcon
                   icon={faBookJournalWhills}
                   className="text-orange11"
@@ -63,14 +63,6 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
           </>
         )}
       </header>
-      <div className=" border-mauve3 border-b p-4">
-        <nav className="space-x-6">
-          <Link href={"/dashboard"}>Overview</Link>
-          <Link href={"/dashboard/board"}>Board</Link>
-          <Link href={"/dashboard/settings"}>Settings</Link>
-          <Link href={"/dashboard/integrations"}>Integrations</Link>
-        </nav>
-      </div>
       {children}
     </>
   );
