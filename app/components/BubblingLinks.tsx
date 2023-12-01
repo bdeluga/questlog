@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-function BubblingLinks() {
+export default function BubblingLinks() {
   const pathname = usePathname();
   const subroutes = [
     { label: "Overview", href: "/dashboard" },
@@ -37,5 +37,3 @@ function BubblingLinks() {
     </nav>
   );
 }
-
-export default BubblingLinks;

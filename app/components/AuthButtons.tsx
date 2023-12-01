@@ -3,7 +3,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-function AuthButtons() {
+export default function AuthButtons() {
   const path = usePathname();
 
   return (
@@ -26,5 +26,3 @@ function AuthButtons() {
     </div>
   );
 }
-
-export default AuthButtons;

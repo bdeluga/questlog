@@ -9,7 +9,7 @@ interface Props {
   user: DefaultSession["user"];
 }
 
-function UserBadge({ user }: Props) {
+export default function UserBadge({ user }: Props) {
   return (
     <div className="flex items-center gap-2 bg-mauve2 p-2 rounded-md">
       {user?.name}
@@ -22,5 +22,3 @@ function UserBadge({ user }: Props) {
     </div>
   );
 }
-
-export default UserBadge;

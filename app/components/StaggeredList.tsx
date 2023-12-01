@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import React from "react";
 
-function StaggeredList() {
+export default function StaggeredList() {
   const stagger = {
     initial: { opacity: 0, x: -50 },
     animate: { opacity: 1, x: 0 },
@@ -48,6 +48,7 @@ function StaggeredList() {
         "Never miss a deadline again! TaskCity keeps you in the loop with timely notifications and reminders.",
     },
   ];
+
   return (
     <ul className="grid gap-4">
       {items.map((item, index) => (
@@ -69,5 +70,3 @@ function StaggeredList() {
     </ul>
   );
 }
-
-export default StaggeredList;
