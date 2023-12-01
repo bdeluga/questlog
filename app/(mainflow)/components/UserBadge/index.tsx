@@ -17,7 +17,7 @@ function UserBadge({ user }: Props) {
         className="relative p-4 overflow-hidden rounded-full"
         onClick={() => signOut({ callbackUrl: "/" })}
       >
-        <Image alt="User avatar" fill src={user?.image!} />
+        <Image alt="User avatar" sizes="100%" fill src={user?.image!} />
       </button>
     </div>
   );
