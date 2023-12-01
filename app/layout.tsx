@@ -4,7 +4,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 const poppins = Poppins({ subsets: ["latin"], weight: "400" });
-import NextAuthProvider from "~/app/context/AuthProvider";
+import NextAuthProvider from "@/app/context/AuthProvider";
 import { auth } from "./auth";
 
 export const metadata = {

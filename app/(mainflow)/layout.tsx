@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import UserBadge from "./components/UserBadge";
-import { auth } from "~/app/auth";
+import UserBadge from "@/app/components/UserBadge";
+import { auth } from "@/app/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookJournalWhills,
