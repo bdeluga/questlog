@@ -1,4 +1,4 @@
-import Switch from "@/app/components/ui/Switch";
+import Switch from "@/ui/Switch";
 
 export default function ThemeSwitch() {
   const prefersDark =
