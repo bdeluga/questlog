@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AuthButtons from "./components/AuthButtons";
+import AuthButtons from "@/app/components/AuthButtons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookJournalWhills } from "@fortawesome/free-solid-svg-icons";
 

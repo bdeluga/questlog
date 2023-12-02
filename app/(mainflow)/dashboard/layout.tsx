@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
-import BubblingLinks from "../components/BubblingLinks";
+import BubblingLinks from "@/app/components/BubblingLinks";
 async function DashboardLayout({ children }: { children: React.ReactElement }) {
   return (
     <>
