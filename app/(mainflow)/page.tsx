@@ -1,17 +1,7 @@
-import {
-  faNoteSticky,
-  faChartSimple,
-  faMountainCity,
-  faTornado,
-  faPuzzlePiece,
-} from "@fortawesome/free-solid-svg-icons";
-import { animate } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import StaggeredList from "./components/StaggeredList";
-
+import StaggeredList from "@/app/components/StaggeredList";
 export default function Home() {
   return (
-    <main className="w-full p-12">
+    <main className="w-full relative p-12">
       <h1 className="text-6xl font-bold">
         Welcome to<span className="text-orange10"> Questlog</span>
       </h1>
