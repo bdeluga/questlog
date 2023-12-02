@@ -1,4 +1,4 @@
-import Modal from "@/ui/Modal";
+import Modal from "@/app/components/ui/Modal";
 import {
   faChevronDown,
   faDungeon,

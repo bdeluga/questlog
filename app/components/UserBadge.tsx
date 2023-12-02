@@ -12,9 +12,9 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import NotificationPing from "./NotificationPing";
-import Dropdown from "@/ui/Dropdown";
+import Dropdown from "@/app/components/ui/Dropdown";
 import Link from "next/link";
-import Switch from "../../ui/Switch";
+import Switch from "./ui/Switch";
 import ThemeSwitch from "./ThemeSwitch";
 
 interface Props {
