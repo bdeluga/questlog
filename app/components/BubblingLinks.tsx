@@ -9,8 +9,8 @@ export default function BubblingLinks() {
   const subroutes = [
     { label: "Overview", href: "/dashboard" },
     { label: "Journal", href: "/dashboard/journal" },
-    { label: "Settings", href: "/dashboard/settings" },
     { label: "Integrations", href: "/dashboard/integrations" },
+    { label: "Settings", href: "/dashboard/settings" },
   ];
 
   return (
