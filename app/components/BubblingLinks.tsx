@@ -14,7 +14,7 @@ export default function BubblingLinks() {
   ];
 
   return (
-    <nav className="space-x-6 p-4 antialiased">
+    <nav className="space-x-6 p-4 border-b border-mauve3">
       {subroutes.map(({ label, href }) => (
         <Link
           key={label}
