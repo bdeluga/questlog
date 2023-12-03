@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migration:generate": "drizzle-kit generate:pg --schema=db/schema.ts",
+    "migration:push": "node -r esbuild-register db/migrate.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -24,6 +26,7 @@
     "@types/react-dom": "18.2.4",
     "@vercel/postgres": "^0.5.1",
     "autoprefixer": "10.4.14",
+    "dotenv": "^16.3.1",
     "drizzle-orm": "^0.29.1",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
@@ -36,5 +39,8 @@
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.6"
   }
 }
