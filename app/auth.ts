@@ -20,8 +20,10 @@ export const {
     async jwt({ user, token, trigger, account }) {
       if (trigger === "signIn") {
         const existingUser = await db.query.users.findFirst({
-          where: eq(users.id, user.id),
+          where: (users, { eq, or }) =>
+            or(eq(users.id, user.id), eq(users.providerId, user.id)),
         });
+
         if (!existingUser) {
           if (account?.provider) {
             await db.insert(users).values({
