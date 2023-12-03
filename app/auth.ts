@@ -3,7 +3,7 @@ import GitHub from "next-auth/providers/github";
 import { env } from "@/env.mjs";
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 export const {
   handlers: { GET, POST },
   auth,
@@ -20,7 +20,7 @@ export const {
     async jwt({ user, token, trigger, account }) {
       if (trigger === "signIn") {
         const existingUser = await db.query.users.findFirst({
-          where: (users, { eq, or }) =>
+          where: (users) =>
             or(eq(users.id, user.id), eq(users.providerId, user.id)),
         });
 
