@@ -10,6 +10,8 @@ interface Props {
   description?: string;
   children: React.ReactNode;
   asChild: boolean;
+  open?: boolean;
+  onOpenChange?: (value: boolean) => void;
 }
 
 export default function Modal({
@@ -18,9 +20,11 @@ export default function Modal({
   description,
   children,
   asChild,
+  open,
+  onOpenChange,
 }: Props) {
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Trigger asChild={asChild}>{trigger}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 data-[state=open]:animate-overlayShow bg-mauve1/75" />
