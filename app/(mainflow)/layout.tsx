@@ -7,12 +7,15 @@ import {
   faBookJournalWhills,
   faCaretDown,
   faCaretUp,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import { db } from "@/db";
+import VillageFormHeader from "../components/forms/VillageFormHeader";
 
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
   const user = await auth();
 
-  const selectedProject = false || "Village #1";
+  const projects = await db.query.village.findMany();
 
   return (
     <>
@@ -27,11 +30,19 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
             </Link>
             <div className="w-0.5 rounded-md py-4 bg-mauve3 rotate-12" />
             <div className="flex items-center gap-1 text-xl">
-              <div>{selectedProject}</div>
-              <button className="flex flex-col hover:bg-mauve3 p-1 px-2 text-sm rounded-md -space-y-1">
-                <FontAwesomeIcon icon={faCaretUp} />
-                <FontAwesomeIcon icon={faCaretDown} />
-              </button>
+              <div className="flex items-center gap-1">
+                {projects.length > 0 ? (
+                  <>
+                    <span>{projects.at(0)?.name}</span>{" "}
+                    <button className="flex flex-col hover:bg-mauve3 p-1 px-2 text-sm rounded-md -space-y-1">
+                      <FontAwesomeIcon icon={faCaretUp} />
+                      <FontAwesomeIcon icon={faCaretDown} />
+                    </button>
+                  </>
+                ) : (
+                  <VillageFormHeader id={user.user.id!} />
+                )}
+              </div>
             </div>
           </nav>
           <UserBadge user={user.user} />
