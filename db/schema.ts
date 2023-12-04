@@ -15,3 +15,14 @@ export const users = pgTable("users", {
 
 export type User = InferSelectModel<typeof users>;
 export type NewUser = InferInsertModel<typeof users>;
+
+export const village = pgTable("village", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name"),
+  userId: text("user_id").references(() => users.id),
+});
+
+export type Village = InferSelectModel<typeof village>;
+export type NewVillage = InferInsertModel<typeof village>;
