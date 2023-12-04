@@ -14,8 +14,8 @@ import React from "react";
 import NotificationPing from "./NotificationPing";
 import Dropdown from "@/ui/Dropdown";
 import Link from "next/link";
-import Switch from "../../ui/Switch";
 import ThemeSwitch from "./ThemeSwitch";
+import VillageFormMenu from "./forms/VillageFormMenu";
 
 interface Props {
   user: DefaultSession["user"];
@@ -45,9 +45,7 @@ export default function UserBadge({ user }: Props) {
           <Link href={"/dashboard"} className="py-2 block px-4 hover:bg-mauve5">
             Dashboard
           </Link>
-          <button className="py-2  px-4 flex w-full justify-between items-center hover:bg-mauve5">
-            Create new village <FontAwesomeIcon icon={faPlus} />
-          </button>
+          <VillageFormMenu id={user?.id!} />
           <div className="px-4 my-2">
             <hr className="text-mauve4" />
           </div>
