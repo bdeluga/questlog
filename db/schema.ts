@@ -11,18 +11,21 @@ export const users = pgTable("users", {
   email: text("email").unique(),
   provider: text("provider").default("credentials"),
   providerId: text("provider_id"),
+  plan: text("plan"),
 });
 
 export type User = InferSelectModel<typeof users>;
 export type NewUser = InferInsertModel<typeof users>;
 
-export const village = pgTable("village", {
+export const villages = pgTable("villages", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   name: text("name"),
-  userId: text("user_id").references(() => users.id),
+  userId: text("user_id")
+    .references(() => users.id)
+    .notNull(),
 });
 
-export type Village = InferSelectModel<typeof village>;
-export type NewVillage = InferInsertModel<typeof village>;
+export type Village = InferSelectModel<typeof villages>;
+export type NewVillage = InferInsertModel<typeof villages>;
