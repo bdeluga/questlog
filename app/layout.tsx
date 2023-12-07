@@ -6,6 +6,9 @@ config.autoAddCss = false;
 const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 import NextAuthProvider from "@/app/context/AuthProvider";
 import { auth } from "./auth";
+import ToastProvider from "@/app/context/ToastProvider";
+import { Viewport } from "@radix-ui/react-toast";
+import Toast from "@/ui/Toast";
 
 export const metadata = {
   title: "Questlog",
@@ -19,13 +22,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-
   return (
     <html lang="en">
       <body
         className={`${poppins.className} bg-mauve1 flex flex-col  min-h-screen w-full text-mauve12`}
       >
-        <NextAuthProvider session={session}>{children}</NextAuthProvider>
+        <NextAuthProvider session={session}>
+          <ToastProvider>
+            {children}
+            <Toast />
+          </ToastProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
