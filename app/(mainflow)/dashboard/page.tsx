@@ -1,14 +1,15 @@
 import { auth } from "@/app/auth";
-import VillageFormMenu from "@/app/components/forms/VillageFormMenu";
 import { db } from "@/db";
+import { Village, villages } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import {
   faChevronDown,
+  faDiceD20,
   faDungeon,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import React from "react";
 
 export default async function Dashboard() {
@@ -16,13 +17,52 @@ export default async function Dashboard() {
 
   const user = await auth();
 
-  const villages = await db.query.villages.findMany({
+  const userVillages = await db.query.villages.findMany({
     where: (villages, { eq }) => eq(villages.userId, user!.user!.id),
   });
 
+  if (!userVillages.length) {
+    return (
+      <div className="grid flex-1 place-items-center">
+        <form
+          className="p-4 max-w-sm w-full rounded bg-mauve2 border border-mauve4"
+          action={async (formData: FormData) => {
+            "use server";
+            const name = formData.get("name") as string;
+            await db.insert(villages).values({
+              userId: user!.user!.id,
+              name,
+            });
+            revalidatePath("/dashboard");
+          }}
+        >
+          <h1 className="text-lg">First Village</h1>
+          <p className="text-mauve11">
+            Create your first village, watch it grow with each{" "}
+            <span className="text-orange11 underline text-lg cursor-pointer">
+              Level <FontAwesomeIcon icon={faDiceD20} />
+            </span>
+          </p>
+          <fieldset className="mt-4 flex flex-col">
+            <label htmlFor="village">Name</label>
+            <input
+              id="village"
+              className="block p-2 mt-0.5 rounded-md  focus:ring ring-mauve5 bg-mauve4"
+              placeholder="My first Super Village"
+              name="name"
+            />
+            <button className="bg-mauve12 text-mauve2 px-4 py-2 rounded-md self-end mt-4">
+              Create
+            </button>
+          </fieldset>
+        </form>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-1 justify-center flex-col items-center">
-      {!!guilds && villages.length > 0 && (
+    <div className="flex flex-1 p-6 justify-start flex-col items-center">
+      {!!guilds && !!userVillages.length && (
         <>
           <div className="max-w-5xl w-full flex items-center gap-4">
             <div className="bg-mauve3 gap-3 p-2 w-full rounded-md border border-mauve4 focus-within:ring ring-mauve5 flex items-center">
