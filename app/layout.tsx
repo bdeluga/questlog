@@ -7,7 +7,6 @@ const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 import NextAuthProvider from "@/app/context/AuthProvider";
 import { auth } from "./auth";
 import ToastProvider from "@/app/context/ToastProvider";
-import { Viewport } from "@radix-ui/react-toast";
 import Toast from "@/ui/Toast";
 
 export const metadata = {
