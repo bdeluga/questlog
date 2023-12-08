@@ -14,7 +14,7 @@ export default function Dropdown({ trigger, children, asChild }: Props) {
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           side="bottom"
-          className="rounded w-full max-w-sm animate-slideUpAndFade"
+          className="rounded w-full animate-slideUpAndFade"
           sideOffset={10}
         >
           {children}

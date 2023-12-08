@@ -11,6 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { db } from "@/db";
 import { redirect } from "next/navigation";
+import Dropdown from "@/ui/Dropdown";
+import SelectVillage from "../components/SelectVillage";
 
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
   const user = await auth();
@@ -50,10 +52,7 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
                   <div className="w-0.5 rounded-md py-4 bg-mauve3 rotate-12" />
                   <div className="flex items-center gap-1 text-xl">
                     <div>{selectedVillage.name}</div>
-                    <button className="flex flex-col hover:bg-mauve3 p-1 px-2 text-sm rounded-md -space-y-1">
-                      <FontAwesomeIcon icon={faCaretUp} />
-                      <FontAwesomeIcon icon={faCaretDown} />
-                    </button>
+                    <SelectVillage villages={villages} />
                   </div>
                 </>
               )}
