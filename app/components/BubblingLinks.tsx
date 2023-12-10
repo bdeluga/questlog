@@ -11,7 +11,7 @@ export default function BubblingLinks() {
     { label: "Journal", href: "/dashboard/journal" },
     { label: "Realm Connections", href: "/dashboard/integrations" },
     { label: "Enchantment Forge", href: "/dashboard/settings" },
-    { label: "Guildmates", href: "/dashboard/people" },
+    { label: "Mercenaries", href: "/dashboard/people" },
     { label: "Village", href: "/dashboard/village" },
   ];
 
