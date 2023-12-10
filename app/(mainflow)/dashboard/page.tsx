@@ -1,5 +1,6 @@
 import { auth } from "@/app/auth";
 import Level from "@/app/components/OverviewPanels/Level";
+import Social from "@/app/components/OverviewPanels/Social";
 import { db } from "@/db";
 import { Village, villages } from "@/db/schema";
 import Modal from "@/ui/Modal";
@@ -30,7 +31,7 @@ export default async function Dashboard() {
         <Level />
       </div>
       <div className="row-span-4 col-start-5 row-start-2 border border-mauve4 bg-mauve2 rounded-2xl p-4">
-        Social
+        <Social />
       </div>
     </div>
   );
