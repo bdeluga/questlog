@@ -36,7 +36,7 @@ export default function Quests() {
       </div>
       {!quests.length && (
         <div className="flex-1 flex justify-center items-center text-mauve11 text-lg">
-          No active quests. Mercenaries are getting bored
+          No active quests, mercenaries are getting bored.
         </div>
       )}
       <ul className="p-2 space-y-2 ">

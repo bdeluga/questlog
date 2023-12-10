@@ -11,7 +11,9 @@ export default function Realms() {
         </button>
       </div>
       <div className="flex-1 flex justify-center items-center">
-        <span className="text-mauve11 text-lg">No active realms</span>
+        <span className="text-mauve11 text-lg">
+          No active realms, try openning one.
+        </span>
       </div>
     </div>
   );
