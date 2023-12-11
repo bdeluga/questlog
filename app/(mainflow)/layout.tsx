@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookJournalWhills } from "@fortawesome/free-solid-svg-icons";
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import SelectVillage from "../components/SelectVillage";
+import SelectVillage from "@/app/components/SelectVillage/SelectVillage";
 
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
   const user = await auth();
