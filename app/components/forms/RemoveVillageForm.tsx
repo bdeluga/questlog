@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function RemoveVillageForm({
   villageId,
+  onSuccess,
 }: {
   villageId: string;
+  onSuccess: () => void;
 }) {
   const toast = useToast();
   const clientAction = async () => {
@@ -18,6 +20,7 @@ export default function RemoveVillageForm({
           description: "Village successfully deleted.",
           variant: "success",
         });
+        onSuccess();
       })
       .catch((err) => {
         toast.notify({
@@ -29,12 +32,9 @@ export default function RemoveVillageForm({
   };
 
   return (
-    <form
-      action={clientAction}
-      className="text-mauve11 opacity-0 peer-hover:opacity-100 hover:text-mauve12 hover:opacity-100 duration-150 transition-colors  absolute right-4"
-    >
-      <button>
-        <FontAwesomeIcon icon={faTrash} />
+    <form action={clientAction}>
+      <button className="text-red11  hover:bg-red7 border-2 border-red8 bg-red6  inline-flex h-9 items-center justify-center rounded px-4  leading-none outline-none ">
+        Yes, delete village
       </button>
     </form>
   );

@@ -15,6 +15,7 @@ import Modal from "@/ui/Modal";
 
 import AddVillageForm from "./forms/AddVillageForm";
 import RemoveVillageForm from "./forms/RemoveVillageForm";
+import AlertModal from "@/ui/AlertModal";
 
 interface Props {
   villages: Village[];
@@ -29,9 +30,13 @@ export default function SelectVillage({
 }: Props) {
   const [selectedVillage, setSelectedVillage] =
     useState<Village>(activeVillage);
-  const [open, setOpen] = useState(false);
-  const handleSuccess = (village: Village) => {
-    setOpen(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const [removeOpen, setRemoveOpen] = useState(false);
+  const handleAddSuccess = () => {
+    setAddOpen(false);
+  };
+  const handleRemoveSuccess = () => {
+    setRemoveOpen(false);
   };
 
   return (
@@ -67,7 +72,24 @@ export default function SelectVillage({
                 <button className="p-2 peer rounded w-full text-left relative hover:bg-mauve4">
                   {village.name}
                 </button>
-                <RemoveVillageForm villageId={village.id} />
+                <AlertModal
+                  open={removeOpen}
+                  onOpenChange={setRemoveOpen}
+                  asChild
+                  trigger={
+                    <button className="text-mauve11 opacity-0 peer-hover:opacity-100 hover:text-mauve12 hover:opacity-100 duration-150 transition-colors  absolute right-4">
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  }
+                  title={`Remove ${village.name} ?`}
+                  description="This action cannot be undone. This will permanently delete this village and it's data from our servers."
+                  confirmAction={
+                    <RemoveVillageForm
+                      villageId={village.id}
+                      onSuccess={handleRemoveSuccess}
+                    />
+                  }
+                />
               </li>
             ))}
             <div className="px-1 my-2">
@@ -75,8 +97,8 @@ export default function SelectVillage({
             </div>
             <li>
               <Modal
-                open={open}
-                onOpenChange={setOpen}
+                open={addOpen}
+                onOpenChange={setAddOpen}
                 asChild
                 title="Create new village"
                 description="Add another village, and switch between them any time"
@@ -86,7 +108,7 @@ export default function SelectVillage({
                   </button>
                 }
               >
-                <AddVillageForm userId={userId} onSuccess={handleSuccess} />
+                <AddVillageForm userId={userId} onSuccess={handleAddSuccess} />
               </Modal>
             </li>
           </ul>
