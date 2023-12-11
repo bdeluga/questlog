@@ -1,4 +1,4 @@
-import { text, date, pgTable, varchar } from "drizzle-orm/pg-core";
+import { text, date, pgTable, numeric } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel, sql } from "drizzle-orm";
 
 export const users = pgTable("users", {
@@ -26,6 +26,8 @@ export const villages = pgTable("villages", {
   userId: text("user_id")
     .references(() => users.id)
     .notNull(),
+  exp: numeric("exp").notNull().default("1"),
+  expNeeded: numeric("exp_needed").notNull().default("150"),
 });
 
 export type Village = InferSelectModel<typeof villages>;
