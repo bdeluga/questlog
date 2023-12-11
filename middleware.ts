@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
 
   //append new routes if needed in future
   const authRoutes = ["/sign-up", "/sign-in"];
-  const sensitiveRoutes = ["/dashboard", "/new-user/plan"];
+  const sensitiveRoutes = ["/dashboard"];
 
   //auth safeguards
   if (isAccessing(authRoutes)) {
