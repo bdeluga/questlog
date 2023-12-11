@@ -27,6 +27,10 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
     where: (villages, { eq }) => eq(villages.userId, user?.user!.id),
   });
 
+  if (!villages.length) {
+    redirect("/new-user/village");
+  }
+
   const selectedVillage = false || villages[0];
 
   return (
