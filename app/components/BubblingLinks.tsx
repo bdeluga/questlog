@@ -29,7 +29,7 @@ export default function BubblingLinks() {
           {href === pathname && (
             <motion.span
               layoutId="bubble"
-              className="absolute inset-0 z-10 bg-mauve6  mix-blend-difference"
+              className="absolute inset-0  bg-mauve6  mix-blend-difference"
               style={{ borderRadius: "4px" }}
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
