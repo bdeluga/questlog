@@ -15,8 +15,6 @@ import NotificationPing from "./NotificationPing";
 import Dropdown from "@/ui/Dropdown";
 import Link from "next/link";
 import ThemeSwitch from "./ThemeSwitch";
-import VillageFormMenu from "./forms/VillageFormMenu";
-
 interface Props {
   user: DefaultSession["user"];
 }
@@ -45,7 +43,7 @@ export default function UserBadge({ user }: Props) {
           <Link href={"/dashboard"} className="py-2 block px-4 hover:bg-mauve5">
             Dashboard
           </Link>
-          <VillageFormMenu id={user?.id!} />
+          <button className="py-2 block px-4 hover:bg-mauve5">Journal</button>
           <div className="px-4 my-2">
             <hr className="text-mauve4" />
           </div>
