@@ -1,12 +1,12 @@
 "use client";
-import { useToastStore } from "@/app/store/ToastStore";
+import useToast from "@/app/hooks/useToast";
 import Checkbox from "@/ui/Checkbox";
 import getFormData from "@/utils/getFormData";
 import { redirect, useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 
 export default function PlanForm() {
-  const notify = useToastStore((slice) => slice.notify);
+  const toast = useToast();
 
   const [checked, setChecked] = useState(false);
 
@@ -22,7 +22,7 @@ export default function PlanForm() {
     }).then((res) => {
       if (res.ok) {
         router.push("/dashboard");
-        notify({
+        toast.notify({
           title: "Success",
           description: "Account plan was succesfully updated.",
         });
