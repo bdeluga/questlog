@@ -45,16 +45,9 @@ export default function SelectVillage({
           </button>
         }
       >
-        <div className="rounded-md max-w-xs  bg-mauve2 border border-mauve4 ">
-          <div className="gap-3 p-2 w-full  border-b border-mauve4  focus-within:ring ring-mauve5 flex items-center">
-            <label htmlFor="search">
-              <FontAwesomeIcon icon={faSearch} className="text-mauve11 text" />
-            </label>
-            <input
-              placeholder="Search..."
-              id="search"
-              className="placeholder:text-mauve11 bg-transparent outline-none flex-1"
-            />
+        <div className="rounded-md w-full bg-mauve2 border border-mauve4 ">
+          <div className="gap-3 max-w-md w-full p-4 border-b border-mauve4  focus-within:ring ring-mauve5 flex items-center">
+            Choose village or create new
           </div>
 
           <ul className="p-2 space-y-2 ">

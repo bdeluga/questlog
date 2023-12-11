@@ -17,11 +17,14 @@ export default function VillagesListElement({
   handleClick: (village: Village) => void;
   userId: string;
 }) {
+  console.log(selectedVillage === village.id);
   const [open, setOpen] = useState(false);
   return (
     <li key={village.id} className="justify-between flex items-center">
       <form
-        className="p-2 peer rounded w-full text-left relative hover:bg-mauve4"
+        className={`p-2 peer rounded w-full text-left relative hover:bg-mauve4 ${
+          selectedVillage === village.id ? "pointer-events-none bg-mauve4" : ""
+        }`}
         action={() => selectVillageAction(village.id, userId)}
       >
         <button
