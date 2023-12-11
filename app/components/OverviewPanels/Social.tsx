@@ -18,13 +18,13 @@ export default function Social() {
         />
       </div>
       <ul className="p-2 space-y-2 ">
-        {mercenaries?.map((mercenary) => (
+        {/* {mercenaries?.map((mercenary) => (
           <li key={mercenary.id} className="justify-between flex items-center">
             <button className="p-2 rounded w-full text-left relative hover:bg-mauve4">
               {mercenary.name}
             </button>{" "}
           </li>
-        ))}
+        ))} */}
         {!!mercenaries.length && (
           <div className="px-1 my-2">
             <hr className="text-mauve4" />

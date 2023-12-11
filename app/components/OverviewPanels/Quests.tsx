@@ -40,13 +40,13 @@ export default function Quests() {
         </div>
       )}
       <ul className="p-2 space-y-2 ">
-        {quests?.map((quest) => (
+        {/* {quests?.map((quest) => (
           <li key={quest.id} className="justify-between flex items-center">
             <button className="p-2 rounded w-full text-left relative hover:bg-mauve4">
               {quest.name}
             </button>{" "}
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
