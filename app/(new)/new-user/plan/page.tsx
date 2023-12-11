@@ -12,6 +12,10 @@ export default async function PlanPage() {
     where: (users, { eq }) => eq(users.id, user?.user?.id as string),
   });
 
+  if (details?.plan) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="min-h-screen flex flex-col font-bold justify-center items-center">
       <h1 className="text-4xl mb-4 text-center">
