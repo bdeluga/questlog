@@ -31,7 +31,9 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
     redirect("/new-user/village");
   }
 
-  const selectedVillage = false || villages[0];
+  const selectedVillage =
+    villages.find((village) => village.id === details.selectedVillage) ||
+    villages[0];
 
   return (
     <>
