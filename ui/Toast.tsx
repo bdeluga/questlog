@@ -1,12 +1,9 @@
 "use client";
-import { useToastStore } from "@/app/store/ToastStore";
+import useToast from "@/app/hooks/useToast";
 import * as ToastPrimitive from "@radix-ui/react-toast";
 
 export default function Toast() {
-  const { toast, remove } = useToastStore((slice) => ({
-    toast: slice.toast,
-    remove: slice.remove,
-  }));
+  const { toast, remove } = useToast();
 
   const titleColor = {
     info: "text-mauve12",
@@ -19,7 +16,7 @@ export default function Toast() {
       <ToastPrimitive.Root
         open={!!toast}
         onOpenChange={remove}
-        className="bg-mauve2  text-red rounded-md p-4 flex flex-col  data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut"
+        className="bg-mauve4  text-red rounded-md p-4 flex flex-col  data-[state=open]:animate-slideIn data-[state=closed]:animate-hide"
       >
         <ToastPrimitive.Title
           className={` ${
