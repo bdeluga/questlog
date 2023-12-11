@@ -3,15 +3,9 @@ import React from "react";
 import UserBadge from "@/app/components/UserBadge";
 import { auth } from "@/app/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookJournalWhills,
-  faCaretDown,
-  faCaretUp,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBookJournalWhills } from "@fortawesome/free-solid-svg-icons";
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import Dropdown from "@/ui/Dropdown";
 import SelectVillage from "../components/SelectVillage";
 
 async function MainFlowLayout({ children }: { children: React.ReactElement }) {
@@ -47,15 +41,12 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
                   className="text-orange11"
                 />
               </Link>
-              {villages.length > 0 && (
-                <>
-                  <div className="w-0.5 rounded-md py-4 bg-mauve3 rotate-12" />
-                  <div className="flex items-center gap-1 text-xl">
-                    <div>{selectedVillage.name}</div>
-                    <SelectVillage villages={villages} />
-                  </div>
-                </>
-              )}
+              <div className="w-0.5 rounded-md py-4 bg-mauve3 rotate-12" />
+              <SelectVillage
+                villages={villages}
+                activeVillage={selectedVillage}
+                userId={user.user.id}
+              />
             </nav>
             <UserBadge user={user.user} />
           </>
