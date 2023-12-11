@@ -12,6 +12,7 @@ export const users = pgTable("users", {
   provider: text("provider").default("credentials"),
   providerId: text("provider_id"),
   plan: text("plan"),
+  selectedVillage: text("selected_village"),
 });
 
 export type User = InferSelectModel<typeof users>;
@@ -21,7 +22,7 @@ export const villages = pgTable("villages", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  name: text("name"),
+  name: text("name").notNull(),
   userId: text("user_id")
     .references(() => users.id)
     .notNull(),
