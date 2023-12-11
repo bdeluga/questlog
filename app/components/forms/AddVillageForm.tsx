@@ -16,7 +16,7 @@ export default function AddVillageForm({
   onSuccess,
 }: {
   userId: string;
-  onSuccess: (village: Village) => void;
+  onSuccess?: (village: Village) => void;
 }) {
   const id = useId();
   const toast = useToast();
@@ -43,7 +43,7 @@ export default function AddVillageForm({
           description: "Village added",
           variant: "success",
         });
-        onSuccess({
+        onSuccess?.({
           ...(newVillage as Village),
           id,
         });
