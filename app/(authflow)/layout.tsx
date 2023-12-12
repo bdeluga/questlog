@@ -8,7 +8,7 @@ import { db } from "@/db";
 import { redirect } from "next/navigation";
 import SelectVillage from "@/app/components/SelectVillage/SelectVillage";
 
-async function MainFlowLayout({ children }: { children: React.ReactElement }) {
+async function MainAuthFlow({ children }: { children: React.ReactElement }) {
   const user = await auth();
 
   const details = await db.query.users.findFirst({
@@ -56,4 +56,4 @@ async function MainFlowLayout({ children }: { children: React.ReactElement }) {
   );
 }
 
-export default MainFlowLayout;
+export default MainAuthFlow;
