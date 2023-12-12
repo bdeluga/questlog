@@ -15,8 +15,9 @@ import NotificationPing from "./NotificationPing";
 import Dropdown from "@/ui/Dropdown";
 import Link from "next/link";
 import ThemeSwitch from "./ThemeSwitch";
+import { User } from "@/db/schema";
 interface Props {
-  user: DefaultSession["user"];
+  user: User;
 }
 
 export default function UserBadge({ user }: Props) {
@@ -40,6 +41,20 @@ export default function UserBadge({ user }: Props) {
           <div className="border-b p-4 border-mauve4 flex gap-2 items-center mb-2">
             {user?.email}
           </div>
+          <div className="py-2  px-4 flex w-full justify-between items-center cursor-default">
+            <div>Plan</div>
+            <div
+              className={`${
+                user.plan === "hobby" ? "bg-mauve4" : "bg-orange11 text-mauve1"
+              } p-2 rounded-md capitalize`}
+            >
+              {user.plan}
+            </div>
+          </div>
+
+          <div className="px-4 my-2">
+            <hr className="text-mauve4" />
+          </div>
           <Link href={"/dashboard"} className="py-2 block px-4 hover:bg-mauve5">
             Dashboard
           </Link>
@@ -62,10 +77,10 @@ export default function UserBadge({ user }: Props) {
           >
             Settings <FontAwesomeIcon icon={faCog} />
           </Link>
-
           <div className="px-4 my-2">
             <hr className="text-mauve4" />
           </div>
+
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
             className="block text-left hover:bg-mauve5 w-full mb-2 py-2 px-4"
