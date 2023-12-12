@@ -48,7 +48,7 @@ async function MainAuthFlow({ children }: { children: React.ReactElement }) {
             userId={user!.user!.id}
           />
         </nav>
-        <UserBadge user={user!.user} />
+        <UserBadge user={details!} />
       </header>
 
       {children}
