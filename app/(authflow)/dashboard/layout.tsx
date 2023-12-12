@@ -7,7 +7,7 @@ export default async function DashboardLayout({
 }) {
   return (
     <>
-      {<BubblingLinks />}
+      <BubblingLinks />
       {children}
     </>
   );
