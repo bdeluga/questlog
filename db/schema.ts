@@ -33,3 +33,19 @@ export const villages = pgTable("villages", {
 
 export type Village = InferSelectModel<typeof villages>;
 export type NewVillage = InferInsertModel<typeof villages>;
+
+export const quests = pgTable("quests", {
+  id: text("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  createdAt: date("created_at").default(sql`now()`),
+  villageId: text("village_id")
+    .references(() => villages.id)
+    .notNull(),
+  userId: text("user_id").references(() => users.id),
+});
+
+export type Quest = InferSelectModel<typeof quests>;
+export type NewQuest = InferInsertModel<typeof quests>;
