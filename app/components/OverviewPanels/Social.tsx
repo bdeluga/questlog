@@ -6,7 +6,12 @@ export default function Social() {
 
   return (
     <div className="flex flex-col h-full justify-start">
-      <div className="flex items-baseline text-lg gap-1">Tavern</div>
+      <div className="flex items-center justify-between text-lg gap-1">
+        <h1>Tavern</h1>
+        <button>
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
+      </div>
       <div className="gap-3 p-2 w-full mt-4  border-b border-mauve4 rounded  focus-within:ring ring-mauve5 flex items-center">
         <label htmlFor="search">
           <FontAwesomeIcon icon={faUser} className="text-mauve11 text" />
@@ -25,16 +30,6 @@ export default function Social() {
             </button>{" "}
           </li>
         ))} */}
-        {!!mercenaries.length && (
-          <div className="px-1 my-2">
-            <hr className="text-mauve4" />
-          </div>
-        )}
-        <li>
-          <button className="p-2 rounded w-full flex justify-between items-center hover:bg-mauve4">
-            Add mercenary <FontAwesomeIcon icon={faPlus} />
-          </button>
-        </li>
       </ul>
     </div>
   );
