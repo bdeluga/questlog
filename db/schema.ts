@@ -28,6 +28,7 @@ export const villages = pgTable("villages", {
     .notNull(),
   exp: numeric("exp").notNull().default("1"),
   expNeeded: numeric("exp_needed").notNull().default("150"),
+  level: numeric("level").default("1"),
 });
 
 export type Village = InferSelectModel<typeof villages>;
