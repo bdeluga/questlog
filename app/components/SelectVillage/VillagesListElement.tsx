@@ -5,36 +5,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import RemoveVillageForm from "../forms/RemoveVillageForm";
 import selectVillageAction from "@/app/actions/selectVillageAction";
+import { useVillageStore } from "@/app/store/villageStore";
 
 export default function VillagesListElement({
   village,
-  selectedVillage,
-  handleClick,
   userId,
 }: {
   village: Village;
-  selectedVillage: string;
-  handleClick: (village: Village) => void;
   userId: string;
 }) {
-  console.log(selectedVillage === village.id);
+  const { setSelectedVillage, selectedVillage } = useVillageStore();
+
   const [open, setOpen] = useState(false);
   return (
     <li key={village.id} className="justify-between flex items-center">
       <form
         className={`p-2 peer rounded w-full text-left relative hover:bg-mauve4 ${
-          selectedVillage === village.id ? "pointer-events-none bg-mauve4" : ""
+          selectedVillage?.id === village.id
+            ? "pointer-events-none bg-mauve4"
+            : ""
         }`}
         action={() => selectVillageAction(village.id, userId)}
       >
         <button
           className="w-full text-left "
-          onClick={() => handleClick(village)}
+          onClick={() => setSelectedVillage(village)}
         >
           {village.name}
         </button>
       </form>
-      {selectedVillage !== village.id && (
+      {selectedVillage!.id !== village.id && (
         <AlertModal
           open={open}
           onOpenChange={setOpen}

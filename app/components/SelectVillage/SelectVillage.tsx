@@ -9,11 +9,12 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/ui/Modal";
 import AddVillageForm from "../forms/AddVillageForm";
 import VillagesListElement from "./VillagesListElement";
 import AddVillageModal from "./AddVillageModal";
+import { useVillageStore } from "@/app/store/villageStore";
 
 interface Props {
   villages: Village[];
@@ -26,16 +27,17 @@ export default function SelectVillage({
   activeVillage,
   userId,
 }: Props) {
-  const [selectedVillage, setSelectedVillage] =
-    useState<Village>(activeVillage);
+  const setSelectedVillage = useVillageStore(
+    (slice) => slice.setSelectedVillage
+  );
 
-  const handleOnClick = (village: Village) => setSelectedVillage(village);
-
-  //
+  useEffect(() => {
+    setSelectedVillage(activeVillage);
+  }, [activeVillage, setSelectedVillage]);
 
   return (
     <div className="flex items-center gap-1 text-xl">
-      <div>{selectedVillage.name}</div>
+      <div>{activeVillage?.name}</div>
       <Dropdown
         asChild
         trigger={
@@ -53,10 +55,8 @@ export default function SelectVillage({
           <ul className="p-2 space-y-2 ">
             {villages?.map((village) => (
               <VillagesListElement
-                handleClick={handleOnClick}
                 key={village.id}
                 village={village}
-                selectedVillage={selectedVillage.id}
                 userId={userId}
               />
             ))}
