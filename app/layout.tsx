@@ -1,9 +1,9 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
-const poppins = Poppins({ subsets: ["latin"], weight: "400" });
+const inter = Inter({ subsets: ["latin"], weight: "400" });
 import NextAuthProvider from "@/app/context/AuthProvider";
 import { auth } from "./auth";
 import ToastProvider from "@/app/context/ToastProvider";
@@ -24,7 +24,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} bg-mauve1 flex flex-col  min-h-screen w-full text-mauve12`}
+        className={`${inter.className} bg-mauve1 flex flex-col  min-h-screen w-full text-mauve12`}
       >
         <NextAuthProvider session={session}>
           <ToastProvider>
