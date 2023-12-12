@@ -1,22 +1,9 @@
-import { auth } from "@/app/auth";
 import Enchantments from "@/app/components/OverviewPanels/Enchantments";
 import Level from "@/app/components/OverviewPanels/Level";
 import Quests from "@/app/components/OverviewPanels/Quests";
 import Realms from "@/app/components/OverviewPanels/Realms";
 import Social from "@/app/components/OverviewPanels/Social";
-import { db } from "@/db";
-import { Village, villages } from "@/db/schema";
-import Modal from "@/ui/Modal";
-import {
-  faChevronDown,
-  faDiceD20,
-  faDungeon,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { revalidatePath } from "next/cache";
 import React from "react";
-import css from "styled-jsx/css";
 
 export default async function Dashboard() {
   return (
