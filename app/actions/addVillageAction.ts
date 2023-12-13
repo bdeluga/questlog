@@ -7,29 +7,30 @@ export default async function addVillageAction(
   formData: FormData,
   userId: string
 ) {
-  const user = await db.query.users.findFirst({
+  const userWithVillages = await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.id, userId),
+    with: {
+      villages: true,
+    },
   });
 
-  const userVillages = await db.query.villages.findMany({
-    where: (villages, { eq }) => eq(villages.userId, userId),
-  });
+  if (!userWithVillages)
+    throw "User not found, log in again and repeat action.";
 
-  if (!user) throw "User not found, log in again and repeat action.";
-
-  const userPlan = user.plan;
+  const userPlan = userWithVillages.plan;
 
   const villageName = formData.get("name");
 
   const maxVillagesCount = userPlan === "hobby" ? 3 : 5;
 
-  const canCreateMoreVillages = userVillages.length < maxVillagesCount;
+  const canCreateMoreVillages =
+    userWithVillages.villages.length < maxVillagesCount;
 
   if (!canCreateMoreVillages) {
     throw "Maximum villages count reached, consider deleting unused ones.";
   }
 
-  const duplicate = userVillages.find(
+  const duplicate = userWithVillages.villages.find(
     (village) => village.name === villageName
   );
 

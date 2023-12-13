@@ -11,25 +11,26 @@ import SelectVillage from "@/app/components/SelectVillage/SelectVillage";
 async function MainAuthFlow({ children }: { children: React.ReactElement }) {
   const user = await auth();
 
-  const details = await db.query.users.findFirst({
+  const userDetails = await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.id, user?.user?.id as string),
+    with: {
+      villages: true,
+    },
   });
 
-  if (user && !details?.plan) {
+  const villages = userDetails?.villages;
+
+  if (user && !userDetails?.plan) {
     redirect("/new-user/plan");
   }
 
-  const villages = await db.query.villages.findMany({
-    where: (villages, { eq }) => eq(villages.userId, user?.user!.id!),
-  });
-
-  if (user && !villages.length) {
+  if (user && !villages?.length) {
     redirect("/new-user/village");
   }
 
   const selectedVillage =
-    villages.find((village) => village.id === details!.selectedVillage) ||
-    villages[0];
+    villages?.find((village) => village.id === userDetails!.selectedVillage) ||
+    villages?.at(0);
 
   return (
     <>
@@ -43,12 +44,12 @@ async function MainAuthFlow({ children }: { children: React.ReactElement }) {
           </Link>
           <div className="w-0.5 rounded-md py-4 bg-mauve3 rotate-12" />
           <SelectVillage
-            villages={villages}
-            activeVillage={selectedVillage}
+            villages={villages!}
+            activeVillage={selectedVillage!}
             userId={user!.user!.id}
           />
         </nav>
-        <UserBadge user={details!} />
+        <UserBadge user={userDetails!} />
       </header>
 
       {children}
