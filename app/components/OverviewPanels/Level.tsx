@@ -1,5 +1,6 @@
 "use client";
 import { useVillageStore } from "@/app/store/villageStore";
+import { Village } from "@/db/schema";
 import ProgressBar from "@/ui/ProgressBar";
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,8 +21,6 @@ export default function Level() {
         </div>
       </div>
     );
-
-  console.log(selectedVillage);
 
   return (
     <div className="flex flex-col h-full justify-between">
