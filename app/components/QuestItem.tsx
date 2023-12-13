@@ -4,6 +4,7 @@ import {
   faDiceD20,
   faEdit,
   faEllipsisV,
+  faFlask,
   faListDots,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -66,9 +67,15 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
         <span>
           Status: <u className="underline-offset-2">{quest.state}</u>
         </span>
-        <div className="flex gap-1 items-center text-plum7">
-          {quest.difficulty}
-          <FontAwesomeIcon icon={faDiceD20} />
+        <div className="flex flex-col gap-1 items-center text-red8">
+          <div className="flex gap-0.5 items-center">
+            <FontAwesomeIcon icon={faDiceD20} />
+            {quest.difficulty}
+          </div>
+          <div className="flex gap-0.5 items-center text-plum8">
+            <FontAwesomeIcon icon={faFlask} />
+            {quest.rewardExp}
+          </div>
         </div>
       </div>
     </div>
