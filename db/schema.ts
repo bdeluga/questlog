@@ -1,5 +1,19 @@
-import { text, date, pgTable, numeric } from "drizzle-orm/pg-core";
-import { InferInsertModel, InferSelectModel, sql } from "drizzle-orm";
+import {
+  text,
+  date,
+  pgTable,
+  numeric,
+  PgEnum,
+  pgEnum,
+} from "drizzle-orm/pg-core";
+import {
+  InferInsertModel,
+  InferSelectModel,
+  relations,
+  sql,
+} from "drizzle-orm";
+
+export const planEnum = pgEnum("plan", ["hobby", "pro"]);
 
 export const users = pgTable("users", {
   id: text("id")
@@ -11,9 +25,13 @@ export const users = pgTable("users", {
   email: text("email").unique(),
   provider: text("provider").default("credentials"),
   providerId: text("provider_id"),
-  plan: text("plan"),
+  plan: planEnum("plan"),
   selectedVillage: text("selected_village"),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  villages: many(villages),
+}));
 
 export type User = InferSelectModel<typeof users>;
 export type NewUser = InferInsertModel<typeof users>;
@@ -31,8 +49,19 @@ export const villages = pgTable("villages", {
   level: numeric("level").default("1"),
 });
 
+export const villagesRelations = relations(villages, ({ one }) => ({
+  user: one(users, { fields: [villages.userId], references: [users.id] }),
+}));
+
 export type Village = InferSelectModel<typeof villages>;
 export type NewVillage = InferInsertModel<typeof villages>;
+
+export const stateEnum = pgEnum("state", [
+  "new",
+  "active",
+  "resolved",
+  "closed",
+]);
 
 export const quests = pgTable("quests", {
   id: text("id")
@@ -44,7 +73,10 @@ export const quests = pgTable("quests", {
   villageId: text("village_id")
     .references(() => villages.id)
     .notNull(),
-  userId: text("user_id").references(() => users.id),
+  mercenaryId: text("user_id").references(() => users.id),
+  difficulty: text("difficulty").notNull(),
+  rewardExp: numeric("reward_exp").notNull(),
+  state: stateEnum("state").notNull(),
 });
 
 export type Quest = InferSelectModel<typeof quests>;
