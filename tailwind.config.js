@@ -1,4 +1,4 @@
-import { mauveDark, orangeDark, grass, red } from "@radix-ui/colors";
+import { mauveDark, orangeDark, grass, red, plum } from "@radix-ui/colors";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,6 +9,7 @@ module.exports = {
       ...orangeDark,
       ...grass,
       ...red,
+      ...plum,
       transparent: "transparent",
     },
     extend: {
