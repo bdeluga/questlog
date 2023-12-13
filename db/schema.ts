@@ -76,7 +76,7 @@ export const quests = pgTable("quests", {
   mercenaryId: text("user_id").references(() => users.id),
   difficulty: text("difficulty").notNull(),
   rewardExp: numeric("reward_exp").notNull(),
-  state: stateEnum("state").default("new"),
+  state: stateEnum("state").default("new").notNull(),
 });
 
 export type Quest = InferSelectModel<typeof quests>;
