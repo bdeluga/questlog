@@ -1,4 +1,3 @@
-import { Quest } from "@/db/schema";
 import { QuestMap, reorderTasks } from "@/utils/reorder";
 import { useEffect, useState } from "react";
 import {
@@ -8,6 +7,7 @@ import {
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
+import QuestItem from "./QuestItem";
 
 export default function NoticeBoard({
   tasks,
@@ -70,7 +70,7 @@ export default function NoticeBoard({
                       <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}
-                        className={`flex-1 p-4  ${
+                        className={`flex-1 p-4 ${
                           snapshot.isDraggingOver &&
                           !snapshot.draggingFromThisWith
                             ? "bg-mauve3/50"
@@ -78,21 +78,20 @@ export default function NoticeBoard({
                         }`}
                       >
                         {userTasks[key as keyof typeof userTasks].map(
-                          (task, index) => (
+                          (quest, index) => (
                             <Draggable
-                              key={task.id}
-                              draggableId={task.id}
+                              key={quest.id}
+                              draggableId={quest.id}
                               index={index}
                             >
                               {(provided) => (
-                                <div
+                                <QuestItem
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className="bg-white p-4 rounded mb-2 bg-mauve4"
-                                >
-                                  {task.description}
-                                </div>
+                                  quest={quest}
+                                  className="bg-white p-4 rounded mb-2 bg-mauve4 "
+                                />
                               )}
                             </Draggable>
                           )
