@@ -1,5 +1,6 @@
 //https://codesandbox.io/p/sandbox/react-beautiful-dnd-board-base-0dv9b
 
+import { Quest } from "@/db/schema";
 import { DropResult } from "react-beautiful-dnd";
 
 export interface Task {
@@ -7,11 +8,11 @@ export interface Task {
   content: string;
 }
 
-export interface TaskMap {
-  new: Task[];
-  active: Task[];
-  resolved: Task[];
-  closed: Task[];
+export interface QuestMap {
+  new: Quest[];
+  active: Quest[];
+  resolved: Quest[];
+  closed: Quest[];
 }
 
 const reorder = (list: unknown[], startIndex: number, endIndex: number) => {
@@ -27,7 +28,7 @@ export const reorderTasks = ({
   source,
   destination,
 }: {
-  tasks: TaskMap;
+  tasks: QuestMap;
   source: DropResult["source"];
   destination: DropResult["destination"];
 }) => {

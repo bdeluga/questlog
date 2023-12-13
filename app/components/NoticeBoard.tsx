@@ -1,5 +1,6 @@
-import { TaskMap, reorderTasks } from "@/utils/reorder";
-import { useState } from "react";
+import { Quest } from "@/db/schema";
+import { QuestMap, reorderTasks } from "@/utils/reorder";
+import { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -12,12 +13,16 @@ export default function NoticeBoard({
   tasks,
   headers,
 }: {
-  tasks: TaskMap;
+  tasks: QuestMap;
   headers: string[];
 }) {
   resetServerContext();
 
   const [userTasks, setUserTasks] = useState(tasks);
+
+  useEffect(() => {
+    setUserTasks(tasks);
+  }, [tasks]);
 
   const onDragEnd = (result: DropResult) => {
     const source = result?.source;
@@ -72,7 +77,6 @@ export default function NoticeBoard({
                             : ""
                         }`}
                       >
-                        {/* Render tasks within each column */}
                         {userTasks[key as keyof typeof userTasks].map(
                           (task, index) => (
                             <Draggable
@@ -87,13 +91,12 @@ export default function NoticeBoard({
                                   {...provided.dragHandleProps}
                                   className="bg-white p-4 rounded mb-2 bg-mauve4"
                                 >
-                                  {task.content}
+                                  {task.description}
                                 </div>
                               )}
                             </Draggable>
                           )
                         )}
-                        {provided.placeholder}
                       </div>
                     )}
                   </Droppable>
