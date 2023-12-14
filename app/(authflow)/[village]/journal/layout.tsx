@@ -1,5 +1,6 @@
 import JournalNav from "@/app/components/JournalNav";
-import React from "react";
+import React, { Suspense } from "react";
+import Loading from "./loading";
 
 export default async function JournalLayout({
   children,
@@ -11,7 +12,7 @@ export default async function JournalLayout({
       <div className="border-r border-mauve4 max-w-xs w-full">
         <JournalNav />
       </div>
-      {children}
+      <Suspense fallback={<Loading />}>{children}</Suspense>
     </div>
   );
 }

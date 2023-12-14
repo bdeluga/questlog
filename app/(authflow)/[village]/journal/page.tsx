@@ -1,32 +1,33 @@
-"use client";
 import NoticeBoard from "@/app/components/NoticeBoard";
-import NoticeBoardFallback from "@/app/components/NoticeBoardFallback";
-import { useVillageStore } from "@/app/store/villageStore";
+import { db } from "@/db";
 import { Quest } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import { QuestMap } from "@/utils/reorder";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import useSWR from "swr";
-export default function JournalPage() {
-  const selectedVillage = useVillageStore((slice) => slice.selectedVillage);
-  const getTasks = () =>
-    fetch(`/api/quest?village=${selectedVillage?.id}`)
-      .then((res) => res.json())
-      .then((tasks) =>
-        tasks.reduce(
+export default async function JournalPage({
+  params,
+}: {
+  params: { village: string };
+}) {
+  const data = await db.query.villages
+    .findFirst({
+      where: (villages, { eq }) => eq(villages.name, params.village),
+      with: {
+        quests: true,
+      },
+    })
+    .then(
+      (res) =>
+        res?.quests.reduce(
           (acc: QuestMap, task: Quest) => {
             acc[task.state].push(task);
             return acc;
           },
           { new: [], active: [], resolved: [], closed: [] }
-        )
-      );
-  const { data, isLoading } = useSWR(
-    `/api/quests?uid=${selectedVillage?.id}`,
-    getTasks
-  );
+        ) ?? { new: [], active: [], resolved: [], closed: [] }
+    );
 
   return (
     <div className="flex-1 flex flex-col">
@@ -41,14 +42,10 @@ export default function JournalPage() {
       >
         costam
       </Modal>
-      {isLoading ? (
-        <NoticeBoardFallback />
-      ) : (
-        <NoticeBoard
-          headers={["new", "active", "resolved", "closed"]}
-          tasks={data}
-        />
-      )}
+      <NoticeBoard
+        headers={["new", "active", "resolved", "closed"]}
+        tasks={data}
+      />
     </div>
   );
 }
