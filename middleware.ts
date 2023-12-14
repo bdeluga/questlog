@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./app/auth";
+import { db } from "./db";
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
@@ -30,7 +31,16 @@ export async function middleware(req: NextRequest) {
   }
 
   if (pathname === "/" && session) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    const user = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, session.user?.id!),
+      with: {
+        villages: true,
+      },
+    });
+
+    return NextResponse.redirect(
+      new URL(`${user?.selectedVillage || user?.villages[0].name}`, req.url)
+    );
   }
 
   return NextResponse.next();
