@@ -66,8 +66,13 @@ export const villagesRelations = relations(villages, ({ one, many }) => ({
     fields: [villages.userId],
     references: [users.id],
   }),
-  quests: many(quests),
+  quests: many(quests, {
+    //@ts-expect-error idk why this is
+    fields: [villages.id],
+    references: [quests.villageId],
+  }),
 }));
+
 export type Village = InferSelectModel<typeof villages>;
 export type NewVillage = InferInsertModel<typeof villages>;
 
@@ -88,9 +93,11 @@ export const quests = pgTable("quests", {
 });
 
 export const questsRelations = relations(quests, ({ one }) => ({
-  village: one(villages),
+  village: one(villages, {
+    fields: [quests.villageId],
+    references: [villages.id],
+  }),
   user: one(users),
 }));
-
 export type Quest = InferSelectModel<typeof quests>;
 export type NewQuest = InferInsertModel<typeof quests>;
