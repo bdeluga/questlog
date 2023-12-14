@@ -1,3 +1,4 @@
+"use client";
 import { Village } from "@/db/schema";
 import AlertModal from "@/ui/AlertModal";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -5,36 +6,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import RemoveVillageForm from "../forms/RemoveVillageForm";
 import selectVillageAction from "@/app/actions/selectVillageAction";
-import { useVillageStore } from "@/app/store/villageStore";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
 
 export default function VillagesListElement({
   village,
   userId,
+  canDelete,
 }: {
   village: Village;
   userId: string;
+  canDelete: boolean;
 }) {
-  const { setSelectedVillage, selectedVillage } = useVillageStore();
-
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const { village: villageName } = useParams();
+
+  const smartPathname = (newPath: string) =>
+    pathname.replace(villageName as string, newPath);
+
   return (
     <li key={village.id} className="justify-between flex items-center">
-      <form
+      <Link
         className={`p-2 peer rounded w-full text-left relative hover:bg-mauve4 ${
-          selectedVillage?.id === village.id
-            ? "pointer-events-none bg-mauve4"
-            : ""
+          !canDelete ? "pointer-events-none bg-mauve4" : ""
         }`}
-        action={() => selectVillageAction(village.id, userId)}
+        href={smartPathname(village.name)}
       >
-        <button
-          className="w-full text-left "
-          onClick={() => setSelectedVillage(village)}
-        >
-          {village.name}
-        </button>
-      </form>
-      {selectedVillage!.id !== village.id && (
+        {village.name}
+      </Link>
+
+      {canDelete && (
         <AlertModal
           open={open}
           onOpenChange={setOpen}

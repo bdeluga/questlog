@@ -1,5 +1,6 @@
+"use client";
 import { QuestMap, reorderTasks } from "@/utils/reorder";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -19,10 +20,6 @@ export default function NoticeBoard({
   resetServerContext();
 
   const [userTasks, setUserTasks] = useState(tasks);
-
-  useEffect(() => {
-    setUserTasks(tasks);
-  }, [tasks]);
 
   const onDragEnd = (result: DropResult) => {
     const source = result?.source;
@@ -90,7 +87,6 @@ export default function NoticeBoard({
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   quest={quest}
-                                  className="bg-white p-4 rounded mb-2 bg-mauve4 "
                                 />
                               )}
                             </Draggable>

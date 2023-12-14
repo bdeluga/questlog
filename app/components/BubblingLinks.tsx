@@ -1,18 +1,19 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React from "react";
 
 export default function BubblingLinks() {
+  const { village } = useParams();
   const pathname = usePathname();
   const subroutes = [
-    { label: "Overview", href: "/dashboard" },
-    { label: "Journal", href: "/dashboard/journal" },
-    { label: "Realm Connections", href: "/dashboard/integrations" },
-    { label: "Enchantment Forge", href: "/dashboard/settings" },
-    { label: "Mercenaries", href: "/dashboard/people" },
-    { label: "Village", href: "/dashboard/village" },
+    { label: "Overview", href: `/${village}` },
+    { label: "Journal", href: `/${village}/journal` },
+    { label: "Realm Connections", href: `/${village}/integrations` },
+    { label: "Enchantment Forge", href: `/${village}/settings` },
+    { label: "Mercenaries", href: `/${village}/people` },
+    { label: "Village", href: `/${village}/village` },
   ];
 
   return (
@@ -29,6 +30,7 @@ export default function BubblingLinks() {
           {href === pathname && (
             <motion.span
               layoutId="bubble"
+              initial={false}
               className="absolute inset-0  bg-mauve6  mix-blend-difference"
               style={{ borderRadius: "4px" }}
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}

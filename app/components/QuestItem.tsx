@@ -2,21 +2,12 @@ import { Quest } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import {
   faDiceD20,
-  faEdit,
   faEllipsisV,
   faFlask,
-  faListDots,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  ComponentPropsWithRef,
-  DetailedHTMLProps,
-  HTMLAttributes,
-  LegacyRef,
-  forwardRef,
-  useState,
-} from "react";
+import { ComponentPropsWithRef, forwardRef, useState } from "react";
 
 interface Props extends ComponentPropsWithRef<"div"> {
   quest: Quest;
@@ -29,14 +20,18 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
   const [open, setOpen] = useState(false);
 
   return (
-    <div ref={ref} {...divProps}>
-      <h1 className="flex w-full text-lg justify-between items-center ">
+    <div
+      ref={ref}
+      {...divProps}
+      className="relative p-2 rounded mb-2 bg-mauve4"
+    >
+      <h1 className="flex w-full text-lg justify-between items-center">
         <Modal
           title={`${quest.title}`}
           asChild
           open={open}
           onOpenChange={setOpen}
-          trigger={<button className="hover:underline">{quest.title}</button>}
+          trigger={<button className="hover:underline">{quest.title} </button>}
         >
           <div className="mt-4 text-mauve11">{quest.description}</div>
         </Modal>
@@ -64,18 +59,13 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
         )}
       </div>
       <div className="mt-4 flex justify-between">
-        <span>
-          Status: <u className="underline-offset-2">{quest.state}</u>
-        </span>
-        <div className="flex flex-col gap-1 items-center text-red8">
-          <div className="flex gap-0.5 items-center">
-            <FontAwesomeIcon icon={faDiceD20} />
-            {quest.difficulty}
-          </div>
-          <div className="flex gap-0.5 items-center text-plum8">
-            <FontAwesomeIcon icon={faFlask} />
-            {quest.rewardExp}
-          </div>
+        <div className="flex gap-0.5 items-center text-red8">
+          <FontAwesomeIcon icon={faDiceD20} />
+          {quest.difficulty}
+        </div>
+        <div className="flex gap-0.5 items-center text-plum8">
+          <FontAwesomeIcon icon={faFlask} />
+          {quest.rewardExp}
         </div>
       </div>
     </div>

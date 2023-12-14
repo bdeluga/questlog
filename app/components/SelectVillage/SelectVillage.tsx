@@ -1,24 +1,15 @@
 "use client";
 import { Village } from "@/db/schema";
 import Dropdown from "@/ui/Dropdown";
-import {
-  faCaretDown,
-  faCaretUp,
-  faPlus,
-  faSearch,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import Modal from "@/ui/Modal";
-import AddVillageForm from "../forms/AddVillageForm";
+
 import VillagesListElement from "./VillagesListElement";
 import AddVillageModal from "./AddVillageModal";
-import { useVillageStore } from "@/app/store/villageStore";
 
 interface Props {
   villages: Village[];
-  activeVillage: Village;
+  activeVillage: Village["name"];
   userId: string;
 }
 
@@ -27,17 +18,9 @@ export default function SelectVillage({
   activeVillage,
   userId,
 }: Props) {
-  const setSelectedVillage = useVillageStore(
-    (slice) => slice.setSelectedVillage
-  );
-
-  useEffect(() => {
-    setSelectedVillage(activeVillage);
-  }, [activeVillage, setSelectedVillage]);
-
   return (
     <div className="flex items-center gap-1 text-xl">
-      <div>{activeVillage?.name}</div>
+      <div>{activeVillage}</div>
       <Dropdown
         asChild
         trigger={
@@ -58,6 +41,7 @@ export default function SelectVillage({
                 key={village.id}
                 village={village}
                 userId={userId}
+                canDelete={village.name !== activeVillage}
               />
             ))}
             <div className="px-1 my-2">
