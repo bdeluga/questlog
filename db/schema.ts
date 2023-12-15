@@ -10,7 +10,7 @@ import {
   pgEnum,
   pgTable,
   uniqueIndex,
-  numeric,
+  integer,
 } from "drizzle-orm/pg-core";
 
 const planEnum = pgEnum("plan", ["hobby", "pro"]);
@@ -47,9 +47,9 @@ export const villages = pgTable(
     userId: text("user_id")
       .references(() => users.id)
       .notNull(),
-    exp: numeric("exp").notNull().default("1"),
-    expNeeded: numeric("exp_needed").notNull().default("150"),
-    level: numeric("level").default("1"),
+    exp: integer("exp").notNull().default(1),
+    expNeeded: integer("exp_needed").notNull().default(1),
+    level: integer("level").default(1),
   },
   (table) => {
     return {
@@ -80,6 +80,9 @@ export const quests = pgTable("quests", {
   id: text("id")
     .default(sql`gen_random_uuid()`)
     .primaryKey(),
+  number: integer("number")
+    .default(sql`nextval('questnum_seq')`)
+    .notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   createdAt: date("created_at").default(sql`now()`),
@@ -88,7 +91,7 @@ export const quests = pgTable("quests", {
     .notNull(),
   mercenaryId: text("user_id").references(() => users.id),
   difficulty: text("difficulty").notNull(),
-  rewardExp: numeric("reward_exp").notNull(),
+  rewardExp: integer("reward_exp").notNull(),
   state: stateEnum("state").default("new").notNull(),
 });
 
