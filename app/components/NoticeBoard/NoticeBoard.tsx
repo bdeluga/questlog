@@ -1,6 +1,6 @@
 "use client";
 import { QuestMap, reorderTasks } from "@/utils/reorder";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -8,18 +8,26 @@ import {
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import QuestItem from "./QuestItem";
+import QuestItem from "../QuestItem";
+import mapQuests from "@/utils/mapQuests";
+import { Quest } from "@/db/schema";
+import { GridLoader } from "react-spinners";
 
 export default function NoticeBoard({
-  tasks,
+  quests,
   headers,
 }: {
-  tasks: QuestMap;
+  quests: Quest[];
   headers: string[];
 }) {
   resetServerContext();
 
-  const [userTasks, setUserTasks] = useState(tasks);
+  const [userTasks, setUserTasks] = useState(mapQuests(quests));
+
+  //useFootgun
+  useEffect(() => {
+    setUserTasks(mapQuests(quests));
+  }, [quests]);
 
   const onDragEnd = (result: DropResult) => {
     const source = result?.source;
@@ -55,7 +63,6 @@ export default function NoticeBoard({
             {...provided.droppableProps}
             className="grid grid-cols-4 h-full divide-x"
           >
-            {/* Render columns for each key in initialTasks */}
             {headers.map((key) => {
               return (
                 <div key={key} className="border-mauve4 flex-1 flex flex-col">
