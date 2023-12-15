@@ -14,7 +14,7 @@ export default function NotFoundPage() {
       <p className="text-2xl">
         Hello <span className="text-orange10">Wanderer</span> you probably see
         this because you&apos;ve reached end of the map, or I didn&apos;t
-        impelemt something.
+        implement something.
       </p>
       <Link
         href={"./"}
