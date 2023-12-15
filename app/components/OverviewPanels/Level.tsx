@@ -1,11 +1,22 @@
-import { useVillageStore } from "@/app/store/villageStore";
+"use client";
 import { Village } from "@/db/schema";
 import ProgressBar from "@/ui/ProgressBar";
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Session } from "next-auth";
+import useSWR from "swr";
+export default function Level({ village }: { village: Village["name"] }) {
+  const fetcher = () =>
+    fetch(`/api/village/level?village=${village}`)
+      .then((res) => res.json())
+      .then(({ data }) => data);
 
-export default function Level({ village }: { village: Village }) {
-  if (!village)
+  const { data: villageInfo, isLoading } = useSWR(
+    `/api/village/level?village=${village}`,
+    fetcher
+  );
+
+  if (isLoading)
     return (
       <div className="flex flex-col h-full justify-between animate-pulse">
         <div className="flex justify-between items-baseline text-lg">
@@ -25,14 +36,14 @@ export default function Level({ village }: { village: Village }) {
         Level
         <div className="flex items-center gap-1 bg-mauve3 w-fit px-2  rounded-md">
           <FontAwesomeIcon icon={faFire} className="text-orange11" />
-          <span>{village?.level ?? "Inf"}</span>
+          <span>{villageInfo?.level ?? "0"}</span>
         </div>
       </div>
       <div className="flex font-light flex-1 h-full flex-col items-center justify-end gap-1.5">
         <label className="self-start">Current progress</label>
         <ProgressBar
-          progress={Number(village?.exp) ?? 1}
-          progressNeeded={Number(village?.expNeeded) ?? 1}
+          progress={villageInfo?.exp ?? 1}
+          progressNeeded={villageInfo?.expNeeded ?? 1}
         />
       </div>
     </div>
