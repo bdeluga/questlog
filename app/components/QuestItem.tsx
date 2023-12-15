@@ -26,20 +26,27 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
       className="relative p-2 rounded mb-2 bg-mauve4"
     >
       <h1 className="flex w-full text-lg justify-between items-center">
-        <Modal
-          title={`${quest.title}`}
-          asChild
-          open={open}
-          onOpenChange={setOpen}
-          trigger={<button className="hover:underline">{quest.title} </button>}
-        >
-          <div className="mt-4 text-mauve11">{quest.description}</div>
-        </Modal>
+        <div className="flex gap-1">
+          <span className="p-1 grid place-items-center  rounded bg-mauve2 text-xs">
+            # {quest.number}
+          </span>
+
+          <Modal
+            title={`${quest.title}`}
+            asChild
+            open={open}
+            onOpenChange={setOpen}
+            trigger={
+              <button className="hover:underline">{quest.title} </button>
+            }
+          >
+            <div className="mt-4 text-mauve11">{quest.description}</div>
+          </Modal>
+        </div>
         <button className="">
           <FontAwesomeIcon icon={faEllipsisV} />
         </button>
       </h1>
-
       <div className="mt-4">
         {quest.mercenaryId ? (
           `Mercenary: ${quest.mercenaryId}`
