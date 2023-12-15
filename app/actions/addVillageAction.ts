@@ -42,5 +42,5 @@ export default async function addVillageAction(
     userId,
     name: formData.get("name") as string,
   });
-  revalidatePath("/dashboard");
+  revalidatePath("/[village]", "layout");
 }
