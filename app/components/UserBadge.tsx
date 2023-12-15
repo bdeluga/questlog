@@ -1,11 +1,5 @@
 "use client";
-import {
-  faBell,
-  faCog,
-  faPlus,
-  faSignOut,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DefaultSession } from "next-auth";
 import { signOut } from "next-auth/react";

@@ -1,13 +1,16 @@
-import { Quest } from "@/db/schema";
+import { Quest, quests } from "@/db/schema";
+import Dropdown from "@/ui/Dropdown";
 import Modal from "@/ui/Modal";
 import {
   faDiceD20,
   faEllipsisV,
   faFlask,
   faPlus,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ComponentPropsWithRef, forwardRef, useState } from "react";
+import removeQuest from "../actions/removeQuestAction";
 
 interface Props extends ComponentPropsWithRef<"div"> {
   quest: Quest;
@@ -43,9 +46,28 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
             <div className="mt-4 text-mauve11">{quest.description}</div>
           </Modal>
         </div>
-        <button className="">
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </button>
+
+        <Dropdown
+          side="left"
+          asChild
+          trigger={
+            <button className="p-1">
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </button>
+          }
+        >
+          <div className="rounded-md max-w-xs w-full  bg-mauve2 border border-mauve4 ">
+            <ul>
+              <li>
+                <form action={removeQuest.bind(null, quest.id)}>
+                  <button className="p-2 flex gap-4 items-center">
+                    Delete task <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </Dropdown>
       </h1>
       <div className="mt-4">
         {quest.mercenaryId ? (

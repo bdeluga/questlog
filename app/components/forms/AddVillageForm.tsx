@@ -18,7 +18,6 @@ export default function AddVillageForm({
   userId: string;
   onSuccess?: () => void;
 }) {
-  const id = useId();
   const toast = useToast();
   const [error, setError] = useState("");
   const clientAction = async (formData: FormData) => {
@@ -64,7 +63,6 @@ export default function AddVillageForm({
         }`}
         placeholder="e.g. Lockwood Village"
         name="name"
-        enterKeyHint="send"
         onFocus={() => setError("")}
       />
       {error && (
