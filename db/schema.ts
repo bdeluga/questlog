@@ -48,7 +48,7 @@ export const villages = pgTable(
       .references(() => users.id)
       .notNull(),
     exp: integer("exp").notNull().default(1),
-    expNeeded: integer("exp_needed").notNull().default(1),
+    expNeeded: integer("exp_needed").notNull().default(150),
     level: integer("level").default(1),
   },
   (table) => {
