@@ -15,7 +15,7 @@ function SignIn() {
       <ul className="mt-10 space-y-3">
         <li>
           <button
-            onClick={() => signIn("github")}
+            onClick={() => signIn("github", { callbackUrl: "/new-user" })}
             className="border px-4 py-2 text-2xl bg-mauve3 border-mauve4 hover:bg-mauve4 hover:border-mauve5 rounded-md"
           >
             <FontAwesomeIcon icon={faGithub} /> Continue with GitHub
