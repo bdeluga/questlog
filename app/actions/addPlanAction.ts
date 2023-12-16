@@ -1,19 +1,30 @@
 "use server";
 import { db } from "@/db";
-import { User, users } from "@/db/schema";
+import { User, Village, users, villages } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-export default async function addPlanAction(
-  formData: FormData,
-  userId: string
+import { auth } from "../auth";
+export default async function updateUserDetailsAction(
+  plan: User["plan"],
+  villageName: Village["name"]
 ) {
-  const plan = formData.get("plan") as User["plan"];
-  await db
-    .update(users)
-    .set({
-      plan: plan,
-    })
-    .where(eq(users.id, userId));
+  const user = await auth();
+
+  if (!user) throw "User not authorized";
+
+  await db.transaction(async (tx) => {
+    await tx
+      .update(users)
+      .set({
+        plan: plan,
+      })
+      .where(eq(users.id, user.user!.id));
+
+    await tx.insert(villages).values({
+      name: villageName,
+      userId: user.user!.id,
+    });
+  });
+
   revalidatePath("/");
 }
