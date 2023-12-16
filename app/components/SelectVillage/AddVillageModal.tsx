@@ -21,7 +21,7 @@ export default function AddVillageModal({ userId }: { userId: string }) {
         </button>
       }
     >
-      <AddVillageForm userId={userId} onSuccess={() => setOpen(false)} />
+      <AddVillageForm onSuccess={() => setOpen(false)} />
     </Modal>
   );
 }
