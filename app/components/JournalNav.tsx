@@ -22,7 +22,6 @@ export default function JournalNav() {
       href: `/${village}/journal/analytics`,
       icon: faChartSimple,
     },
-    { label: "Sprints", href: `/${village}/journal/sprints`, icon: faTimeline },
     {
       label: "Chronicles",
       href: `/${village}/journal/retrospectives`,
