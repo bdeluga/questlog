@@ -30,7 +30,7 @@ export default function SelectVillage({
           </button>
         }
       >
-        <div className="rounded-md w-full bg-mauve2 border border-mauve4 ">
+        <div className="rounded-md w-full bg-mauve2 border border-mauve4">
           <div className="gap-3 max-w-md w-full p-4 border-b border-mauve4  focus-within:ring ring-mauve5 flex items-center">
             Choose village or create new
           </div>
