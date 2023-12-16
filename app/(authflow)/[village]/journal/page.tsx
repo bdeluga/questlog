@@ -25,7 +25,7 @@ export default async function JournalPage({
       <NoticeBoardMenu village={data!} />
       <NoticeBoard
         headers={["new", "active", "resolved", "closed"]}
-        quests={data?.quests!}
+        data={data!}
       />
     </div>
   );
