@@ -3,11 +3,10 @@ import { Village } from "@/db/schema";
 import ProgressBar from "@/ui/ProgressBar";
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Session } from "next-auth";
 import useSWR from "swr";
 export default function Level({ village }: { village: Village["name"] }) {
-  const fetcher = () =>
-    fetch(`/api/village/level?village=${village}`)
+  const fetcher = (url: string) =>
+    fetch(url)
       .then((res) => res.json())
       .then(({ data }) => data);
 

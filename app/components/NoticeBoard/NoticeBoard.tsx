@@ -8,45 +8,39 @@ import {
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import QuestItem from "../QuestItem";
+import QuestItem from "../QuestItem/QuestItem";
 import mapQuests from "@/utils/mapQuests";
-import { Quest } from "@/db/schema";
-import useSWR from "swr";
+import { Quest, Village } from "@/db/schema";
+import useSWRMutation from "swr/mutation";
+import updateState from "@/app/actions/updateState";
 
 export default function NoticeBoard({
-  quests,
+  data,
   headers,
 }: {
-  quests: Quest[];
+  data: Village & { quests: Quest[] };
   headers: string[];
 }) {
+  //ssr fix
   resetServerContext();
 
-  const [userTasks, setUserTasks] = useState(mapQuests(quests));
+  const [userTasks, setUserTasks] = useState(mapQuests(data.quests));
 
-  const fetcher = (
-    taskNumber: string,
-    metaData: { state: string; index: unknown }
-  ) =>
-    fetch("/api/quest", {
-      method: "POST",
-      body: JSON.stringify({ taskNumber, metaData }),
-    });
-
-  //TODO
+  const { trigger } = useSWRMutation("/api/quest", updateState);
 
   //useFootgun
   useEffect(() => {
-    setUserTasks(mapQuests(quests));
-  }, [quests]);
+    setUserTasks(mapQuests(data.quests));
+  }, [data.quests]);
 
   const onDragEnd = async (result: DropResult) => {
     const source = result?.source;
     const destination = result?.destination;
-
+    const questId = result.draggableId;
     if (!destination) {
       return;
     }
+    const columnDestination = destination.droppableId as Quest["state"];
 
     // did not move anywhere - can bail early
     if (
@@ -62,6 +56,7 @@ export default function NoticeBoard({
       destination,
     });
 
+    trigger({ questId, metaData: { state: columnDestination } });
     setUserTasks(reorderedTasks);
   };
 
@@ -105,6 +100,7 @@ export default function NoticeBoard({
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   quest={quest}
+                                  village={data}
                                 />
                               )}
                             </Draggable>

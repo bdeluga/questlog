@@ -76,10 +76,10 @@ export default function AddQuestForm({
   };
 
   return (
-    <form className="mt-8 gap-10" action={clientAction}>
-      <div className="flex items-center gap-4 ">
-        <fieldset className="space-y-4 w-full">
-          <div>
+    <form className="mt-8" action={clientAction}>
+      <fieldset className="space-y-4 w-full">
+        <div className="flex gap-4">
+          <div className="basis-7/12">
             <label htmlFor="title">Title</label>
             <input
               id="title"
@@ -98,30 +98,7 @@ export default function AddQuestForm({
               {formError?.title?._errors.map((err) => err)}
             </span>
           </div>
-          <div>
-            <label htmlFor="description">Description</label>
-            <textarea
-              id="description"
-              className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
-              placeholder="Adventurer there is this one dragon..."
-              name="description"
-            />
-          </div>
-          <div>
-            <label htmlFor="mercenary" className="text-mauve10">
-              Mercenary
-            </label>
-            <input
-              id="mercenary"
-              disabled
-              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-              placeholder="e.g. Bard the Bowman"
-              name="mercenary"
-            />
-          </div>
-        </fieldset>
-        <fieldset className="space-y-4 w-full">
-          <div>
+          <div className="basis-5/12">
             <label htmlFor="difficulty">
               Difficulty <FontAwesomeIcon icon={faDiceD20} />
             </label>
@@ -143,17 +120,40 @@ export default function AddQuestForm({
               {formError?.difficulty?._errors.map((err) => err)}
             </span>
           </div>
-          <div>
-            <label htmlFor="description" className="text-mauve10">
-              Equipment
+        </div>
+        <div>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+            placeholder="Adventurer there is this one dragon..."
+            name="description"
+          />
+        </div>
+        <div>
+          <label htmlFor="description" className="text-mauve10">
+            Equipment
+          </label>
+          <textarea
+            disabled
+            className={`w-full resize-none min-h-[100px] p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+            placeholder="Equip mercenary with items needed for quest, perhaps a map ?"
+          />
+        </div>
+        <div className="flex gap-4">
+          <div className="basis-8/12">
+            <label htmlFor="mercenary" className="text-mauve10">
+              Mercenary
             </label>
-            <textarea
+            <input
+              id="mercenary"
               disabled
-              className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-              placeholder="Equip mercenary with items needed for quest, perhaps a map ?"
+              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+              placeholder="e.g. Bard the Bowman"
+              name="mercenary"
             />
           </div>
-          <div>
+          <div className="basis-4/12">
             <label htmlFor="exp">
               Experiance{" "}
               <sup>
@@ -178,8 +178,8 @@ export default function AddQuestForm({
               }
             />
           </div>
-        </fieldset>
-      </div>
+        </div>
+      </fieldset>
       <button className="border active:scale-105 w-full rounded-md border-orange11 hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-10">
         Add
       </button>

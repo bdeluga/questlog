@@ -3,7 +3,6 @@ import { Quest, Village } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddQuestForm from "../forms/AddQuestForm";
-import NoticeBoard from "./NoticeBoard";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
