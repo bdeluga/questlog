@@ -11,7 +11,7 @@ import {
 import QuestItem from "../QuestItem";
 import mapQuests from "@/utils/mapQuests";
 import { Quest } from "@/db/schema";
-import { GridLoader } from "react-spinners";
+import useSWR from "swr";
 
 export default function NoticeBoard({
   quests,
@@ -24,12 +24,23 @@ export default function NoticeBoard({
 
   const [userTasks, setUserTasks] = useState(mapQuests(quests));
 
+  const fetcher = (
+    taskNumber: string,
+    metaData: { state: string; index: unknown }
+  ) =>
+    fetch("/api/quest", {
+      method: "POST",
+      body: JSON.stringify({ taskNumber, metaData }),
+    });
+
+  //TODO
+
   //useFootgun
   useEffect(() => {
     setUserTasks(mapQuests(quests));
   }, [quests]);
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const source = result?.source;
     const destination = result?.destination;
 
@@ -99,6 +110,7 @@ export default function NoticeBoard({
                             </Draggable>
                           )
                         )}
+                        {provided.placeholder}
                       </div>
                     )}
                   </Droppable>
