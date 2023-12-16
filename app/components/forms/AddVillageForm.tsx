@@ -2,20 +2,14 @@
 
 import addVillageAction from "@/app/actions/addVillageAction";
 import useToast from "@/app/hooks/useToast";
-import { Village } from "@/db/schema";
-import {
-  faCircleNotch,
-  faExclamationCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useId, useState } from "react";
 import { z } from "zod";
 
 export default function AddVillageForm({
-  userId,
   onSuccess,
 }: {
-  userId: string;
   onSuccess?: () => void;
 }) {
   const toast = useToast();
@@ -23,19 +17,17 @@ export default function AddVillageForm({
   const clientAction = async (formData: FormData) => {
     const VillageSchema = z.object({
       name: z.string().trim().min(1, "This field is required."),
-      userId: z.string(),
     });
 
     const newVillage = {
       name: formData.get("name"),
-      userId,
     };
     const response = VillageSchema.safeParse(newVillage);
     if (!response.success) {
       return setError(response.error.issues[0].message);
     }
 
-    await addVillageAction(formData, userId)
+    await addVillageAction(formData)
       .then(() => {
         toast.notify({
           title: "Success",
