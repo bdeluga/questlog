@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
 
   //append new routes if needed in future
   const authRoutes = ["/sign-up", "/sign-in"];
-  const sensitiveRoutes = ["/dashboard", "/new-user/plan"];
+  const sensitiveRoutes = ["/new-user"];
 
   //auth safeguards
   if (isAccessing(authRoutes)) {
@@ -27,6 +27,20 @@ export async function middleware(req: NextRequest) {
     if (!session) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
+    if (session) {
+      const user = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, session.user?.id!),
+        with: {
+          villages: true,
+        },
+      });
+
+      if (user?.plan && user.villages.length > 0) {
+        return NextResponse.redirect(
+          new URL(`${user.selectedVillage || user.villages[0].name}`, req.url)
+        );
+      }
+    }
     return NextResponse.next();
   }
 
@@ -38,8 +52,12 @@ export async function middleware(req: NextRequest) {
       },
     });
 
+    if (!user?.villages) {
+      return NextResponse.redirect(new URL("new-user", req.url));
+    }
+
     return NextResponse.redirect(
-      new URL(`${user?.selectedVillage || user?.villages[0].name}`, req.url)
+      new URL(`${user.selectedVillage || user.villages[0].name}`, req.url)
     );
   }
 
