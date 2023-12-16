@@ -1,33 +1,15 @@
-"use client";
-import addPlanAction from "@/app/actions/addPlanAction";
-import useToast from "@/app/hooks/useToast";
+import { User } from "@/db/schema";
 import Checkbox from "@/ui/Checkbox";
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function PlanForm({ userId }: { userId: string }) {
-  const toast = useToast();
+interface Props {
+  updateForm: (plan: User["plan"]) => void;
+  value: User["plan"];
+}
 
-  const [checked, setChecked] = useState(false);
-
-  const clientAction = async (formData: FormData) => {
-    await addPlanAction(formData, userId)
-      .then(() => {
-        toast.notify({
-          title: "Success",
-          description: "Account plan was succesfully updated.",
-        });
-      })
-      .catch((err) => {
-        toast.notify({
-          title: "Error",
-          description:
-            "There was an error updating your plan, log in and try again",
-        });
-      });
-  };
-
+export default function Plan({ updateForm, value }: Props) {
   return (
-    <form className="max-w-sm w-full" action={clientAction}>
+    <div className="h-48">
       <label className="text-lg text-mauve10">Plan type</label>
       <ul className="space-y-4 mt-1">
         <li className="border-2 border-mauve4 rounded-md p-2  flex items-center">
@@ -36,10 +18,10 @@ export default function PlanForm({ userId }: { userId: string }) {
             <p className="text-mauve11">Best for small and personal projects</p>
           </div>
           <Checkbox
-            checked={checked}
+            checked={value === "hobby"}
             name="plan"
             value="hobby"
-            onCheckedChange={() => setChecked(!checked)}
+            onClick={() => updateForm("hobby")}
             className=" border-2 text-mauve1 data-[state=checked]:bg-orange10 data-[state=checked]:border-orange10 border-mauve6 rounded-full h-6 w-6 flex justify-center items-center mr-2"
           />
         </li>
@@ -56,13 +38,6 @@ export default function PlanForm({ userId }: { userId: string }) {
           />
         </li>
       </ul>
-
-      <button
-        className=" w-full mt-12 p-4 text-center rounded bg-mauve12 text-mauve1 disabled:opacity-50"
-        disabled={!checked}
-      >
-        Continue
-      </button>
-    </form>
+    </div>
   );
 }
