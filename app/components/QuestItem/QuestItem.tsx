@@ -1,20 +1,16 @@
 import { Quest, Village, quests } from "@/db/schema";
 import Dropdown from "@/ui/Dropdown";
-import Modal from "@/ui/Modal";
 import {
-  faClone,
   faDiceD20,
-  faEdit,
   faEllipsisH,
-  faEllipsisV,
   faFlask,
-  faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ComponentPropsWithRef, forwardRef, useState } from "react";
 import removeQuest from "../../actions/removeQuestAction";
-import EditActionMenu from "./EditActionMenu";
+import EditMenuItem from "./EditMenuItem";
+import ShowMenuItem from "./ShowMenuItem";
 
 interface Props extends ComponentPropsWithRef<"div"> {
   quest: Quest;
@@ -53,21 +49,9 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
           <div className="rounded-md p-2  w-48 min-w-[8rem] bg-mauve2 border border-mauve4 ">
             <ul>
               <li>
-                <Modal
-                  title={`${quest.title}`}
-                  asChild
-                  open={openView}
-                  onOpenChange={setOpenView}
-                  trigger={
-                    <button className="p-2 flex w-full gap-4 items-center justify-between rounded hover:bg-mauve3">
-                      Open <FontAwesomeIcon icon={faClone} />
-                    </button>
-                  }
-                >
-                  <div className="mt-4 text-mauve11 ">{quest.description}</div>
-                </Modal>
+                <ShowMenuItem quest={quest} />
               </li>
-              <EditActionMenu quest={quest} village={village!} />
+              <EditMenuItem quest={quest} village={village!} />
               <li>
                 <form action={removeQuest.bind(null, quest.id)}>
                   <button className="p-2 flex w-full gap-4 justify-between items-center rounded hover:bg-mauve3">
@@ -84,9 +68,9 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
           `Mercenary: ${quest.mercenaryId}`
         ) : (
           <div className="flex items-center gap-1  p-1 pl-0 w-max">
-            <button className="overflow-hidden rounded-full bg-mauve2 aspect-square w-8 h-8">
+            <div className="flex justify-center items-center overflow-hidden rounded-full bg-mauve2 aspect-square w-8 h-8">
               ?
-            </button>
+            </div>
             <span className="text-sm flex gap-2 bg-mauve3 rounded p-2 items-center">
               No mercenary
             </span>
