@@ -1,7 +1,8 @@
 "use client";
 import addQuestAction from "@/app/actions/addQuestAction";
 import useToast from "@/app/hooks/useToast";
-import calculateQuestExperience from "@/utils/calculateExp";
+import Tooltip from "@/ui/Tooltip";
+import calculateExp from "@/utils/calculateExp";
 import {
   faDiceD20,
   faExclamationCircle,
@@ -154,12 +155,33 @@ export default function AddQuestForm({
             />
           </div>
           <div className="basis-4/12">
-            <label htmlFor="exp">
-              Experiance{" "}
-              <sup>
-                <FontAwesomeIcon icon={faInfoCircle} />
-              </sup>
-            </label>
+            <Tooltip
+              trigger={
+                <label htmlFor="exp">
+                  Experiance{" "}
+                  <sup>
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                  </sup>
+                </label>
+              }
+            >
+              <div className="p-2 bg-mauve4 rounded border border-mauve5">
+                <span>
+                  Don&apos;t worry we calculate experiance gain on our side.
+                </span>
+                <div className="text-mauve11">
+                  <span className="block text-sm">
+                    Things we take into consideration
+                  </span>
+                  <ul className="list-disc pl-4 text-xs">
+                    <li>Level needed per level</li>
+                    <li>Quest difficulty</li>
+                    <li>Your awesomeness (there is penalty for that)</li>
+                  </ul>
+                </div>
+              </div>
+            </Tooltip>
+
             <input
               id="exp"
               readOnly
@@ -169,11 +191,7 @@ export default function AddQuestForm({
               name="rewardExp"
               value={
                 Number(difficulty) > 0
-                  ? calculateQuestExperience(
-                      expNeeded,
-                      villagLevel,
-                      Number(difficulty)
-                    )
+                  ? calculateExp(expNeeded, villagLevel, Number(difficulty))
                   : ""
               }
             />
