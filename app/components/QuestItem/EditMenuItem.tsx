@@ -2,19 +2,25 @@
 
 import { Quest, Village } from "@/db/schema";
 import Modal from "@/ui/Modal";
-import { faDiceD20, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDiceD20,
+  faEdit,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { produce } from "immer";
-import calculateQuestExperience from "@/utils/calculateExp";
+import calculateExp from "@/utils/calculateExp";
+import useToast from "@/app/hooks/useToast";
+import { ZodFormattedError, z } from "zod";
+import updateQuestAction from "@/app/actions/updateQuestAction";
 interface Props {
   quest: Quest;
   village: Village;
 }
-export default function EditActionMenu({ quest, village }: Props) {
+export default function EditMenuItem({ quest, village }: Props) {
   const [editedQuest, setEditedQuest] = useState(quest);
   const [open, setOpen] = useState(false);
-
   const handleCanel = (value: boolean) => {
     if (value === false) {
       setEditedQuest(quest);
@@ -22,6 +28,52 @@ export default function EditActionMenu({ quest, village }: Props) {
     setOpen(value);
   };
 
+  const toast = useToast();
+
+  const QuestSchema = z
+    .object({
+      title: z.string().trim().min(1, "This field is required"),
+      difficulty: z.string().min(1, "This field is required."),
+    })
+    .passthrough();
+
+  const [formError, setFormError] = useState<ZodFormattedError<
+    z.infer<typeof QuestSchema>
+  > | null>(null);
+  const clientAction = async () => {
+    const response = QuestSchema.safeParse(editedQuest);
+    if (!response.success) {
+      setFormError(response.error.format());
+    } else {
+      await updateQuestAction(editedQuest)
+        .then(() => {
+          toast.notify({
+            title: "Success",
+            description: "Quest story successfully updated",
+            variant: "success",
+          });
+          setOpen(false);
+        })
+        .catch((err) => {
+          toast.notify({
+            title: "Error",
+            description: (err as { message: string }).message.split(
+              "Error: "
+            )[1],
+            variant: "danger",
+          });
+        });
+    }
+  };
+
+  const handleClearError = (property: keyof z.infer<typeof QuestSchema>) => {
+    const updatedObject = { ...formError };
+
+    delete updatedObject[property];
+
+    // @ts-expect-error it's fine shh...
+    setFormError(updatedObject);
+  };
   return (
     <li>
       <Modal
@@ -35,7 +87,7 @@ export default function EditActionMenu({ quest, village }: Props) {
           </button>
         }
       >
-        <div className="mt-4">
+        <form className="mt-4" action={clientAction}>
           <fieldset className="space-y-4 w-full">
             <div className="flex gap-4">
               <div className="basis-7/12">
@@ -52,7 +104,16 @@ export default function EditActionMenu({ quest, village }: Props) {
                       })
                     )
                   }
+                  onFocus={() => handleClearError("title")}
                 />
+                <span
+                  className={`text-red9 text-sm ${
+                    formError?.title ? "visible" : "invisible"
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                  {formError?.title?._errors.map((err) => err)}
+                </span>
               </div>
               <div className="basis-5/12">
                 <label htmlFor="difficulty">
@@ -71,7 +132,16 @@ export default function EditActionMenu({ quest, village }: Props) {
                       })
                     )
                   }
+                  onFocus={() => handleClearError("difficulty")}
                 />
+                <span
+                  className={`text-red9 text-sm ${
+                    formError?.difficulty ? "visible" : "invisible"
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                  {formError?.difficulty?._errors.map((err) => err)}
+                </span>
               </div>
             </div>
             <div>
@@ -119,11 +189,11 @@ export default function EditActionMenu({ quest, village }: Props) {
                   readOnly
                   //workaround for action not reading disabled values
                   tabIndex={-1}
-                  className={`w-full p-2 pointer-events-none rounded-md mt-1 focus:ring opacity-50  ring-mauve5 bg-mauve4 `}
+                  className={`w-full p-2 pointer-events-none rounded-md mt-1 focus:ring   ring-mauve5 bg-mauve4 `}
                   name="rewardExp"
                   value={
                     Number(editedQuest.difficulty) > 0
-                      ? calculateQuestExperience(
+                      ? calculateExp(
                           village.expNeeded,
                           village.level,
                           Number(editedQuest.difficulty)
@@ -146,7 +216,7 @@ export default function EditActionMenu({ quest, village }: Props) {
               Save changes
             </button>
           </div>
-        </div>
+        </form>
       </Modal>
     </li>
   );
