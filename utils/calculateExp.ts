@@ -1,6 +1,6 @@
 import { BEING_TOO_COOL_PENALTY, LEVEL_GROWTH } from "./expConstants";
 
-export default function calculateQuestExperience(
+export default function calculateExp(
   expPerLevel: number,
   currentLevel: number,
   questDifficulty: number
