@@ -7,6 +7,7 @@ import { User, Village as VillageSchema } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import updateUserDetailsAction from "@/app/actions/addPlanAction";
+import { useRouter } from "next/navigation";
 import useToast from "@/app/hooks/useToast";
 import { HashLoader } from "react-spinners";
 interface NewUserFormData {
@@ -20,7 +21,7 @@ export default function StepControl() {
     plan: null,
     villageName: "",
   });
-
+  const router = useRouter();
   const toast = useToast();
 
   const clientAction = async () => {
@@ -30,6 +31,7 @@ export default function StepControl() {
           title: "Success",
           description: "Account details successfully updated",
         });
+        router.push(formData.villageName);
       })
       .catch((err) => {
         toast.notify({
