@@ -27,7 +27,7 @@ export default function EditMenuItem({ quest }: Props) {
                   id="title"
                   readOnly
                   disabled
-                  className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+                  className={`w-full truncate peer p-2 rounded-md mt-1 bg-mauve4 `}
                   name="title"
                   value={quest.title}
                 />
@@ -40,7 +40,7 @@ export default function EditMenuItem({ quest }: Props) {
                   disabled
                   readOnly
                   id="difficulty"
-                  className={`w-full p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+                  className={`w-full p-2 rounded-md mt-1 bg-mauve4 `}
                   name="difficulty"
                   type="number"
                   value={quest.difficulty}
@@ -53,7 +53,7 @@ export default function EditMenuItem({ quest }: Props) {
                 disabled
                 readOnly
                 id="description"
-                className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+                className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1   ring-mauve5 bg-mauve4 `}
                 name="description"
                 value={quest.description}
               />
@@ -64,33 +64,34 @@ export default function EditMenuItem({ quest }: Props) {
               </label>
               <textarea
                 disabled
-                className={`w-full resize-none min-h-[100px] p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+                className={`w-full resize-none min-h-[100px] p-2 rounded-md mt-1  disabled:opacity-50 disabled:pointer-events-none bg-mauve4 `}
                 value={"No equipment for this quest"}
               />
             </div>
             <div className="flex gap-4">
-              <div className="basis-8/12">
+              <div>
                 <label htmlFor="mercenary" className="text-mauve10">
                   Mercenary
                 </label>
                 <input
                   id="mercenary"
+                  readOnly
                   disabled
-                  className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+                  className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none  bg-mauve4 `}
                   name="mercenary"
+                  value={"No assignee"}
                 />
               </div>
-              <div className="basis-4/12">
-                <label htmlFor="exp">
-                  Experiance <FontAwesomeIcon icon={faFlask} />
+              <div>
+                <label htmlFor="experience">
+                  Experience <FontAwesomeIcon icon={faFlask} />
                 </label>
                 <input
-                  id="exp"
+                  id="experience"
                   readOnly
-                  //workaround for action not reading disabled values
-                  tabIndex={-1}
-                  className={`w-full p-2 pointer-events-none rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
-                  name="rewardExp"
+                  disabled
+                  className={`w-full p-2 rounded-md mt-1   bg-mauve4 `}
+                  name="mercenary"
                   value={quest.rewardExp}
                 />
               </div>
