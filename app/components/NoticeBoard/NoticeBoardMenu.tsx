@@ -28,8 +28,6 @@ export default function NoticeBoardMenu({
         description="Add a new quest to your journal! Provide needed details, and embark on your journey!"
       >
         <AddQuestForm
-          villagLevel={village?.level!}
-          expNeeded={village?.expNeeded!}
           villageName={village.name}
           onSuccess={() => setOpen(false)}
         />
