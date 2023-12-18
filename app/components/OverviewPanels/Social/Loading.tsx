@@ -1,4 +1,4 @@
-export default function SocialLoading() {
+export default function Loading() {
   return (
     <ul className="p-2 space-y-2 ">
       {[...Array(10)]?.map((_, idx) => (

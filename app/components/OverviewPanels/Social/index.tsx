@@ -12,7 +12,7 @@ import debounce from "lodash.debounce";
 import { User } from "@/db/schema";
 import Image from "next/image";
 import Dropdown from "@/ui/Dropdown";
-import SocialLoading from "./SocialLoading";
+import Loading from "./Loading";
 export default function Social() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -54,7 +54,7 @@ export default function Social() {
         />
       </div>
       {isLoading ? (
-        <SocialLoading />
+        <Loading />
       ) : (
         <ul className="p-2 space-y-2 max-h-[36rem] overflow-y-auto">
           {mercenaries?.map((mercenary: User) => (
