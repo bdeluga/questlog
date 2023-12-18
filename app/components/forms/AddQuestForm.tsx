@@ -21,19 +21,21 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
 
   const toast = useToast();
 
-  const QuestSchema = z
-    .object({
-      title: z
-        .string()
-        .trim()
-        .min(1, "This field is required")
-        .max(50, "This field is too long"),
-      difficulty: z.coerce
-        .number()
-        .min(1, "This field is required")
-        .max(10, "Difficulty should range between 1 and 10"),
-    })
-    .passthrough();
+  const QuestSchema = z.object({
+    title: z
+      .string()
+      .trim()
+      .min(1, "This field is required")
+      .max(50, "This field is too long"),
+    difficulty: z.coerce
+      .number()
+      .min(1, "This field is required")
+      .max(10, "Field's value should be a number between 1 and 10"),
+    description: z
+      .string()
+      .max(255, "Description should be at most 255 characters")
+      .optional(),
+  });
 
   const [formError, setFormError] = useState<ZodFormattedError<
     z.infer<typeof QuestSchema>
@@ -79,59 +81,69 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
   return (
     <form className="mt-8" action={clientAction}>
       <fieldset className="space-y-4 w-full">
-        <div className="flex gap-4">
-          <div className="basis-7/12">
-            <label htmlFor="title">Title</label>
-            <input
-              id="title"
-              className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
-              placeholder="e.g. Defeat Smaug"
-              name="title"
-              onFocus={() => handleClearError("title")}
-            />
+        <div>
+          <label htmlFor="title">Title</label>
+          <input
+            id="title"
+            className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+            placeholder="e.g. Defeat Smaug"
+            name="title"
+            onFocus={() => handleClearError("title")}
+          />
 
-            <span
-              className={`text-red9 text-sm ${
-                formError?.title ? "visible" : "invisible"
-              }`}
-            >
-              <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-              {formError?.title?._errors.map((err) => err)}
-            </span>
-          </div>
-          <div className="basis-5/12">
-            <label htmlFor="difficulty">
-              Difficulty <FontAwesomeIcon icon={faDiceD20} />
-            </label>
-            <input
-              id="difficulty"
-              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-              name="difficulty"
-              value={difficulty}
-              type="number"
-              onChange={(e) => setDifficulty(e.currentTarget.value)}
-              onFocus={() => handleClearError("difficulty")}
-            />
-            <span
-              className={`text-red9 text-sm ${
-                formError?.difficulty ? "visible" : "invisible"
-              }`}
-            >
-              <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-              {formError?.difficulty?._errors.map((err) => err)}
-            </span>
-          </div>
+          <span
+            className={`text-red9 text-sm ${
+              formError?.title ? "visible" : "invisible"
+            }`}
+          >
+            <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+            {formError?.title?._errors.map((err) => err)}
+          </span>
         </div>
         <div>
-          <label htmlFor="description">Description</label>
+          <label htmlFor="difficulty">
+            Difficulty <FontAwesomeIcon icon={faDiceD20} />
+          </label>
+          <input
+            id="difficulty"
+            className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+            name="difficulty"
+            value={difficulty}
+            type="number"
+            onChange={(e) => setDifficulty(e.currentTarget.value)}
+            onFocus={() => handleClearError("difficulty")}
+          />
+          <span
+            className={`text-red9 text-sm ${
+              formError?.difficulty ? "visible" : "invisible"
+            }`}
+          >
+            <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+            {formError?.difficulty?._errors.map((err) => err)}
+          </span>
+        </div>
+        <div>
+          <label htmlFor="description">
+            Description
+            <span className="font-light text-mauve9"> (Optional)</span>
+          </label>
           <textarea
             id="description"
-            className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+            onFocus={() => handleClearError("description")}
+            className={`w-full resize-none h-24 p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
             placeholder="Adventurer there is this one dragon..."
             name="description"
           />
         </div>
-        <div>
+        <span
+          className={`text-red9 text-sm ${
+            formError?.description ? "visible" : "invisible"
+          }`}
+        >
+          <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+          {formError?.description?._errors.map((err) => err)}
+        </span>
+        {/* <div>
           <label htmlFor="description" className="text-mauve10">
             Equipment
           </label>
@@ -140,7 +152,7 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
             className={`w-full resize-none min-h-[100px] p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
             placeholder="Equip mercenary with items needed for quest, perhaps a map ?"
           />
-        </div>
+        </div> */}
         <div>
           <label htmlFor="mercenary" className="text-mauve10">
             Mercenary
