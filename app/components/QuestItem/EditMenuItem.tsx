@@ -30,12 +30,21 @@ export default function EditMenuItem({ quest, village }: Props) {
 
   const toast = useToast();
 
-  const QuestSchema = z
-    .object({
-      title: z.string().trim().min(1, "This field is required"),
-      difficulty: z.string().min(1, "This field is required."),
-    })
-    .passthrough();
+  const QuestSchema = z.object({
+    title: z
+      .string()
+      .trim()
+      .min(1, "This field is required")
+      .max(50, "New title should be at most 50 characters long"),
+    difficulty: z.coerce
+      .number()
+      .min(1, "This field is required")
+      .max(10, "New difficulty should be a number between 1 and 10"),
+    description: z
+      .string()
+      .max(255, "New description should be at most 255 characters")
+      .optional(),
+  });
 
   const [formError, setFormError] = useState<ZodFormattedError<
     z.infer<typeof QuestSchema>
@@ -88,67 +97,65 @@ export default function EditMenuItem({ quest, village }: Props) {
         }
       >
         <form className="mt-4" action={clientAction}>
-          <fieldset className="space-y-4 w-full">
-            <div className="flex gap-4">
-              <div className="basis-7/12">
-                <label htmlFor="title">Title</label>
-                <input
-                  id="title"
-                  className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
-                  name="title"
-                  value={editedQuest.title}
-                  onChange={(e) =>
-                    setEditedQuest(
-                      produce((draft) => {
-                        draft.title = e.target.value;
-                      })
-                    )
-                  }
-                  onFocus={() => handleClearError("title")}
-                />
-                <span
-                  className={`text-red9 text-sm ${
-                    formError?.title ? "visible" : "invisible"
-                  }`}
-                >
-                  <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                  {formError?.title?._errors.map((err) => err)}
-                </span>
-              </div>
-              <div className="basis-5/12">
-                <label htmlFor="difficulty">
-                  Difficulty <FontAwesomeIcon icon={faDiceD20} />
-                </label>
-                <input
-                  id="difficulty"
-                  className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-                  name="difficulty"
-                  type="number"
-                  value={editedQuest.difficulty}
-                  onChange={(e) =>
-                    setEditedQuest(
-                      produce((draft) => {
-                        draft.difficulty = e.target.value;
-                      })
-                    )
-                  }
-                  onFocus={() => handleClearError("difficulty")}
-                />
-                <span
-                  className={`text-red9 text-sm ${
-                    formError?.difficulty ? "visible" : "invisible"
-                  }`}
-                >
-                  <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                  {formError?.difficulty?._errors.map((err) => err)}
-                </span>
-              </div>
+          <fieldset className="space-y-2 w-full">
+            <div>
+              <label htmlFor="title">Title</label>
+              <input
+                id="title"
+                className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+                name="title"
+                value={editedQuest.title}
+                onChange={(e) =>
+                  setEditedQuest(
+                    produce((draft) => {
+                      draft.title = e.target.value;
+                    })
+                  )
+                }
+                onFocus={() => handleClearError("title")}
+              />
+              <span
+                className={`text-red9 text-sm ${
+                  formError?.title ? "visible" : "invisible"
+                }`}
+              >
+                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                {formError?.title?._errors.map((err) => err)}
+              </span>
+            </div>
+            <div>
+              <label htmlFor="difficulty">
+                Difficulty <FontAwesomeIcon icon={faDiceD20} />
+              </label>
+              <input
+                id="difficulty"
+                className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+                name="difficulty"
+                type="number"
+                value={editedQuest.difficulty}
+                onChange={(e) =>
+                  setEditedQuest(
+                    produce((draft) => {
+                      draft.difficulty = e.target.value;
+                    })
+                  )
+                }
+                onFocus={() => handleClearError("difficulty")}
+              />
+              <span
+                className={`text-red9 text-sm ${
+                  formError?.difficulty ? "visible" : "invisible"
+                }`}
+              >
+                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                {formError?.difficulty?._errors.map((err) => err)}
+              </span>
             </div>
             <div>
               <label htmlFor="description">Description</label>
               <textarea
                 id="description"
-                className={`w-full resize-none min-h-[200px] p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+                className={`w-full resize-none h-24 p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
                 name="description"
                 value={editedQuest.description}
                 onChange={(e) =>
@@ -159,6 +166,14 @@ export default function EditMenuItem({ quest, village }: Props) {
                   )
                 }
               />
+              <span
+                className={`text-red9 text-sm ${
+                  formError?.description ? "visible" : "invisible"
+                }`}
+              >
+                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                {formError?.description?._errors.map((err) => err)}
+              </span>
             </div>
             <div>
               <label htmlFor="description" className="text-mauve10">
@@ -170,38 +185,17 @@ export default function EditMenuItem({ quest, village }: Props) {
                 value={"No equipment for this quest"}
               />
             </div>
-            <div className="flex gap-4">
-              <div className="basis-8/12">
-                <label htmlFor="mercenary" className="text-mauve10">
-                  Mercenary
-                </label>
-                <input
-                  id="mercenary"
-                  disabled
-                  className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-                  name="mercenary"
-                />
-              </div>
-              <div className="basis-4/12">
-                <label htmlFor="exp">Experiance</label>
-                <input
-                  id="exp"
-                  readOnly
-                  //workaround for action not reading disabled values
-                  tabIndex={-1}
-                  className={`w-full p-2 pointer-events-none rounded-md mt-1 focus:ring   ring-mauve5 bg-mauve4 `}
-                  name="rewardExp"
-                  value={
-                    Number(editedQuest.difficulty) > 0
-                      ? calculateExp(
-                          village.expNeeded,
-                          village.level,
-                          Number(editedQuest.difficulty)
-                        )
-                      : ""
-                  }
-                />
-              </div>
+            <div>
+              <label htmlFor="mercenary" className="text-mauve10">
+                Mercenary
+              </label>
+              <input
+                id="mercenary"
+                disabled
+                className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+                name="mercenary"
+                value={"No assignee"}
+              />
             </div>
           </fieldset>
           <div className="w-full mt-8 flex justify-end gap-4">
