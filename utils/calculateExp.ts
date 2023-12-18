@@ -5,8 +5,10 @@ export default function calculateExp(
   currentLevel: number,
   questDifficulty: number
 ) {
-  return (
-    (expPerLevel / (currentLevel * LEVEL_GROWTH)) *
-    ((currentLevel + questDifficulty) * BEING_TOO_COOL_PENALTY)
-  ).toFixed(0);
+  return Number(
+    (
+      (expPerLevel / (currentLevel * LEVEL_GROWTH)) *
+      ((currentLevel + questDifficulty) * BEING_TOO_COOL_PENALTY)
+    ).toFixed(0)
+  );
 }
