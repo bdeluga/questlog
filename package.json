@@ -39,6 +39,7 @@
     "framer-motion": "^10.16.5",
     "geist": "^1.2.0",
     "immer": "^10.0.3",
+    "lodash.debounce": "^4.0.8",
     "next": "^14.0.3",
     "next-auth": "^5.0.0-beta.3",
     "postcss": "^8.4.31",
@@ -53,6 +54,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react-beautiful-dnd": "^13.1.7",
     "drizzle-kit": "^0.20.6"
   }
