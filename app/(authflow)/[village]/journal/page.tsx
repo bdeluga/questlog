@@ -14,7 +14,7 @@ export default async function JournalPage({
   params: { village: string };
 }) {
   const data = await db.query.villages.findFirst({
-    where: (villages, { eq }) => eq(villages.name, params.village),
+    where: (villages, { eq }) => eq(villages.name, decodeURI(params.village)),
     with: {
       quests: true,
     },
