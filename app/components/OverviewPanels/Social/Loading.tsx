@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <ul className="p-2 space-y-2 ">
-      {[...Array(10)]?.map((_, idx) => (
+      {[...Array(8)]?.map((_, idx) => (
         <li key={idx} className="justify-between flex items-center">
           <button className="p-2 rounded w-full text-left relative  flex justify-between">
             <div className="flex items-center gap-1">
