@@ -45,7 +45,7 @@ export const villages = pgTable(
       .primaryKey(),
     name: text("name").notNull(),
     userId: text("user_id")
-      .references(() => users.id)
+      .references(() => users.id, { onDelete: "cascade" })
       .notNull(),
     exp: integer("exp").notNull().default(1),
     expNeeded: integer("exp_needed").notNull().default(150),
@@ -87,7 +87,7 @@ export const quests = pgTable("quests", {
   description: text("description").notNull(),
   createdAt: date("created_at").default(sql`now()`),
   villageId: text("village_id")
-    .references(() => villages.id)
+    .references(() => villages.id, { onDelete: "cascade" })
     .notNull(),
   mercenaryId: text("user_id").references(() => users.id),
   difficulty: text("difficulty").notNull(),
