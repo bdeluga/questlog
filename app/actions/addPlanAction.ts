@@ -10,7 +10,7 @@ export default async function updateUserDetailsAction(
 ) {
   const user = await auth();
 
-  if (!user) throw "User not authorized";
+  if (!user) throw "User not authenticaded";
 
   await db.transaction(async (tx) => {
     await tx
