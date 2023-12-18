@@ -26,7 +26,7 @@ export default async function RootLayout({
       <body
         className={`${inter.className} bg-mauve1 flex flex-col  min-h-screen w-full text-mauve12`}
       >
-        <NextAuthProvider session={session}>
+        <NextAuthProvider session={session} refetchOnWindowFocus={false}>
           <ToastProvider>
             {children}
             <Toast />
