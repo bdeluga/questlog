@@ -12,26 +12,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { ZodFormattedError, z } from "zod";
 interface Props {
-  villagLevel: number;
-  expNeeded: number;
   villageName: string;
   onSuccess?: () => void;
 }
 
-export default function AddQuestForm({
-  villagLevel,
-  expNeeded,
-  villageName,
-  onSuccess,
-}: Props) {
+export default function AddQuestForm({ villageName, onSuccess }: Props) {
   const [difficulty, setDifficulty] = useState("");
 
   const toast = useToast();
 
   const QuestSchema = z
     .object({
-      title: z.string().trim().min(1, "This field is required"),
-      difficulty: z.string().min(1, "This field is required."),
+      title: z
+        .string()
+        .trim()
+        .min(1, "This field is required")
+        .max(50, "This field is too long"),
+      difficulty: z.coerce
+        .number()
+        .min(1, "This field is required")
+        .max(10, "Difficulty should range between 1 and 10"),
     })
     .passthrough();
 
@@ -50,7 +50,7 @@ export default function AddQuestForm({
         .then(() => {
           toast.notify({
             title: "Success",
-            description: "Village added",
+            description: "Quest added",
             variant: "success",
           });
           onSuccess?.();
@@ -141,61 +141,17 @@ export default function AddQuestForm({
             placeholder="Equip mercenary with items needed for quest, perhaps a map ?"
           />
         </div>
-        <div className="flex gap-4">
-          <div className="basis-8/12">
-            <label htmlFor="mercenary" className="text-mauve10">
-              Mercenary
-            </label>
-            <input
-              id="mercenary"
-              disabled
-              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-              placeholder="e.g. Bard the Bowman"
-              name="mercenary"
-            />
-          </div>
-          <div className="basis-4/12">
-            <Tooltip
-              trigger={
-                <label htmlFor="exp">
-                  Experiance{" "}
-                  <sup>
-                    <FontAwesomeIcon icon={faInfoCircle} />
-                  </sup>
-                </label>
-              }
-            >
-              <div className="p-2 bg-mauve4 rounded border border-mauve5">
-                <span>
-                  Don&apos;t worry we calculate experiance gain on our side.
-                </span>
-                <div className="text-mauve11">
-                  <span className="block text-sm">
-                    Things we take into consideration
-                  </span>
-                  <ul className="list-disc pl-4 text-xs">
-                    <li>Level needed per level</li>
-                    <li>Quest difficulty</li>
-                    <li>Your awesomeness (there is penalty for that)</li>
-                  </ul>
-                </div>
-              </div>
-            </Tooltip>
-
-            <input
-              id="exp"
-              readOnly
-              //workaround for action not reading disabled values
-              tabIndex={-1}
-              className={`w-full p-2 pointer-events-none rounded-md mt-1 focus:ring opacity-50  ring-mauve5 bg-mauve4 `}
-              name="rewardExp"
-              value={
-                Number(difficulty) > 0
-                  ? calculateExp(expNeeded, villagLevel, Number(difficulty))
-                  : ""
-              }
-            />
-          </div>
+        <div>
+          <label htmlFor="mercenary" className="text-mauve10">
+            Mercenary
+          </label>
+          <input
+            id="mercenary"
+            disabled
+            className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+            placeholder="e.g. Bard the Bowman"
+            name="mercenary"
+          />
         </div>
       </fieldset>
       <button className="border active:scale-105 w-full rounded-md border-orange11 hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-10">
