@@ -24,7 +24,7 @@ export default function NoticeBoardMenu({
             Add new Quest <FontAwesomeIcon icon={faPlus} />
           </button>
         }
-        title="Add new Quest"
+        title="Add New Quest"
         description="Add a new quest to your journal! Provide needed details, and embark on your journey!"
       >
         <AddQuestForm

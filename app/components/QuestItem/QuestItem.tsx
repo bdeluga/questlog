@@ -34,9 +34,8 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
           <span className="p-1 grid place-items-center  rounded bg-mauve2 text-xs">
             # {quest.number}
           </span>
-          {quest.title}
+          <span className="mx-1 truncate max-w-[16rem]">{quest.title}</span>
         </div>
-
         <Dropdown
           side="left"
           asChild

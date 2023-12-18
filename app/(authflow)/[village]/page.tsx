@@ -3,9 +3,7 @@ import Level from "@/app/components/OverviewPanels/Level";
 import Quests from "@/app/components/OverviewPanels/Quests";
 import Realms from "@/app/components/OverviewPanels/Realms";
 import Social from "@/app/components/OverviewPanels/Social";
-import { db } from "@/db";
 import React from "react";
-import { auth } from "@/app/auth";
 export default async function Dashboard({
   params,
 }: {
