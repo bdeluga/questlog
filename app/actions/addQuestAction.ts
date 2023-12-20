@@ -10,13 +10,13 @@ export default async function addQuestAction(
 ) {
   const user = await auth();
 
-  if (!user) throw "User not authenticaded";
+  if (!user) return { error: "User not authenticaded" };
 
   const village = await db.query.villages.findFirst({
     where: (villages, { eq, and }) =>
       and(eq(villages.userId, user!.user!.id), eq(villages.name, villageName)),
   });
-  if (!village) throw "This village does not exist";
+  if (!village) return { error: "This village does not exist" };
 
   const { expNeeded, level } = village;
 
@@ -36,7 +36,7 @@ export default async function addQuestAction(
       rewardExp: calculatedExp,
     });
   } catch (error) {
-    throw "There was an error creating task, try again later";
+    return { error: "There was an error creating task, try again later" };
   }
 
   revalidatePath("/[village]", "page");

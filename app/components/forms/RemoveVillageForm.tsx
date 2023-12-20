@@ -13,22 +13,21 @@ export default function RemoveVillageForm({
 }) {
   const toast = useToast();
   const clientAction = async () => {
-    await removeVillageAction(villageId)
-      .then(() => {
-        toast.notify({
-          title: "Success",
-          description: "Village successfully deleted.",
-          variant: "success",
-        });
-        onSuccess();
-      })
-      .catch((err) => {
-        toast.notify({
-          title: "Something went wrong deleting village",
-          description: (err as { message: string }).message.split("Error: ")[1],
-          variant: "danger",
-        });
+    const result = await removeVillageAction(villageId);
+    if (result?.error) {
+      toast.notify({
+        title: "Something went wrong deleting village",
+        description: result.error,
+        variant: "danger",
       });
+    } else {
+      toast.notify({
+        title: "Success",
+        description: "Village successfully deleted.",
+        variant: "success",
+      });
+      onSuccess();
+    }
   };
 
   return (

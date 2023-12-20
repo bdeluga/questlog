@@ -25,21 +25,23 @@ export default function StepControl() {
   const toast = useToast();
 
   const clientAction = async () => {
-    await updateUserDetailsAction(formData.plan, formData.villageName)
-      .then(() => {
-        toast.notify({
-          title: "Success",
-          description: "Account details successfully updated",
-        });
-        router.push(formData.villageName);
-      })
-      .catch((err) => {
-        toast.notify({
-          title: "Error",
-          description:
-            "There was an error updating your plan, log in and try again",
-        });
+    const result = await updateUserDetailsAction(
+      formData.plan,
+      formData.villageName
+    );
+    if (result?.error) {
+      toast.notify({
+        title: "Error",
+        description:
+          "There was an error updating your plan, log in and try again",
       });
+    } else {
+      toast.notify({
+        title: "Success",
+        description: "Account details successfully updated",
+      });
+      router.push(formData.villageName);
+    }
   };
 
   const handleUpdatePlan = (plan: NewUserFormData["plan"]) => {

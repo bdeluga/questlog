@@ -27,23 +27,21 @@ export default function AddVillageForm({
       return setError(response.error.issues[0].message);
     }
 
-    await addVillageAction(formData)
-      .then(() => {
-        toast.notify({
-          title: "Success",
-          description: "Village added",
-          variant: "success",
-        });
-        onSuccess?.();
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.notify({
-          title: "Error",
-          description: (err as { message: string }).message.split("Error: ")[1],
-          variant: "danger",
-        });
+    const result = await addVillageAction(formData);
+    if (result?.error) {
+      toast.notify({
+        title: "Error",
+        description: result.error,
+        variant: "danger",
       });
+    } else {
+      toast.notify({
+        title: "Success",
+        description: "Village added",
+        variant: "success",
+      });
+      onSuccess?.();
+    }
   };
 
   return (

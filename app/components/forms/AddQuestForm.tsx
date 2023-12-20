@@ -48,24 +48,21 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
     if (!response.success) {
       setFormError(response.error.format());
     } else {
-      await addQuestAction(formData, villageName)
-        .then(() => {
-          toast.notify({
-            title: "Success",
-            description: "Quest added",
-            variant: "success",
-          });
-          onSuccess?.();
-        })
-        .catch((err) => {
-          toast.notify({
-            title: "Error",
-            description: (err as { message: string }).message.split(
-              "Error: "
-            )[1],
-            variant: "danger",
-          });
+      const response = await addQuestAction(formData, villageName);
+      if (response?.error) {
+        toast.notify({
+          title: "Error",
+          description: response.error,
+          variant: "danger",
         });
+      } else {
+        toast.notify({
+          title: "Success",
+          description: "Quest added",
+          variant: "success",
+        });
+        onSuccess?.();
+      }
     }
   };
 

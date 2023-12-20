@@ -7,7 +7,9 @@ import { auth } from "../auth";
 export default async function addVillageAction(formData: FormData) {
   const user = await auth();
 
-  if (!user) throw "User not authenticaded";
+  if (!user) {
+    return { error: "User not authenticaded" };
+  }
 
   const userWithVillages = await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.id, user.user!.id),
@@ -17,7 +19,7 @@ export default async function addVillageAction(formData: FormData) {
   });
 
   if (!userWithVillages)
-    throw "User not found, log in again and repeat action.";
+    return { error: "User not found, log in again and repeat action." };
 
   const userPlan = userWithVillages.plan;
 
@@ -29,7 +31,9 @@ export default async function addVillageAction(formData: FormData) {
     userWithVillages.villages.length < maxVillagesCount;
 
   if (!canCreateMoreVillages) {
-    throw "Maximum villages count reached, consider deleting unused ones.";
+    return {
+      error: "Maximum villages count reached, consider deleting unused ones.",
+    };
   }
 
   const duplicate = userWithVillages.villages.find(
@@ -37,12 +41,16 @@ export default async function addVillageAction(formData: FormData) {
   );
 
   if (duplicate) {
-    throw `Village with name ${villageName} already exist.`;
+    return { error: `Village with name ${villageName} already exist.` };
+  }
+  try {
+    await db.insert(villages).values({
+      userId: user.user!.id,
+      name: formData.get("name") as string,
+    });
+  } catch (error) {
+    return { error: "There was an error creating village, try again later" };
   }
 
-  await db.insert(villages).values({
-    userId: user.user!.id,
-    name: formData.get("name") as string,
-  });
   revalidatePath("/[village]", "layout");
 }

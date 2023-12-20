@@ -10,21 +10,27 @@ export default async function updateUserDetailsAction(
 ) {
   const user = await auth();
 
-  if (!user) throw "User not authenticaded";
+  if (!user) return { error: "User not authenticaded" };
 
-  await db.transaction(async (tx) => {
-    await tx
-      .update(users)
-      .set({
-        plan: plan,
-      })
-      .where(eq(users.id, user.user!.id));
+  try {
+    await db.transaction(async (tx) => {
+      await tx
+        .update(users)
+        .set({
+          plan: plan,
+        })
+        .where(eq(users.id, user.user!.id));
 
-    await tx.insert(villages).values({
-      name: villageName,
-      userId: user.user!.id,
+      await tx.insert(villages).values({
+        name: villageName,
+        userId: user.user!.id,
+      });
     });
-  });
+  } catch (error) {
+    return {
+      error: "There was an error updating your details, try again later",
+    };
+  }
 
   revalidatePath("/");
 }

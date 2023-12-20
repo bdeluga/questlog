@@ -16,9 +16,8 @@ import { ZodFormattedError, z } from "zod";
 import updateQuestAction from "@/app/actions/updateQuestAction";
 interface Props {
   quest: Quest;
-  village: Village;
 }
-export default function EditMenuItem({ quest, village }: Props) {
+export default function EditMenuItem({ quest }: Props) {
   const [editedQuest, setEditedQuest] = useState(quest);
   const [open, setOpen] = useState(false);
   const handleCanel = (value: boolean) => {
@@ -54,27 +53,23 @@ export default function EditMenuItem({ quest, village }: Props) {
     if (!response.success) {
       setFormError(response.error.format());
     } else {
-      await updateQuestAction(editedQuest)
-        .then(() => {
-          toast.notify({
-            title: "Success",
-            description: "Quest story successfully updated",
-            variant: "success",
-          });
-          setOpen(false);
-        })
-        .catch((err) => {
-          toast.notify({
-            title: "Error",
-            description: (err as { message: string }).message.split(
-              "Error: "
-            )[1],
-            variant: "danger",
-          });
+      const response = await updateQuestAction(editedQuest);
+      if (response?.error) {
+        toast.notify({
+          title: "Error",
+          description: response.error,
+          variant: "danger",
         });
+      } else {
+        toast.notify({
+          title: "Success",
+          description: "Quest story successfully updated",
+          variant: "success",
+        });
+        setOpen(false);
+      }
     }
   };
-
   const handleClearError = (property: keyof z.infer<typeof QuestSchema>) => {
     const updatedObject = { ...formError };
 

@@ -6,7 +6,11 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export default async function removeQuest(questId: string) {
-  await db.delete(quests).where(eq(quests.id, questId));
+  try {
+    await db.delete(quests).where(eq(quests.id, questId));
+  } catch (error) {
+    return { error: "There was an error deleting quest, try again later" };
+  }
 
   revalidatePath("/[village]/journal", "page");
 }

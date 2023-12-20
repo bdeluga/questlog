@@ -6,14 +6,20 @@ import { revalidatePath } from "next/cache";
 import { auth } from "../auth";
 export default async function selectVillageAction(villageId: string) {
   const user = await auth();
-  if (!user) throw "User not authenticaded";
+  if (!user) return { error: "User not authenticaded" };
 
-  await db
-    .update(users)
-    .set({
-      selectedVillage: villageId,
-    })
-    .where(eq(users.id, user.user!.id));
+  try {
+    await db
+      .update(users)
+      .set({
+        selectedVillage: villageId,
+      })
+      .where(eq(users.id, user.user!.id));
+  } catch (error) {
+    return {
+      error: "There was an error setting selected village, try again later",
+    };
+  }
 
   revalidatePath("/");
 }
