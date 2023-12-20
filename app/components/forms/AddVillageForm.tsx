@@ -37,6 +37,7 @@ export default function AddVillageForm({
         onSuccess?.();
       })
       .catch((err) => {
+        console.error(err);
         toast.notify({
           title: "Error",
           description: (err as { message: string }).message.split("Error: ")[1],
