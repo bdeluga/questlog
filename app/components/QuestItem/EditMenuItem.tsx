@@ -80,134 +80,132 @@ export default function EditMenuItem({ quest }: Props) {
     setFormError(updatedObject);
   };
   return (
-    <li>
-      <Modal
-        title={`Edit #${editedQuest.number}`}
-        asChild
-        open={open}
-        onOpenChange={handleCanel}
-        trigger={
-          <button className="p-2 flex w-full gap-4 items-center justify-between rounded hover:bg-mauve3">
-            Edit <FontAwesomeIcon icon={faEdit} />
-          </button>
-        }
-      >
-        <form className="mt-4" action={clientAction}>
-          <fieldset className="space-y-2 w-full">
-            <div>
-              <label htmlFor="title">Title</label>
-              <input
-                id="title"
-                className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
-                name="title"
-                value={editedQuest.title}
-                onChange={(e) =>
-                  setEditedQuest(
-                    produce((draft) => {
-                      draft.title = e.target.value;
-                    })
-                  )
-                }
-                onFocus={() => handleClearError("title")}
-              />
-              <span
-                className={`text-red9 text-sm ${
-                  formError?.title ? "visible" : "invisible"
-                }`}
-              >
-                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                {formError?.title?._errors.map((err) => err)}
-              </span>
-            </div>
-            <div>
-              <label htmlFor="difficulty">
-                Difficulty <FontAwesomeIcon icon={faDiceD20} />
-              </label>
-              <input
-                id="difficulty"
-                className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-                name="difficulty"
-                type="number"
-                value={editedQuest.difficulty}
-                onChange={(e) =>
-                  setEditedQuest(
-                    produce((draft) => {
-                      draft.difficulty = e.target.value;
-                    })
-                  )
-                }
-                onFocus={() => handleClearError("difficulty")}
-              />
-              <span
-                className={`text-red9 text-sm ${
-                  formError?.difficulty ? "visible" : "invisible"
-                }`}
-              >
-                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                {formError?.difficulty?._errors.map((err) => err)}
-              </span>
-            </div>
-            <div>
-              <label htmlFor="description">Description</label>
-              <textarea
-                id="description"
-                className={`w-full resize-none h-24 p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
-                name="description"
-                value={editedQuest.description}
-                onChange={(e) =>
-                  setEditedQuest(
-                    produce((draft) => {
-                      draft.description = e.target.value;
-                    })
-                  )
-                }
-              />
-              <span
-                className={`text-red9 text-sm ${
-                  formError?.description ? "visible" : "invisible"
-                }`}
-              >
-                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                {formError?.description?._errors.map((err) => err)}
-              </span>
-            </div>
-            <div>
-              <label htmlFor="description" className="text-mauve10">
-                Equipment
-              </label>
-              <textarea
-                disabled
-                className={`w-full resize-none min-h-[100px] p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-                value={"No equipment for this quest"}
-              />
-            </div>
-            <div>
-              <label htmlFor="mercenary" className="text-mauve10">
-                Mercenary
-              </label>
-              <input
-                id="mercenary"
-                disabled
-                className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-                name="mercenary"
-                value={"No assignee"}
-              />
-            </div>
-          </fieldset>
-          <div className="w-full mt-8 flex justify-end gap-4">
-            <button
-              type="button"
-              onClick={() => handleCanel(false)}
-              className="py-1 px-2 border rounded border-mauve12 hover:bg-mauve12 hover:text-mauve1 duration-150"
+    <Modal
+      title={`Edit #${editedQuest.number}`}
+      asChild
+      open={open}
+      onOpenChange={handleCanel}
+      trigger={
+        <button className="p-2 flex w-full gap-4 items-center justify-between rounded hover:bg-mauve3">
+          Edit <FontAwesomeIcon icon={faEdit} />
+        </button>
+      }
+    >
+      <form className="mt-4" action={clientAction}>
+        <fieldset className="space-y-2 w-full">
+          <div>
+            <label htmlFor="title">Title</label>
+            <input
+              id="title"
+              className={`w-full peer p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+              name="title"
+              value={editedQuest.title}
+              onChange={(e) =>
+                setEditedQuest(
+                  produce((draft) => {
+                    draft.title = e.target.value;
+                  })
+                )
+              }
+              onFocus={() => handleClearError("title")}
+            />
+            <span
+              className={`text-red9 text-sm ${
+                formError?.title ? "visible" : "invisible"
+              }`}
             >
-              Cancel
-            </button>
-            <Submit className="py-1 px-2 disabled:pointer-events-none  border-grass9 rounded bg-grass8 hover:bg-grass9 text-mauve1 duration-150">
-              Save changes
-            </Submit>
+              <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+              {formError?.title?._errors.map((err) => err)}
+            </span>
           </div>
-        </form>
-      </Modal>
-    </li>
+          <div>
+            <label htmlFor="difficulty">
+              Difficulty <FontAwesomeIcon icon={faDiceD20} />
+            </label>
+            <input
+              id="difficulty"
+              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+              name="difficulty"
+              type="number"
+              value={editedQuest.difficulty}
+              onChange={(e) =>
+                setEditedQuest(
+                  produce((draft) => {
+                    draft.difficulty = e.target.value;
+                  })
+                )
+              }
+              onFocus={() => handleClearError("difficulty")}
+            />
+            <span
+              className={`text-red9 text-sm ${
+                formError?.difficulty ? "visible" : "invisible"
+              }`}
+            >
+              <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+              {formError?.difficulty?._errors.map((err) => err)}
+            </span>
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              className={`w-full resize-none h-24 p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+              name="description"
+              value={editedQuest.description}
+              onChange={(e) =>
+                setEditedQuest(
+                  produce((draft) => {
+                    draft.description = e.target.value;
+                  })
+                )
+              }
+            />
+            <span
+              className={`text-red9 text-sm ${
+                formError?.description ? "visible" : "invisible"
+              }`}
+            >
+              <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+              {formError?.description?._errors.map((err) => err)}
+            </span>
+          </div>
+          <div>
+            <label htmlFor="description" className="text-mauve10">
+              Equipment
+            </label>
+            <textarea
+              disabled
+              className={`w-full resize-none min-h-[100px] p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+              value={"No equipment for this quest"}
+            />
+          </div>
+          <div>
+            <label htmlFor="mercenary" className="text-mauve10">
+              Mercenary
+            </label>
+            <input
+              id="mercenary"
+              disabled
+              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+              name="mercenary"
+              value={"No assignee"}
+            />
+          </div>
+        </fieldset>
+        <div className="w-full mt-8 flex justify-end gap-4">
+          <button
+            type="button"
+            onClick={() => handleCanel(false)}
+            className="py-1 px-2 border rounded border-mauve12 hover:bg-mauve12 hover:text-mauve1 duration-150"
+          >
+            Cancel
+          </button>
+          <Submit className="py-1 px-2 disabled:pointer-events-none  border-grass9 rounded bg-grass8 hover:bg-grass9 text-mauve1 duration-150">
+            Save changes
+          </Submit>
+        </div>
+      </form>
+    </Modal>
   );
 }
