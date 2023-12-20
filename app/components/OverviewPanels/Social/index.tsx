@@ -42,7 +42,7 @@ export default function Social() {
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
-      <div className="gap-3 p-2 w-full mt-4  border-b border-mauve4 rounded  focus-within:ring ring-mauve5 flex items-center">
+      <div className="gap-3 p-2 w-full mt-4  border-b border-mauve4   focus-within:ring ring-mauve5 flex items-center">
         <label htmlFor="search">
           <FontAwesomeIcon icon={faUser} className="text-mauve11 text" />
         </label>
