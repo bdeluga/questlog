@@ -1,36 +1,27 @@
-import {
-  faFilter,
-  faList,
-  faPlus,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+"use client";
 import { QuestTable } from "./Table";
+import { Quest, Village } from "@/db/schema";
+import { columns } from "./Table/columns";
+import useSWR from "swr";
 
-export default function Quests() {
-  const quests = [];
+export default function Quests({ village }: { village: Village["name"] }) {
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then(({ data }) => data);
 
+  const { data: quests, isLoading } = useSWR(
+    `/api/quest?village=${village}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  if (isLoading) return <div>Loading...</div>;
   return (
-    <div className="flex flex-col h-full justify-start">
-      <div className="flex items-center justify-between text-lg gap-1">
-        <h1>Newest quests</h1>
-        <button>
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
-      {/* <div className="flex items-baseline gap-4">
-        <div className="gap-3 p-2 w-full mt-4  border-b border-mauve4 rounded  focus-within:ring ring-mauve5 flex items-center">
-          <label htmlFor="search">
-            <FontAwesomeIcon icon={faSearch} className="text-mauve11 text" />
-          </label>
-          <input
-            placeholder="Search..."
-            id="search"
-            className="placeholder:text-mauve11 bg-transparent outline-none flex-1"
-          />
-        </div>
-      </div> */}
-      {/* <QuestTable/> */}
+    <div className="flex flex-col p-4 h-full justify-start">
+      <QuestTable data={quests} columns={columns} />
     </div>
   );
 }

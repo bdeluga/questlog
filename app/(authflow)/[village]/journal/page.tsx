@@ -1,12 +1,6 @@
 import NoticeBoard from "@/app/components/NoticeBoard/NoticeBoard";
 import NoticeBoardMenu from "@/app/components/NoticeBoard/NoticeBoardMenu";
-import AddQuestForm from "@/app/components/forms/AddQuestForm";
 import { db } from "@/db";
-import Modal from "@/ui/Modal";
-import mapQuests from "@/utils/mapQuests";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 
 export default async function JournalPage({
   params,
