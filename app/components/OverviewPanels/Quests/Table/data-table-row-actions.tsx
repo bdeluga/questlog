@@ -7,6 +7,7 @@ import ShowMenuItem from "@/app/components/QuestItem/ShowMenuItem";
 import EditMenuItem from "@/app/components/QuestItem/EditMenuItem";
 import { Quest } from "@/db/schema";
 import removeQuest from "@/app/actions/removeQuestAction";
+import RemoveMenuItem from "@/app/components/QuestItem/RemoveMenuItem";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -20,28 +21,19 @@ export function DataTableRowActions<TData>({
   return (
     <Dropdown
       side="left"
-      asChild
       trigger={
-        <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve2">
+        <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve3 active:bg-mauve2 data-[state=open]:bg-mauve3">
           <FontAwesomeIcon icon={faEllipsisH} />
         </button>
       }
-    >
-      <div className="rounded-md p-2  w-48 min-w-[8rem] bg-mauve2 border border-mauve4 ">
-        <ul>
-          <li>
-            <ShowMenuItem quest={quest} />
-          </li>
-          <EditMenuItem quest={quest} />
-          <li>
-            <form action={removeQuest.bind(null, quest.id)}>
-              <button className="p-2 flex w-full gap-4 justify-between items-center rounded hover:bg-mauve3">
-                Delete task <FontAwesomeIcon icon={faTrash} />
-              </button>
-            </form>
-          </li>
-        </ul>
-      </div>
-    </Dropdown>
+      items={[
+        { id: "show", element: <ShowMenuItem quest={quest} /> },
+        { id: "edit", element: <EditMenuItem quest={quest} /> },
+        {
+          id: "delete",
+          element: <RemoveMenuItem quest={quest} />,
+        },
+      ]}
+    />
   );
 }

@@ -18,7 +18,7 @@ export const columns: ColumnDef<Quest>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="translate-y-[2px] h-4 w-4 border rounded"
+        className="w-4 h-4 border rounded border-mauve9 grid place-content-center"
       />
     ),
     cell: ({ row }) => (
@@ -26,7 +26,7 @@ export const columns: ColumnDef<Quest>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="translate-y-[2px] h-4 w-4 border rounded"
+        className="w-4 h-4 border rounded border-mauve9 grid place-content-center"
       />
     ),
     enableSorting: false,

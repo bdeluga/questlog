@@ -18,8 +18,6 @@ import {
 import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
 
-// import { DataTablePagination } from "../components/data-table-pagination";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -51,9 +49,9 @@ export function QuestTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <>
       <DataTableToolbar table={table} />
-      <div className=" overflow-hidden border border-mauve4 rounded-md">
+      <div className=" overflow-hidden border border-mauve4 rounded-md flex-1 ">
         <table className="table-auto w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -80,7 +78,7 @@ export function QuestTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className=" border-y last-of-type:border-y-0 border-mauve4 text-left data-[state='selected']:bg-mauve4"
+                  className=" border-y last-of-type:border-y-0 border-mauve4 text-left data-[state=selected]:bg-mauve4"
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -104,6 +102,6 @@ export function QuestTable<TData, TValue>({
         </table>
       </div>
       <DataTablePagination table={table} />
-    </div>
+    </>
   );
 }
