@@ -5,8 +5,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 export default function Checkbox(props: CheckboxInput.CheckboxProps) {
   return (
     <CheckboxInput.Root {...props}>
-      <CheckboxInput.Indicator className="grid place-items-center">
-        <FontAwesomeIcon icon={faCheck} />
+      <CheckboxInput.Indicator asChild>
+        <FontAwesomeIcon icon={faCheck} className="text-xs" />
       </CheckboxInput.Indicator>
     </CheckboxInput.Root>
   );
