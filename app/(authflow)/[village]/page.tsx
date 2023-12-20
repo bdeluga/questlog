@@ -12,7 +12,7 @@ export default async function Dashboard({
   return (
     <div className="grid grid-cols-5 grid-rows-5 gap-4 flex-1 p-4">
       <div className="col-span-2 row-span-5 border border-mauve4 bg-mauve2 rounded-2xl p-4">
-        <Quests />
+        <Quests village={params.village} />
       </div>
       <div className="col-span-2 row-span-2 col-start-3 border border-mauve4 bg-mauve2 rounded-2xl p-4">
         <Realms />

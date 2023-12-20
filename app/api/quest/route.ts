@@ -1,22 +1,37 @@
+import { auth } from "@/app/auth";
 import { db } from "@/db";
 import { quests } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const villageId = searchParams.get("village");
+  const villageName = searchParams.get("village") as string;
+  if (!villageName) {
+    return NextResponse.json("No village provided", {
+      status: 400,
+    });
+  }
+  const user = await auth();
 
-  if (!villageId) {
-    return NextResponse.json("No villageId", { status: 400 });
+  if (!user) {
+    return NextResponse.json("User not authorized", {
+      status: 401,
+    });
   }
 
-  const data = await db.query.quests.findMany({
-    where: (quests, { eq }) => eq(quests.villageId, villageId),
-  });
-
-  return NextResponse.json(data);
+  try {
+    const village = await db.query.villages.findFirst({
+      where: (villages, { eq, and }) =>
+        and(eq(villages.name, villageName), eq(villages.userId, user.user!.id)),
+      with: {
+        quests: true,
+      },
+    });
+    return NextResponse.json({ data: village?.quests });
+  } catch (error) {
+    return NextResponse.json({ status: 500 });
+  }
 }
 
 export async function PUT(request: NextRequest) {

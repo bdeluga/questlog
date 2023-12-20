@@ -15,9 +15,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTablePagination } from "./data-table-pagination";
 
 // import { DataTablePagination } from "../components/data-table-pagination";
-// import { DataTableToolbar } from "../components/data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,11 +30,6 @@ export function QuestTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -41,15 +37,11 @@ export function QuestTable<TData, TValue>({
     columns,
     state: {
       sorting,
-      columnVisibility,
       rowSelection,
-      columnFilters,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -59,53 +51,59 @@ export function QuestTable<TData, TValue>({
   });
 
   return (
-    <div className="space-y-4">
-      {/* <DataTableToolbar table={table} /> */}
-      <div className="rounded-md border">
-        <table>
-          <th>
+    <div>
+      <DataTableToolbar table={table} />
+      <div className=" overflow-hidden border border-mauve4 rounded-md">
+        <table className="table-auto w-full">
+          <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <th key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  );
-                })}
+              <tr key={headerGroup.id} className="hover:bg-mauve3">
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="font-light text-left px-2 "
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
               </tr>
             ))}
-          </th>
+          </thead>
           <tbody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <tr
+                  key={row.id}
+                  className=" border-y last-of-type:border-y-0 border-mauve4 text-left data-[state='selected']:bg-mauve4"
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
-                    <div key={cell.id}>
+                    <td key={cell.id} className="p-2">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
                       )}
-                    </div>
+                    </td>
                   ))}
                 </tr>
               ))
             ) : (
               <tr>
-                <th colSpan={columns.length} className="h-24 text-center">
+                <td colSpan={columns.length} className="h-24 text-center">
                   No results.
-                </th>
+                </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-      {/* <DataTablePagination table={table} /> */}
+      <DataTablePagination table={table} />
     </div>
   );
 }
