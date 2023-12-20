@@ -14,6 +14,7 @@ import calculateExp from "@/utils/calculateExp";
 import useToast from "@/app/hooks/useToast";
 import { ZodFormattedError, z } from "zod";
 import updateQuestAction from "@/app/actions/updateQuestAction";
+import Submit from "../forms/Submit";
 interface Props {
   quest: Quest;
 }
@@ -201,9 +202,9 @@ export default function EditMenuItem({ quest }: Props) {
             >
               Cancel
             </button>
-            <button className="py-1 px-2  border-grass9 rounded bg-grass8 hover:bg-grass9 text-mauve1 duration-150">
+            <Submit className="py-1 px-2 disabled:pointer-events-none  border-grass9 rounded bg-grass8 hover:bg-grass9 text-mauve1 duration-150">
               Save changes
-            </button>
+            </Submit>
           </div>
         </form>
       </Modal>

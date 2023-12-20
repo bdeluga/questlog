@@ -3,6 +3,7 @@ import removeVillageAction from "@/app/actions/removeVillageAction";
 import useToast from "@/app/hooks/useToast";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Submit from "./Submit";
 
 export default function RemoveVillageForm({
   villageId,
@@ -32,9 +33,9 @@ export default function RemoveVillageForm({
 
   return (
     <form action={clientAction}>
-      <button className="text-red11  hover:bg-red7 border-2 border-red8 bg-red6  inline-flex h-9 items-center justify-center rounded px-4  leading-none outline-none ">
+      <Submit className="text-red11 disabled:pointer-events-none  hover:bg-red7 border-2 border-red8 bg-red6  inline-flex h-9 items-center justify-center rounded px-4  leading-none outline-none ">
         Yes, delete village
-      </button>
+      </Submit>
     </form>
   );
 }

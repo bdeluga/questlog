@@ -11,6 +11,7 @@ module.exports = {
       ...red,
       ...plum,
       transparent: "transparent",
+      inherit: "inherit",
     },
     extend: {
       keyframes: {

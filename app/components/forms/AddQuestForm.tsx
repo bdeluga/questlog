@@ -11,6 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { ZodFormattedError, z } from "zod";
+import Submit from "./Submit";
 interface Props {
   villageName: string;
   onSuccess?: () => void;
@@ -163,12 +164,9 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
           />
         </div>
       </fieldset>
-      <button className="border active:scale-105 w-full rounded-md border-orange11 hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-10">
+      <Submit className="border w-full rounded-md border-orange11 disabled:pointer-events-none hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-10">
         Add
-      </button>
+      </Submit>
     </form>
   );
-}
-function ZodFormattedError<T>(arg0: null) {
-  throw new Error("Function not implemented.");
 }

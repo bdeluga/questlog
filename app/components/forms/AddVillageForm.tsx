@@ -6,6 +6,7 @@ import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useId, useState } from "react";
 import { z } from "zod";
+import Submit from "./Submit";
 
 export default function AddVillageForm({
   onSuccess,
@@ -63,9 +64,9 @@ export default function AddVillageForm({
         </span>
       )}
       <div className="flex justify-end">
-        <button className="border active:scale-105  rounded-md border-orange11 hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-4">
+        <Submit className="border active:scale-105 disabled:pointer-events-none rounded-md border-orange11 hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-4">
           Add
-        </button>
+        </Submit>
       </div>
     </form>
   );
