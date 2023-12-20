@@ -1,4 +1,3 @@
-import Select from "@/ui/Select";
 import {
   faAnglesLeft,
   faAnglesRight,
