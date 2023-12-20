@@ -50,7 +50,7 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
               <li>
                 <ShowMenuItem quest={quest} />
               </li>
-              <EditMenuItem quest={quest} village={village!} />
+              <EditMenuItem quest={quest} />
               <li>
                 <form action={removeQuest.bind(null, quest.id)}>
                   <button className="p-2 flex w-full gap-4 justify-between items-center rounded hover:bg-mauve3">
