@@ -3,6 +3,7 @@ import { QuestTable } from "./Table";
 import { Quest, Village } from "@/db/schema";
 import { columns } from "./Table/columns";
 import useSWR from "swr";
+import Loading from "./Table/loading";
 
 export default function Quests({ village }: { village: Village["name"] }) {
   const fetcher = (url: string) =>
@@ -18,7 +19,7 @@ export default function Quests({ village }: { village: Village["name"] }) {
     }
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
   return (
     <div className="flex flex-col p-4 h-full justify-start">
       <QuestTable data={quests} columns={columns} />
