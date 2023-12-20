@@ -1,24 +1,33 @@
 import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-interface Props {
-  trigger: React.ReactNode;
-  children: React.ReactNode;
-  asChild: boolean;
-  side?: "bottom" | "top" | "right" | "left";
+interface Item {
+  id: string;
+  element: React.ReactNode;
 }
 
-export default function Dropdown({ trigger, children, asChild, side }: Props) {
+interface Props extends DropdownMenu.DropdownMenuProps {
+  trigger: React.ReactNode;
+  items: Item[];
+  side?: "top" | "left" | "bottom" | "right";
+}
+
+export default function Dropdown({ trigger, items, ...props }: Props) {
+  console.log(items);
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild={asChild}>{trigger}</DropdownMenu.Trigger>
+    <DropdownMenu.Root {...props}>
+      <DropdownMenu.Trigger asChild>{trigger}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          side={side}
-          className="rounded w-full animate-slideUpAndFade"
+          side={props.side}
+          className="rounded w-full animate-slideUpAndFade bg-mauve2 border flex flex-col space-y-2 p-2 border-mauve4"
           sideOffset={10}
         >
-          {children}
+          {items?.map(({ id, element }) => (
+            <DropdownMenu.Item key={id} asChild>
+              {element}
+            </DropdownMenu.Item>
+          ))}
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
