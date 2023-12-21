@@ -13,6 +13,7 @@ import { User } from "@/db/schema";
 import Image from "next/image";
 import Dropdown from "@/ui/Dropdown";
 import Loading from "./Loading";
+import RemoveMercenary from "./RemoveMercenary";
 export default function Social() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -75,26 +76,18 @@ export default function Social() {
                 </div>
                 <Dropdown
                   side="bottom"
-                  asChild
                   trigger={
                     <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve3">
                       <FontAwesomeIcon icon={faEllipsisV} />
                     </button>
                   }
-                >
-                  <div className="rounded-md p-2  w-48 min-w-[8rem] bg-mauve3 border -translate-x-10 border-mauve4 ">
-                    <ul>
-                      <li>
-                        <form action={""}>
-                          <button className="p-2 flex w-full gap-4 justify-between items-center rounded hover:bg-mauve4">
-                            Exile mercenary
-                            <FontAwesomeIcon icon={faUserMinus} />
-                          </button>
-                        </form>
-                      </li>
-                    </ul>
-                  </div>
-                </Dropdown>
+                  items={[
+                    {
+                      id: "remove",
+                      element: <RemoveMercenary />,
+                    },
+                  ]}
+                />
               </div>
             </li>
           ))}
