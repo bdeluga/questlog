@@ -7,6 +7,9 @@ export interface Task {
   id: string;
   content: string;
 }
+interface AllowedStateQuest extends Quest {
+  state: "new" | "resolved" | "active" | "closed";
+}
 
 export interface QuestMap {
   new: Quest[];
