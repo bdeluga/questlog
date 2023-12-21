@@ -1,3 +1,4 @@
+import { auth } from "@/app/auth";
 import NoticeBoard from "@/app/components/NoticeBoard/NoticeBoard";
 import NoticeBoardMenu from "@/app/components/NoticeBoard/NoticeBoardMenu";
 import { db } from "@/db";
@@ -7,10 +8,18 @@ export default async function JournalPage({
 }: {
   params: { village: string };
 }) {
+  const user = await auth();
+
   const data = await db.query.villages.findFirst({
-    where: (villages, { eq }) => eq(villages.name, decodeURI(params.village)),
+    where: (villages, { eq, and }) =>
+      and(
+        eq(villages.name, decodeURI(params.village)),
+        eq(villages.userId, user!.user!.id)
+      ),
     with: {
-      quests: true,
+      quests: {
+        where: (quests, { ne }) => ne(quests.state, "archived"),
+      },
     },
   });
 
@@ -19,7 +28,7 @@ export default async function JournalPage({
       <NoticeBoardMenu village={data!} />
       <NoticeBoard
         headers={["new", "active", "resolved", "closed"]}
-        data={data!}
+        data={data as any}
       />
     </div>
   );
