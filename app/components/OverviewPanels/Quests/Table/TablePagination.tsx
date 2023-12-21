@@ -26,7 +26,6 @@ export default function TablePagination<TData>({
 
           <select
             className="px-2 py-1 bg-transparent border border-mauve4 rounded-md"
-            defaultValue={table.getState().pagination.pageSize.toString()}
             value={table.getState().pagination.pageSize.toString()}
             onChange={(e) => {
               table.setPageSize(Number(e.target.value));
