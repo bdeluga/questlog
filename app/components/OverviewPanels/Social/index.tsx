@@ -7,14 +7,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useState } from "react";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import debounce from "lodash.debounce";
-import { User } from "@/db/schema";
+import { User, Village } from "@/db/schema";
 import Image from "next/image";
 import Dropdown from "@/ui/Dropdown";
 import Loading from "./Loading";
 import RemoveMercenary from "./RemoveMercenary";
-export default function Social() {
+import AddUserForm from "../../forms/AddUserForm";
+export default function Social({ village }: { village: Village["name"] }) {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const fetcher = (url: string) =>
@@ -23,7 +24,7 @@ export default function Social() {
       .then(({ data }) => data);
 
   const { data: mercenaries, isLoading } = useSWR(
-    `api/users?search=${debouncedSearch}`,
+    `api/mercenaries?village=${village}&search=${debouncedSearch}`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -39,9 +40,7 @@ export default function Social() {
     <div className="flex flex-col h-full justify-start ">
       <div className="flex items-center justify-between text-lg gap-1">
         <h1>Tavern</h1>
-        <button>
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
+        <AddUserForm mercenaries={mercenaries} village={village} />
       </div>
       <div className="gap-3 p-2 w-full mt-4  border-b border-mauve4   focus-within:ring ring-mauve5 flex items-center">
         <label htmlFor="search">
