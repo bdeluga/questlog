@@ -111,6 +111,6 @@ export const questsRelations = relations(quests, ({ one }) => ({
 export type Quest = InferSelectModel<typeof quests>;
 export type NewQuest = InferInsertModel<typeof quests>;
 
-export interface AllowedStateQuest extends Quest {
-  state: "new" | "resolved" | "active" | "closed";
+export interface NotArchivedQuest extends Quest {
+  state: Exclude<Quest["state"], "archived">;
 }

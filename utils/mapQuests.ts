@@ -1,10 +1,10 @@
-import { AllowedStateQuest, Quest } from "@/db/schema";
+import { NotArchivedQuest, Quest } from "@/db/schema";
 import { QuestMap } from "./reorder";
 
-export default function mapQuests(quests: AllowedStateQuest[]) {
+export default function mapQuests(quests: NotArchivedQuest[]) {
   return (
     quests.reduce(
-      (acc: QuestMap, task: AllowedStateQuest) => {
+      (acc: QuestMap, task: NotArchivedQuest) => {
         acc[task.state].push(task);
         return acc;
       },
