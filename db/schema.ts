@@ -19,7 +19,7 @@ const stateEnum = pgEnum("state", [
   "active",
   "resolved",
   "closed",
-  "archive",
+  "archived",
 ]);
 export const users = pgTable("users", {
   id: text("id")
