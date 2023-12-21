@@ -15,15 +15,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { DataTableToolbar } from "./data-table-toolbar";
-import { DataTablePagination } from "./data-table-pagination";
+import DataTableToolbar from "./TableToolbar";
+import DataTablePagination from "./TablePagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function QuestTable<TData, TValue>({
+export function Table<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

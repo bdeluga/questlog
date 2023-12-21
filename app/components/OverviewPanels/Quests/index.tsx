@@ -1,5 +1,5 @@
 "use client";
-import { QuestTable } from "./Table";
+import { Table } from "./Table";
 import { Quest, Village } from "@/db/schema";
 import { columns } from "./Table/columns";
 import useSWR from "swr";
@@ -22,7 +22,7 @@ export default function Quests({ village }: { village: Village["name"] }) {
   if (isLoading) return <Loading />;
   return (
     <div className="flex flex-col p-4 h-full justify-start">
-      <QuestTable data={quests} columns={columns} />
+      <Table data={quests} columns={columns} />
     </div>
   );
 }

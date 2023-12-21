@@ -2,8 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
+import TableColumnHeader from "./TableColumnHeader";
+import TableRowActions from "./TableRowActions";
 import Checkbox from "@/ui/Checkbox";
 import { Quest } from "@/db/schema";
 
@@ -34,18 +34,14 @@ export const columns: ColumnDef<Quest>[] = [
   },
   {
     accessorKey: "number",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Quest" />
-    ),
+    header: ({ column }) => <TableColumnHeader column={column} title="Quest" />,
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("number")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: "title",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
-    ),
+    header: ({ column }) => <TableColumnHeader column={column} title="Title" />,
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
@@ -59,7 +55,7 @@ export const columns: ColumnDef<Quest>[] = [
   {
     accessorKey: "state",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <TableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
       return (
@@ -75,6 +71,6 @@ export const columns: ColumnDef<Quest>[] = [
 
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <TableRowActions row={row} />,
   },
 ];

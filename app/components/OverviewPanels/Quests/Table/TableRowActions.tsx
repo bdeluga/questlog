@@ -13,7 +13,7 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-export function DataTableRowActions<TData>({
+export default function TableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const quest = row.original as Quest;
