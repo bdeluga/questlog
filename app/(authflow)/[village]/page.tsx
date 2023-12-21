@@ -24,7 +24,7 @@ export default async function Dashboard({
         <Level village={params.village} />
       </div>
       <div className="row-span-4 col-start-5 row-start-2 border border-mauve4 bg-mauve2 rounded-2xl p-4">
-        <Social />
+        <Social village={params.village} />
       </div>
     </div>
   );
