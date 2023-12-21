@@ -24,65 +24,98 @@ export default function UserBadge({ user }: Props) {
         {notifications && <NotificationPing />}
       </button>
       <Dropdown
-        asChild
+        className="-translate-x-4"
         trigger={
           <button className="relative p-4 overflow-hidden rounded-full">
             <Image alt="User avatar" sizes="100%" fill src={user?.image!} />
           </button>
         }
-      >
-        <div className="rounded-md  bg-mauve2 border border-mauve4 -translate-x-4">
-          <div className="border-b p-4 border-mauve4 flex gap-2 items-center mb-2">
-            {user?.email}
-          </div>
-          <div className="py-2  px-4 flex w-full justify-between items-center cursor-default">
-            <div>Plan</div>
-            <div
-              className={`${
-                user.plan === "hobby" ? "bg-mauve4" : "bg-orange11 text-mauve1"
-              } p-2 rounded-md capitalize`}
-            >
-              {user.plan}
-            </div>
-          </div>
-
-          <div className="px-4 my-2">
-            <hr className="text-mauve4" />
-          </div>
-          <Link href={"/dashboard"} className="py-2 block px-4 hover:bg-mauve5">
-            Dashboard
-          </Link>
-          <Link
-            href={"/dashboard/journal"}
-            className="py-2 block px-4 hover:bg-mauve5"
-          >
-            Journal
-          </Link>
-          <div className="px-4 my-2">
-            <hr className="text-mauve4" />
-          </div>
-          <div className="py-2  px-4 flex items-center justify-between hover:bg-mauve5">
-            <label htmlFor="toggle-theme">Theme</label>
-            <ThemeSwitch />
-          </div>
-          <Link
-            href={"/dashboard/settings"}
-            className="py-2  px-4 flex w-full justify-between items-center hover:bg-mauve5"
-          >
-            Settings <FontAwesomeIcon icon={faCog} />
-          </Link>
-          <div className="px-4 my-2">
-            <hr className="text-mauve4" />
-          </div>
-
-          <button
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="block text-left hover:bg-mauve5 w-full mb-2 py-2 px-4"
-          >
-            Log out
-          </button>
-        </div>
-      </Dropdown>
+        items={[
+          {
+            id: "user",
+            element: (
+              <div className="border-b p-4 border-mauve4 flex gap-2 items-center ">
+                {user?.email}
+              </div>
+            ),
+          },
+          {
+            id: "plan",
+            element: (
+              <div className="py-2  px-4 flex w-full justify-between items-center cursor-default">
+                <div>Plan</div>
+                <div
+                  className={`${
+                    user.plan === "hobby"
+                      ? "bg-mauve4"
+                      : "bg-orange11 text-mauve1"
+                  } p-2 rounded-md capitalize`}
+                >
+                  {user.plan}
+                </div>
+              </div>
+            ),
+          },
+          {
+            id: "separator-1",
+            element: (
+              <div className="px-4 my-2">
+                <hr className="text-mauve4" />
+              </div>
+            ),
+          },
+          {
+            id: "journal",
+            element: (
+              <Link
+                href={"journal"}
+                className="py-2 block px-4 hover:bg-mauve5"
+              >
+                Journal
+              </Link>
+            ),
+          },
+          {
+            id: "theme-switch",
+            element: (
+              <div className="py-2  px-4 flex items-center justify-between hover:bg-mauve5">
+                <label htmlFor="toggle-theme">Theme</label>
+                <ThemeSwitch />
+              </div>
+            ),
+          },
+          {
+            id: "settings",
+            element: (
+              <Link
+                href={"settings"}
+                className="py-2  px-4 flex w-full justify-between items-center hover:bg-mauve5"
+              >
+                Settings <FontAwesomeIcon icon={faCog} />
+              </Link>
+            ),
+          },
+          {
+            id: "separator-2",
+            element: (
+              <div className="px-4 my-2">
+                <hr className="text-mauve4" />
+              </div>
+            ),
+          },
+          {
+            id: "logout",
+            element: (
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="block text-left hover:bg-mauve5 w-full mb-2 py-2 px-4"
+              >
+                Log out
+              </button>
+            ),
+          },
+        ]}
+      />
     </div>
   );
 }
