@@ -14,7 +14,13 @@ import {
 } from "drizzle-orm/pg-core";
 
 const planEnum = pgEnum("plan", ["hobby", "pro"]);
-const stateEnum = pgEnum("state", ["new", "active", "resolved", "closed"]);
+const stateEnum = pgEnum("state", [
+  "new",
+  "active",
+  "resolved",
+  "closed",
+  "archive",
+]);
 export const users = pgTable("users", {
   id: text("id")
     .default(sql`gen_random_uuid()`)
