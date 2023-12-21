@@ -23,11 +23,29 @@ export default function Dropdown({ trigger, items, ...props }: Props) {
           className="rounded w-full animate-slideUpAndFade bg-mauve2 border flex flex-col space-y-2 p-2 border-mauve4"
           sideOffset={10}
         >
-          {items?.map(({ id, element }) => (
-            <DropdownMenu.Item key={id} asChild>
-              {element}
-            </DropdownMenu.Item>
-          ))}
+          {items?.map(({ id, element }) => {
+            if (id.includes("separator")) {
+              return (
+                <DropdownMenu.Separator asChild key={id}>
+                  {element}
+                </DropdownMenu.Separator>
+              );
+            }
+
+            if (id.includes("label")) {
+              return (
+                <DropdownMenu.Label asChild key={id}>
+                  {element}
+                </DropdownMenu.Label>
+              );
+            }
+
+            return (
+              <DropdownMenu.Item key={id} asChild>
+                {element}
+              </DropdownMenu.Item>
+            );
+          })}
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
