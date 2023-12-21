@@ -14,7 +14,7 @@ import Image from "next/image";
 import Dropdown from "@/ui/Dropdown";
 import Loading from "./Loading";
 import RemoveMercenary from "./RemoveMercenary";
-import AddUserForm from "../../forms/AddUserForm";
+import AddUserForm from "../../forms/AddMercenaryForm";
 export default function Social({ village }: { village: Village["name"] }) {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
