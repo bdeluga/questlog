@@ -26,6 +26,8 @@ export default function NoticeBoard({
 
   const [userTasks, setUserTasks] = useState(mapQuests(data.quests));
 
+  const { trigger } = useSWRMutation("api/quest", updateState);
+
   //useFootgun
   useEffect(() => {
     setUserTasks(mapQuests(data.quests));
