@@ -11,6 +11,7 @@ import {
   pgTable,
   uniqueIndex,
   integer,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 
 const planEnum = pgEnum("plan", ["hobby", "pro"]);
@@ -114,3 +115,29 @@ export type NewQuest = InferInsertModel<typeof quests>;
 export interface NotArchivedQuest extends Quest {
   state: Exclude<Quest["state"], "archived">;
 }
+
+export const mercenaries = pgTable(
+  "mercenaries",
+  {
+    userId: text("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    villageId: text("village_id")
+      .references(() => villages.id, { onDelete: "cascade" })
+      .notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.villageId] }),
+  })
+);
+
+export const mercenariesRelations = relations(mercenaries, ({ one }) => ({
+  user: one(users, {
+    fields: [mercenaries.userId],
+    references: [users.id],
+  }),
+  village: one(villages, {
+    fields: [mercenaries.villageId],
+    references: [villages.id],
+  }),
+}));
