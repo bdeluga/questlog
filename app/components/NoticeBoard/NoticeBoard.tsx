@@ -10,7 +10,7 @@ import {
 } from "react-beautiful-dnd";
 import QuestItem from "../QuestItem/QuestItem";
 import mapQuests from "@/utils/mapQuests";
-import { Quest, Village } from "@/db/schema";
+import { AllowedStateQuest, Quest, Village } from "@/db/schema";
 import useSWRMutation from "swr/mutation";
 import updateState from "@/app/actions/updateState";
 
@@ -18,7 +18,7 @@ export default function NoticeBoard({
   data,
   headers,
 }: {
-  data: Village & { quests: Quest[] };
+  data: Village & { quests: AllowedStateQuest[] };
   headers: string[];
 }) {
   //ssr fix

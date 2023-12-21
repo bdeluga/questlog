@@ -1,9 +1,5 @@
-import { Quest } from "@/db/schema";
+import { AllowedStateQuest, Quest } from "@/db/schema";
 import { QuestMap } from "./reorder";
-
-interface AllowedStateQuest extends Quest {
-  state: "new" | "resolved" | "active" | "closed";
-}
 
 export default function mapQuests(quests: AllowedStateQuest[]) {
   return (
