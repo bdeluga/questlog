@@ -83,7 +83,12 @@ export default function Social({ village }: { village: Village["name"] }) {
                   items={[
                     {
                       id: "remove",
-                      element: <RemoveMercenary />,
+                      element: (
+                        <RemoveMercenary
+                          villageName={village}
+                          mercenaryId={mercenary.id}
+                        />
+                      ),
                     },
                   ]}
                 />

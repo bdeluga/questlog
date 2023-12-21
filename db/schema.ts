@@ -141,3 +141,5 @@ export const mercenariesRelations = relations(mercenaries, ({ one }) => ({
     references: [villages.id],
   }),
 }));
+export type Mercenary = InferSelectModel<typeof mercenaries>;
+export type NewMercenary = InferInsertModel<typeof mercenaries>;

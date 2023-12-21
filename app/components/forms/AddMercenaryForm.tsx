@@ -35,7 +35,14 @@ export default function AddUserForm({
 
   const { cache, mutate } = useSWRConfig();
 
-  console.log(cache);
+  const revalidate = () => {
+    const pattern = new RegExp(`api\/mercenaries`);
+    for (const item of cache.keys()) {
+      if (pattern.test(item)) {
+        mutate(item);
+      }
+    }
+  };
 
   const handleDebounce = debounce(
     (e: ChangeEvent<HTMLInputElement>) => setDebouncedSearch(e.target.value),
@@ -49,7 +56,7 @@ export default function AddUserForm({
     if (result?.error) {
       toast.notify({
         title: "Error",
-        description: "There was an error adding mercenary, try again",
+        description: result.error,
       });
     } else {
       toast.notify({
@@ -57,12 +64,18 @@ export default function AddUserForm({
         description: "Mercenary was added to your village",
         variant: "success",
       });
+      revalidate();
     }
   };
 
   return (
     <Modal
       asChild
+      onOpenChange={(val) => {
+        if (!val) {
+          setDebouncedSearch("");
+        }
+      }}
       trigger={
         <button>
           <FontAwesomeIcon icon={faPlus} />
@@ -123,7 +136,7 @@ export default function AddUserForm({
                 )}
               </li>
             ))}
-          {!users?.length && (
+          {!users?.length && !isLoading && (
             <span className="text-center w-full block text-mauve11">
               No mercenaries found
             </span>
