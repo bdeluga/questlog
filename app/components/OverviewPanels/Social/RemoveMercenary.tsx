@@ -18,7 +18,7 @@ export default function RemoveMercenary({
   const { mutate, cache } = useSWRConfig();
 
   const revalidate = () => {
-    const pattern = new RegExp(`api\/mercenaries`);
+    const pattern = new RegExp(`/api\/mercenaries`);
     for (const item of cache.keys()) {
       if (pattern.test(item)) {
         mutate(item);
