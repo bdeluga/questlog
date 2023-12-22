@@ -10,10 +10,10 @@ export default function BubblingLinks() {
   const subroutes = [
     { label: "Overview", href: `/${village}` },
     { label: "Journal", href: `/${village}/journal` },
-    { label: "Realm Connections", href: `/${village}/integrations` },
-    { label: "Enchantment Forge", href: `/${village}/settings` },
     { label: "Mercenaries", href: `/${village}/people` },
     { label: "Village", href: `/${village}/village` },
+    // { label: "Realm Connections", href: `/${village}/integrations` },
+    // { label: "Enchantment Forge", href: `/${village}/settings` },
   ];
 
   return (
