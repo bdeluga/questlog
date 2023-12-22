@@ -12,7 +12,7 @@ export default function Level({ village }: { village: Village["name"] }) {
       .then(({ data }) => data);
 
   const { data: villageInfo, isLoading } = useSWR(
-    `api/village/level?village=${village}`,
+    `/api/village/level?village=${village}`,
     fetcher,
     {
       revalidateOnFocus: false,

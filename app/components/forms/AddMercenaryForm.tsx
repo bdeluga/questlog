@@ -26,7 +26,7 @@ export default function AddUserForm({
       .then(({ data }) => data);
 
   const { data: users, isLoading } = useSWR(
-    `api/users?search=${debouncedSearch}`,
+    `/api/users?search=${debouncedSearch}`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -36,7 +36,7 @@ export default function AddUserForm({
   const { cache, mutate } = useSWRConfig();
 
   const revalidate = () => {
-    const pattern = new RegExp(`api\/mercenaries`);
+    const pattern = new RegExp(`/api\/mercenaries`);
     for (const item of cache.keys()) {
       if (pattern.test(item)) {
         mutate(item);

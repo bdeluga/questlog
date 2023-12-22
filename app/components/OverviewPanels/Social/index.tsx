@@ -24,7 +24,7 @@ export default function Social({ village }: { village: Village["name"] }) {
       .then(({ data }) => data);
 
   const { data: mercenaries, isLoading } = useSWR(
-    `api/mercenaries?village=${village}&search=${debouncedSearch}`,
+    `/api/mercenaries?village=${village}&search=${debouncedSearch}`,
     fetcher,
     {
       revalidateOnFocus: false,
