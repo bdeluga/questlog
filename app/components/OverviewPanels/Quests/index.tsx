@@ -1,6 +1,6 @@
 "use client";
 import { Table } from "./Table";
-import { Quest, Village } from "@/db/schema";
+import { Village } from "@/db/schema";
 import { columns } from "./Table/columns";
 import useSWR from "swr";
 import Loading from "./Table/loading";
@@ -12,7 +12,7 @@ export default function Quests({ village }: { village: Village["name"] }) {
       .then(({ data }) => data);
 
   const { data: quests, isLoading } = useSWR(
-    `/api/quest?village=${village}`,
+    `/api/quest?village=${decodeURI(village)}`,
     fetcher,
     {
       revalidateOnFocus: false,
