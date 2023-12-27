@@ -16,17 +16,17 @@ export default function JournalNav() {
 
   const subroutes = [
     { label: "Notice Board", href: `/${village}/journal`, icon: faScroll },
-    { label: "Quests", href: `/${village}/journal/quests`, icon: faDiceD20 },
+    // { label: "Quests", href: `/${village}/journal/quests`, icon: faDiceD20 },
     {
       label: "Insights",
       href: `/${village}/journal/analytics`,
       icon: faChartSimple,
     },
-    {
-      label: "Chronicles",
-      href: `/${village}/journal/retrospectives`,
-      icon: faHourglassHalf,
-    },
+    // {
+    //   label: "Chronicles",
+    //   href: `/${village}/journal/retrospectives`,
+    //   icon: faHourglassHalf,
+    // },
   ];
 
   return (
