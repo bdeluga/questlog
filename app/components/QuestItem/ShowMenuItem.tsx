@@ -1,4 +1,4 @@
-import { Quest, User, Village } from "@/db/schema";
+import { Quest } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import {
   faClone,

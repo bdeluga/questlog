@@ -16,7 +16,7 @@ import useToast from "@/app/hooks/useToast";
 import { ZodFormattedError, z } from "zod";
 import updateQuestAction from "@/app/actions/updateQuestAction";
 import Submit from "../forms/Submit";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import debounce from "lodash.debounce";
 import Image from "next/image";
 interface Props {
@@ -55,7 +55,17 @@ export default function EditMenuItem({ quest, village }: Props) {
     (e: ChangeEvent<HTMLInputElement>) => setDebouncedSearch(e.target.value),
     500
   );
-  console.log(editedQuest);
+
+  const { cache, mutate } = useSWRConfig();
+
+  const revalidate = () => {
+    const pattern = new RegExp(`/api\/quests?`);
+    for (const item of cache.keys()) {
+      if (pattern.test(item)) {
+        mutate(item);
+      }
+    }
+  };
 
   const QuestSchema = z.object({
     title: z
@@ -94,12 +104,12 @@ export default function EditMenuItem({ quest, village }: Props) {
           description: "Quest story successfully updated",
           variant: "success",
         });
+        revalidate();
         setOpen(false);
       }
     }
   };
 
-  console.log(mercenaries);
   const handleClearError = (property: keyof z.infer<typeof QuestSchema>) => {
     const updatedObject = { ...formError };
 

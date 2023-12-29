@@ -67,7 +67,6 @@ export default function AddUserForm({
       revalidate();
     }
   };
-  console.log(users, mercenaries);
   return (
     <Modal
       asChild

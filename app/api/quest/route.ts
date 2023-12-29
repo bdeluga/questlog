@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
       where: (villages, { eq, and }) =>
         and(eq(villages.name, villageName), eq(villages.userId, user.user!.id)),
       with: {
-        quests: true,
+        quests: {
+          where: (quests, { ne }) => ne(quests.state, "archived"),
+        },
       },
     });
     return NextResponse.json({ data: village?.quests });

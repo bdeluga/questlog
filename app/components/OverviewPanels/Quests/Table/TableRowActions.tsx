@@ -6,7 +6,6 @@ import { faEllipsisH, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ShowMenuItem from "@/app/components/QuestItem/ShowMenuItem";
 import EditMenuItem from "@/app/components/QuestItem/EditMenuItem";
 import { Quest } from "@/db/schema";
-import removeQuest from "@/app/actions/removeQuestAction";
 import RemoveMenuItem from "@/app/components/QuestItem/RemoveMenuItem";
 
 interface DataTableRowActionsProps<TData> {
@@ -27,8 +26,12 @@ export default function TableRowActions<TData>({
         </button>
       }
       items={[
-        { id: "show", element: <ShowMenuItem quest={quest} /> },
-        { id: "edit", element: <EditMenuItem quest={quest} /> },
+        { id: "show", element: <ShowMenuItem quest={quest as any} /> },
+        {
+          id: "edit",
+          //@ts-expect-error
+          element: <EditMenuItem quest={quest} village={quest.village} />,
+        },
         {
           id: "delete",
           element: <RemoveMenuItem quest={quest} />,

@@ -22,7 +22,6 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
   { quest, village, ...divProps },
   ref
 ) {
-  console.log(quest);
   return (
     <div
       ref={ref}
