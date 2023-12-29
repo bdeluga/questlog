@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/db/schema";
-import { faEllipsisV, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faEllipsisV, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import debounce from "lodash.debounce";
 import { ChangeEvent, useState } from "react";
@@ -37,23 +37,28 @@ export default function PeoplePage({
   );
 
   return (
-    <div className="p-4 flex-1 flex flex-col">
-      <div className="gap-3 p-2 w-full mt-4 bg-mauve3 border rounded border-mauve4  max-w-md mx-auto focus-within:ring ring-mauve5 flex items-center">
-        <label htmlFor="search">
-          <FontAwesomeIcon icon={faUser} className="text-mauve11 text" />
-        </label>
-        <input
-          placeholder="Find mercenaries..."
-          id="search"
-          className="placeholder:text-mauve11 bg-transparent outline-none flex-1"
-          onChange={handleDebounce}
-        />
+    <div className="p-4 flex-1 flex flex-col max-w-4xl w-full mx-auto">
+      <div className="flex items-center mt-4 gap-4">
+        <div className="gap-3 p-2 w-full  bg-mauve3 border rounded border-mauve4  mx-auto focus-within:ring ring-mauve5 flex items-center">
+          <label htmlFor="search">
+            <FontAwesomeIcon icon={faUser} className="text-mauve11 text" />
+          </label>
+          <input
+            placeholder="Find mercenaries..."
+            id="search"
+            className="placeholder:text-mauve11 bg-transparent outline-none flex-1"
+            onChange={handleDebounce}
+          />
+        </div>
+        <button className="flex items-center justify-center p-3 rounded-md bg-mauve12 text-mauve1">
+          <FontAwesomeIcon icon={faAdd} />
+        </button>
       </div>
-      <div className="grid grid-flow-col mt-4">
+      <div className="grid grid-flow-col-dense gap-4 mt-10">
         {mercenaries?.map((mercenary) => (
           <div
             key={mercenary.id}
-            className="bg-mauve3 border max-w-xs p-2 rounded-md flex justify-between border-mauve4"
+            className="bg-mauve3 border  p-2 rounded-md flex justify-between border-mauve4"
           >
             <div className="flex items-center gap-2">
               <button className="relative p-4 overflow-hidden rounded-full">
@@ -61,7 +66,7 @@ export default function PeoplePage({
                   alt="User avatar"
                   sizes="100%"
                   fill
-                  src={mercenary.image!}
+                  src={"/default.svg"}
                 />
               </button>{" "}
               {mercenary.name}

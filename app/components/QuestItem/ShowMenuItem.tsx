@@ -1,10 +1,15 @@
-import { Quest, Village } from "@/db/schema";
+import { Quest, User, Village } from "@/db/schema";
 import Modal from "@/ui/Modal";
-import { faClone, faDiceD20, faFlask } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClone,
+  faDiceD20,
+  faFlask,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
-  quest: Quest;
+  quest: Quest & { mercenary: { id: string; name: string } };
 }
 export default function EditMenuItem({ quest }: Props) {
   return (
@@ -69,16 +74,15 @@ export default function EditMenuItem({ quest }: Props) {
           </div>
           <div className="flex gap-4">
             <div>
-              <label htmlFor="mercenary" className="text-mauve10">
-                Mercenary
+              <label htmlFor="mercenary">
+                Mercenary <FontAwesomeIcon icon={faUser} />
               </label>
               <input
-                id="mercenary"
-                readOnly
                 disabled
-                className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none  bg-mauve4 `}
-                name="mercenary"
-                value={"No assignee"}
+                readOnly
+                id="mercenary"
+                value={quest.mercenary?.name || "No assignee"}
+                className="w-full p-2 rounded-md bg-mauve4 mt-1 "
               />
             </div>
             <div>

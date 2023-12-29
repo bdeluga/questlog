@@ -67,7 +67,7 @@ export default function AddUserForm({
       revalidate();
     }
   };
-
+  console.log(users, mercenaries);
   return (
     <Modal
       asChild
@@ -109,13 +109,15 @@ export default function AddUserForm({
                     alt="User avatar"
                     width={32}
                     height={32}
-                    src={user.image!}
+                    src={"/default.svg"}
                     className="rounded-full"
                   />
                   <span>{user.name}</span>
                 </div>
                 {/* /already mercenary */}
-                {mercenaries.some((mercenary) => user.id === mercenary.id) ? (
+                {mercenaries.some(
+                  (mercenary) => user.name === mercenary.name
+                ) ? (
                   <Tooltip
                     trigger={
                       <div className="bg-mauve4 rounded-md text-orange11 px-2 py-0.5 ">

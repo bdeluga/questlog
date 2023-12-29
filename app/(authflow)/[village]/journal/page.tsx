@@ -19,13 +19,41 @@ export default async function JournalPage({
     with: {
       quests: {
         where: (quests, { ne }) => ne(quests.state, "archived"),
+        with: {
+          mercenary: {
+            with: {
+              user: {
+                columns: {
+                  name: true,
+                },
+              },
+            },
+            columns: {
+              id: true,
+            },
+          },
+        },
+        columns: {
+          mercenaryId: false,
+        },
       },
     },
   });
-
+  if (data && data.quests) {
+    //@ts-expect-error
+    data.quests = data.quests.map((quest) => ({
+      ...quest,
+      mercenary: quest.mercenary
+        ? {
+            id: quest.mercenary.id,
+            name: quest.mercenary.user?.name || "Unknown",
+          }
+        : null,
+    }));
+  }
   return (
     <div className="flex-1 flex flex-col">
-      <NoticeBoardMenu village={data!} />
+      <NoticeBoardMenu village={data! as any} />
       <NoticeBoard
         headers={["new", "active", "resolved", "closed"]}
         data={data as any}

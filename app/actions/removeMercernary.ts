@@ -25,7 +25,7 @@ export default async function removeMercenary(
       .delete(mercenaries)
       .where(
         and(
-          eq(mercenaries.userId, mercenaryId),
+          eq(mercenaries.id, mercenaryId),
           eq(mercenaries.villageId, village.id)
         )
       );

@@ -1,4 +1,4 @@
-import { Quest, Village, quests } from "@/db/schema";
+import { Quest, User, Village, quests } from "@/db/schema";
 import Dropdown from "@/ui/Dropdown";
 import {
   faDiceD20,
@@ -12,9 +12,9 @@ import removeQuest from "../../actions/removeQuestAction";
 import EditMenuItem from "./EditMenuItem";
 import ShowMenuItem from "./ShowMenuItem";
 import RemoveMenuItem from "./RemoveMenuItem";
-
+import Image from "next/image";
 interface Props extends ComponentPropsWithRef<"div"> {
-  quest: Quest;
+  quest: Quest & { mercenary: { id: string; name: string } };
   village: Village;
 }
 
@@ -22,8 +22,7 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
   { quest, village, ...divProps },
   ref
 ) {
-  const [openView, setOpenView] = useState(false);
-
+  console.log(quest);
   return (
     <div
       ref={ref}
@@ -46,7 +45,10 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
           }
           items={[
             { id: "show", element: <ShowMenuItem quest={quest} /> },
-            { id: "edit", element: <EditMenuItem quest={quest} /> },
+            {
+              id: "edit",
+              element: <EditMenuItem quest={quest} village={village} />,
+            },
             {
               id: "delete",
               element: <RemoveMenuItem quest={quest} />,
@@ -55,18 +57,29 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
         />
       </h1>
       <div className="mt-4">
-        {/* {quest ? (
-          `Mercenary: ${quest.mercenaryId}`
-        ) : ( */}
-        <div className="flex items-center gap-1  p-1 pl-0 w-max">
-          <div className="flex justify-center items-center overflow-hidden rounded-full bg-mauve2 aspect-square w-8 h-8">
-            ?
+        {quest.mercenary ? (
+          <div className="p-2 rounded w-fit text-left relative text-sm bg-mauve2 flex justify-between">
+            <div className="flex items-center gap-1">
+              <Image
+                alt="User avatar"
+                width={16}
+                height={16}
+                src={"/default.svg"}
+                className="rounded-full"
+              />
+              <span>{quest.mercenary.name}</span>
+            </div>
           </div>
-          <span className="text-sm flex gap-2 bg-mauve3 rounded p-2 items-center">
-            No mercenary
-          </span>
-        </div>
-        {/* )} */}
+        ) : (
+          <div className="flex items-center gap-1  p-1 pl-0 w-max">
+            <div className="flex justify-center items-center overflow-hidden rounded-full bg-mauve2 aspect-square w-8 h-8">
+              ?
+            </div>
+            <span className="text-sm flex gap-2 bg-mauve3 rounded p-2 items-center">
+              No mercenary
+            </span>
+          </div>
+        )}
       </div>
       <div className="mt-4 flex justify-between">
         <div className="flex gap-0.5 items-center text-red8">

@@ -15,6 +15,8 @@ export default function RemoveMercenary({
 }) {
   const toast = useToast();
 
+  console.log(mercenaryId);
+
   const { mutate, cache } = useSWRConfig();
 
   const revalidate = () => {

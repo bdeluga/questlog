@@ -1,6 +1,4 @@
 import { db } from "@/db";
-import { mercenaries, users } from "@/db/schema";
-import { sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -8,25 +6,12 @@ export async function GET(request: NextRequest) {
   const village = searchParams.get("village");
   const search = searchParams.get("search");
 
-  if (search && search.length > 1) {
-    const data = await db
-      .select()
-      .from(mercenaries)
-      .innerJoin(users, sql`${"mercenaries.userId"} = ${"users.id"}`)
-      .where(sql`lower(${"users.name"}) LIKE lower(${`%${search}%`})`)
-      .execute();
-
-    return NextResponse.json({ data });
-  }
-
   const data = await db.query.mercenaries
     .findMany({
       with: {
         user: {
           columns: {
             name: true,
-            image: true,
-            id: true,
           },
         },
         village: {
@@ -35,13 +20,26 @@ export async function GET(request: NextRequest) {
           },
         },
       },
-      columns: {},
+      columns: {
+        id: true,
+      },
     })
     .then((res) =>
       res
         .filter((data) => data.village.name === village)
-        .map((user) => user.user)
+        .map((user) => ({
+          id: user.id,
+          name: user.user.name,
+        }))
     );
+
+  if (search && search.length > 1) {
+    return NextResponse.json({
+      data: data.filter((mercenary) =>
+        mercenary.name?.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      ),
+    });
+  }
 
   return NextResponse.json({ data });
 }

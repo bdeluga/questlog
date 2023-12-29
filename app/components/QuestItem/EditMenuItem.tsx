@@ -1,26 +1,32 @@
 "use client";
 
-import { Quest, Village } from "@/db/schema";
+import { Quest, User, Village } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import {
+  faClose,
   faDiceD20,
   faEdit,
   faExclamationCircle,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { produce } from "immer";
-import calculateExp from "@/utils/calculateExp";
 import useToast from "@/app/hooks/useToast";
 import { ZodFormattedError, z } from "zod";
 import updateQuestAction from "@/app/actions/updateQuestAction";
 import Submit from "../forms/Submit";
+import useSWR from "swr";
+import debounce from "lodash.debounce";
+import Image from "next/image";
 interface Props {
-  quest: Quest;
+  quest: Quest & { mercenary: { id: string; name: string } | null };
+  village: Village;
 }
-export default function EditMenuItem({ quest }: Props) {
+export default function EditMenuItem({ quest, village }: Props) {
   const [editedQuest, setEditedQuest] = useState(quest);
   const [open, setOpen] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const handleCanel = (value: boolean) => {
     if (value === false) {
       setEditedQuest(quest);
@@ -29,6 +35,27 @@ export default function EditMenuItem({ quest }: Props) {
   };
 
   const toast = useToast();
+
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then(({ data }) => data);
+
+  const { data: mercenaries, isLoading } = useSWR(
+    `/api/mercenaries?village=${decodeURI(
+      village.name
+    )}&search=${debouncedSearch}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  const handleDebounce = debounce(
+    (e: ChangeEvent<HTMLInputElement>) => setDebouncedSearch(e.target.value),
+    500
+  );
+  console.log(editedQuest);
 
   const QuestSchema = z.object({
     title: z
@@ -71,6 +98,8 @@ export default function EditMenuItem({ quest }: Props) {
       }
     }
   };
+
+  console.log(mercenaries);
   const handleClearError = (property: keyof z.infer<typeof QuestSchema>) => {
     const updatedObject = { ...formError };
 
@@ -92,7 +121,7 @@ export default function EditMenuItem({ quest }: Props) {
       }
     >
       <form className="mt-4" action={clientAction}>
-        <fieldset className="space-y-2 w-full">
+        <fieldset className="space-y-2 w-full relative">
           <div>
             <label htmlFor="title">Title</label>
             <input
@@ -180,18 +209,84 @@ export default function EditMenuItem({ quest }: Props) {
               value={"No equipment for this quest"}
             />
           </div>
-          <div>
-            <label htmlFor="mercenary" className="text-mauve10">
-              Mercenary
-            </label>
-            <input
-              id="mercenary"
-              disabled
-              className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-              name="mercenary"
-              value={"No assignee"}
-            />
-          </div>
+          {editedQuest.mercenary ? (
+            <div>
+              <label htmlFor="mercenary">
+                Mercenary <FontAwesomeIcon icon={faUser} />
+              </label>
+              <input
+                disabled
+                readOnly
+                id="mercenary"
+                value={editedQuest.mercenary.name}
+                className="w-full p-2 rounded-md bg-mauve4 mt-1 relative peer hover:bg-mauve6"
+                onChange={handleDebounce}
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  setEditedQuest(
+                    produce((draft) => {
+                      draft.mercenary = null;
+                    })
+                  )
+                }
+                className="absolute right-2 bottom-2 peer-hover:visible invisible  hover:visible"
+              >
+                <FontAwesomeIcon icon={faClose} />
+              </button>
+            </div>
+          ) : (
+            <>
+              {debouncedSearch.length > 0 && (
+                <ul className=" space-y-2 max-h-[10rem] p-2 h-full overflow-y-auto bg-mauve4 border-2 border-mauve5 rounded absolute w-full translate-y-20">
+                  {mercenaries?.map(
+                    (mercenary: { id: string; name: string }) => (
+                      <li
+                        key={mercenary.id}
+                        className="justify-between flex items-center"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditedQuest(
+                              produce((draft) => {
+                                draft.mercenary = mercenary;
+                              })
+                            );
+                            setDebouncedSearch("");
+                          }}
+                          className="p-2 rounded w-full text-left relative hover:bg-mauve7 flex justify-between"
+                        >
+                          <div className="flex items-center gap-1">
+                            <Image
+                              alt="User avatar"
+                              width={32}
+                              height={32}
+                              src={"/default.svg"}
+                              className="rounded-full"
+                            />
+                            <span>{mercenary.name}</span>
+                          </div>
+                        </button>
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
+              <div>
+                <label htmlFor="mercenary">
+                  Mercenary <FontAwesomeIcon icon={faUser} />
+                </label>
+                <input
+                  id="mercenary"
+                  className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
+                  name="mercenary"
+                  onChange={handleDebounce}
+                />
+              </div>
+            </>
+          )}
         </fieldset>
         <div className="w-full mt-8 flex justify-end gap-4">
           <button

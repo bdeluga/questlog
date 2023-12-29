@@ -1,5 +1,5 @@
 "use client";
-import { Quest, Village } from "@/db/schema";
+import { Quest, User, Village } from "@/db/schema";
 import Modal from "@/ui/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddQuestForm from "../forms/AddQuestForm";
@@ -9,7 +9,9 @@ import { useState } from "react";
 export default function NoticeBoardMenu({
   village,
 }: {
-  village: Village & { quests: Quest[] };
+  village: Village & { quests: Omit<Quest, "mercenaryId">[] } & {
+    mercenary: User | null;
+  };
 }) {
   const [open, setOpen] = useState(false);
 

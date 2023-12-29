@@ -1,17 +1,21 @@
 "use client";
 import addQuestAction from "@/app/actions/addQuestAction";
 import useToast from "@/app/hooks/useToast";
-import Tooltip from "@/ui/Tooltip";
-import calculateExp from "@/utils/calculateExp";
+
 import {
+  faClose,
   faDiceD20,
   faExclamationCircle,
-  faInfoCircle,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ZodFormattedError, z } from "zod";
 import Submit from "./Submit";
+import useSWR from "swr";
+import debounce from "lodash.debounce";
+import Image from "next/image";
+import { User } from "@/db/schema";
 interface Props {
   villageName: string;
   onSuccess?: () => void;
@@ -19,8 +23,28 @@ interface Props {
 
 export default function AddQuestForm({ villageName, onSuccess }: Props) {
   const [difficulty, setDifficulty] = useState("");
-
+  const [mercenary, setMercenary] = useState<User | null>(null);
   const toast = useToast();
+
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then(({ data }) => data);
+
+  const { data: mercenaries, isLoading } = useSWR(
+    `/api/mercenaries?village=${villageName}&search=${debouncedSearch}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  const handleDebounce = debounce(
+    (e: ChangeEvent<HTMLInputElement>) => setDebouncedSearch(e.target.value),
+    500
+  );
 
   const QuestSchema = z.object({
     title: z
@@ -36,6 +60,7 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
       .string()
       .max(255, "Description should be at most 255 characters")
       .optional(),
+    mercenaryId: z.string().optional(),
   });
 
   const [formError, setFormError] = useState<ZodFormattedError<
@@ -43,13 +68,15 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
   > | null>(null);
   const clientAction = async (formData: FormData) => {
     const newQuest = Object.fromEntries(formData.entries());
-
+    if (mercenary) {
+      newQuest.mercenaryId = mercenary.id;
+    }
     const response = QuestSchema.safeParse(newQuest);
 
     if (!response.success) {
       setFormError(response.error.format());
     } else {
-      const response = await addQuestAction(formData, villageName);
+      const response = await addQuestAction(newQuest, villageName);
       if (response?.error) {
         toast.notify({
           title: "Error",
@@ -78,7 +105,7 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
 
   return (
     <form className="mt-8" action={clientAction}>
-      <fieldset className="space-y-4 w-full">
+      <fieldset className="space-y-4 w-full relative">
         <div>
           <label htmlFor="title">Title</label>
           <input
@@ -91,7 +118,7 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
 
           <span
             className={`text-red9 text-sm ${
-              formError?.title ? "visible" : "invisible"
+              formError?.title ? "inline" : "hidden"
             }`}
           >
             <FontAwesomeIcon icon={faExclamationCircle} />{" "}
@@ -113,7 +140,7 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
           />
           <span
             className={`text-red9 text-sm ${
-              formError?.difficulty ? "visible" : "invisible"
+              formError?.difficulty ? "inline" : "hidden"
             }`}
           >
             <FontAwesomeIcon icon={faExclamationCircle} />{" "}
@@ -135,7 +162,7 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
         </div>
         <span
           className={`text-red9 text-sm ${
-            formError?.description ? "visible" : "invisible"
+            formError?.description ? "inline" : "hidden"
           }`}
         >
           <FontAwesomeIcon icon={faExclamationCircle} />{" "}
@@ -151,18 +178,73 @@ export default function AddQuestForm({ villageName, onSuccess }: Props) {
             placeholder="Equip mercenary with items needed for quest, perhaps a map ?"
           />
         </div> */}
-        <div>
-          <label htmlFor="mercenary" className="text-mauve10">
-            Mercenary
-          </label>
-          <input
-            id="mercenary"
-            disabled
-            className={`w-full p-2 rounded-md mt-1 focus:ring disabled:opacity-50 disabled:pointer-events-none ring-mauve5 bg-mauve4 `}
-            placeholder="e.g. Bard the Bowman"
-            name="mercenary"
-          />
-        </div>
+        {mercenary ? (
+          <div>
+            <label htmlFor="mercenary">
+              Mercenary <FontAwesomeIcon icon={faUser} />
+            </label>
+            <input
+              disabled
+              readOnly
+              id="mercenart"
+              value={mercenary.name!}
+              className="w-full p-2 rounded-md bg-mauve4 mt-1 relative peer hover:bg-mauve6"
+              onChange={handleDebounce}
+            />
+            <button
+              type="button"
+              onClick={() => setMercenary(null)}
+              className="absolute right-2 bottom-2 peer-hover:visible invisible  hover:visible"
+            >
+              <FontAwesomeIcon icon={faClose} />
+            </button>
+          </div>
+        ) : (
+          <>
+            {debouncedSearch.length > 0 && (
+              <ul className=" space-y-2 max-h-[10rem] p-2 h-full overflow-y-auto bg-mauve4 border-2 border-mauve5 rounded absolute w-full translate-y-20">
+                {mercenaries?.map((mercenary: User) => (
+                  <li
+                    key={mercenary.id}
+                    className="justify-between flex items-center"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMercenary(mercenary);
+                        setDebouncedSearch("");
+                      }}
+                      className="p-2 rounded w-full text-left relative hover:bg-mauve7 flex justify-between"
+                    >
+                      <div className="flex items-center gap-1">
+                        <Image
+                          alt="User avatar"
+                          width={32}
+                          height={32}
+                          src={"/default.svg"}
+                          className="rounded-full"
+                        />
+                        <span>{mercenary.name}</span>
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div>
+              <label htmlFor="mercenary">
+                Mercenary <FontAwesomeIcon icon={faUser} />
+              </label>
+              <input
+                id="mercenary"
+                className={`w-full p-2 rounded-md mt-1 focus:ring  ring-mauve5 bg-mauve4 `}
+                placeholder="e.g. Bard the Bowman"
+                name="mercenary"
+                onChange={handleDebounce}
+              />
+            </div>
+          </>
+        )}
       </fieldset>
       <Submit className="border w-full rounded-md border-orange11 disabled:pointer-events-none hover:text-mauve1 duration-200 hover:bg-orange11 px-4 py-2 mt-10">
         Add

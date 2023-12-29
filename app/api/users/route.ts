@@ -13,8 +13,8 @@ export async function GET(request: NextRequest) {
 
   if (search && search.length > 0) {
     const data = await db.query.users.findMany({
-      where: (users, { ilike, and, ne }) =>
-        and(ilike(users.name, `%${search}%`), ne(users.id, user.user!.id)),
+      where: (users, { ilike, and, eq }) =>
+        and(ilike(users.name, `%${search}%`), eq(users.userType, "member")),
     });
 
     return NextResponse.json({ data });

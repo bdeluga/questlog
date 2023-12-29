@@ -1,11 +1,13 @@
 "use server";
 import { db } from "@/db";
-import { NewQuest, quests } from "@/db/schema";
+import { NewQuest, Quest, quests } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import { auth } from "../auth";
 import calculateExp from "@/utils/calculateExp";
 export default async function addQuestAction(
-  formData: FormData,
+  formData: {
+    [k: string]: FormDataEntryValue;
+  },
   villageName: string
 ) {
   const user = await auth();
@@ -20,18 +22,14 @@ export default async function addQuestAction(
 
   const { expNeeded, level } = village;
 
-  const newQuest = Object.fromEntries(
-    formData.entries()
-  ) as unknown as NewQuest;
-
   const calculatedExp = calculateExp(
     expNeeded,
     level,
-    Number(newQuest.difficulty)
+    Number(formData.difficulty)
   );
   try {
     await db.insert(quests).values({
-      ...newQuest,
+      ...(formData as unknown as Quest),
       villageId: village.id,
       rewardExp: calculatedExp,
     });
