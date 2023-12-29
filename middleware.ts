@@ -37,7 +37,7 @@ export async function middleware(req: NextRequest) {
 
       if (user?.plan && user.villages.length > 0) {
         return NextResponse.redirect(
-          new URL(`${user.selectedVillage || user.villages[0].name}`, req.url)
+          new URL(`${user.villages[0].name}`, req.url)
         );
       }
     }
@@ -56,9 +56,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("new-user", req.url));
     }
 
-    return NextResponse.redirect(
-      new URL(`${user.selectedVillage || user.villages[0].name}`, req.url)
-    );
+    return NextResponse.redirect(new URL(`${user.villages[0].name}`, req.url));
   }
 
   return NextResponse.next();
