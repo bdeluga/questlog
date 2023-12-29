@@ -55,18 +55,18 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
         />
       </h1>
       <div className="mt-4">
-        {quest.mercenaryId ? (
+        {/* {quest ? (
           `Mercenary: ${quest.mercenaryId}`
-        ) : (
-          <div className="flex items-center gap-1  p-1 pl-0 w-max">
-            <div className="flex justify-center items-center overflow-hidden rounded-full bg-mauve2 aspect-square w-8 h-8">
-              ?
-            </div>
-            <span className="text-sm flex gap-2 bg-mauve3 rounded p-2 items-center">
-              No mercenary
-            </span>
+        ) : ( */}
+        <div className="flex items-center gap-1  p-1 pl-0 w-max">
+          <div className="flex justify-center items-center overflow-hidden rounded-full bg-mauve2 aspect-square w-8 h-8">
+            ?
           </div>
-        )}
+          <span className="text-sm flex gap-2 bg-mauve3 rounded p-2 items-center">
+            No mercenary
+          </span>
+        </div>
+        {/* )} */}
       </div>
       <div className="mt-4 flex justify-between">
         <div className="flex gap-0.5 items-center text-red8">
