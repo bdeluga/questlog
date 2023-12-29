@@ -99,7 +99,7 @@ export default function NoticeBoard({
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  quest={quest}
+                                  quest={quest as any}
                                   village={data}
                                 />
                               )}
