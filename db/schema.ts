@@ -1,11 +1,9 @@
 import {
   pgTable,
-  unique,
   pgEnum,
   text,
   date,
   uniqueIndex,
-  foreignKey,
   integer,
   primaryKey,
 } from "drizzle-orm/pg-core";
@@ -86,41 +84,6 @@ export const villagesRelations = relations(villages, ({ one, many }) => ({
 export type Village = InferSelectModel<typeof villages>;
 export type NewVillage = InferInsertModel<typeof villages>;
 
-export interface NotArchivedQuest extends Quest {
-  state: Exclude<Quest["state"], "archived">;
-}
-
-export const mercenaries = pgTable(
-  "mercenaries",
-  {
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    villageId: text("village_id")
-      .notNull()
-      .references(() => villages.id, { onDelete: "cascade" }),
-  },
-  (table) => ({
-    pk: primaryKey({ columns: [table.userId, table.villageId] }),
-    uniqueConstin: uniqueIndex("unique_mercenary").on(
-      table.userId,
-      table.villageId
-    ),
-  })
-);
-export const mercenariesRelations = relations(mercenaries, ({ one }) => ({
-  user: one(users, {
-    fields: [mercenaries.userId],
-    references: [users.id],
-  }),
-  village: one(villages, {
-    fields: [mercenaries.villageId],
-    references: [villages.id],
-  }),
-}));
-export type Mercenary = InferSelectModel<typeof mercenaries>;
-export type NewMercenary = InferInsertModel<typeof mercenaries>;
-
 export const quests = pgTable("quests", {
   id: text("id")
     .default(sql`gen_random_uuid()`)
@@ -138,6 +101,9 @@ export const quests = pgTable("quests", {
   number: integer("number")
     .default(sql`nextval('questnum_seq')`)
     .notNull(),
+  mercenaryId: text("mercenary_id").references(() => mercenaries.id, {
+    onDelete: "set null",
+  }),
 });
 
 export const questsRelations = relations(quests, ({ one }) => ({
@@ -146,6 +112,38 @@ export const questsRelations = relations(quests, ({ one }) => ({
     references: [villages.id],
   }),
   user: one(users),
+  mercenary: one(mercenaries, {
+    fields: [quests.mercenaryId],
+    references: [mercenaries.id],
+  }),
 }));
 export type Quest = InferSelectModel<typeof quests>;
 export type NewQuest = InferInsertModel<typeof quests>;
+
+export interface NotArchivedQuest extends Quest {
+  state: Exclude<Quest["state"], "archived">;
+}
+
+export const mercenaries = pgTable("mercenaries", {
+  id: text("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  villageId: text("village_id")
+    .notNull()
+    .references(() => villages.id, { onDelete: "cascade" }),
+});
+export const mercenariesRelations = relations(mercenaries, ({ one }) => ({
+  user: one(users, {
+    fields: [mercenaries.userId],
+    references: [users.id],
+  }),
+  village: one(villages, {
+    fields: [mercenaries.villageId],
+    references: [villages.id],
+  }),
+}));
+export type Mercenary = InferSelectModel<typeof mercenaries>;
+export type NewMercenary = InferInsertModel<typeof mercenaries>;
