@@ -5,7 +5,6 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import RemoveVillageForm from "../forms/RemoveVillageForm";
-import selectVillageAction from "@/app/actions/selectVillageAction";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
