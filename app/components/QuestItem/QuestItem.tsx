@@ -13,6 +13,7 @@ import EditMenuItem from "./EditMenuItem";
 import ShowMenuItem from "./ShowMenuItem";
 import RemoveMenuItem from "./RemoveMenuItem";
 import Image from "next/image";
+import CompleteQuestItem from "./CompleteQuestItem";
 interface Props extends ComponentPropsWithRef<"div"> {
   quest: Quest & { mercenary: { id: string; name: string } };
   village: Village;
@@ -35,25 +36,51 @@ const QuestItem = forwardRef<HTMLDivElement, Props>(function QuestItem(
           </span>
           <span className="mx-1 truncate max-w-[16rem]">{quest.title}</span>
         </div>
-        <Dropdown
-          side="left"
-          trigger={
-            <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve2">
-              <FontAwesomeIcon icon={faEllipsisH} />
-            </button>
-          }
-          items={[
-            { id: "show", element: <ShowMenuItem quest={quest} /> },
-            {
-              id: "edit",
-              element: <EditMenuItem quest={quest} village={village} />,
-            },
-            {
-              id: "delete",
-              element: <RemoveMenuItem quest={quest} />,
-            },
-          ]}
-        />
+        {quest.state === "closed" ? (
+          <Dropdown
+            side="left"
+            trigger={
+              <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve2">
+                <FontAwesomeIcon icon={faEllipsisH} />
+              </button>
+            }
+            items={[
+              { id: "show", element: <ShowMenuItem quest={quest} /> },
+              {
+                id: "edit",
+                element: <EditMenuItem quest={quest} village={village} />,
+              },
+              {
+                id: "delete",
+                element: <RemoveMenuItem quest={quest} />,
+              },
+              {
+                id: "complete",
+                element: <CompleteQuestItem quest={quest} />,
+              },
+            ]}
+          />
+        ) : (
+          <Dropdown
+            side="left"
+            trigger={
+              <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve2">
+                <FontAwesomeIcon icon={faEllipsisH} />
+              </button>
+            }
+            items={[
+              { id: "show", element: <ShowMenuItem quest={quest} /> },
+              {
+                id: "edit",
+                element: <EditMenuItem quest={quest} village={village} />,
+              },
+              {
+                id: "delete",
+                element: <RemoveMenuItem quest={quest} />,
+              },
+            ]}
+          />
+        )}
       </h1>
       <div className="mt-4">
         {quest.mercenary ? (

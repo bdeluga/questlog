@@ -54,7 +54,10 @@ export const reorderTasks = ({
   // remove from original
   current.splice(source.index, 1);
   // insert into next
-  next.splice(destination!.index, 0, target);
+  next.splice(destination!.index, 0, {
+    ...target,
+    state: destination!.droppableId as Quest["state"],
+  });
 
   const result = {
     ...tasks,
