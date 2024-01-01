@@ -2,6 +2,7 @@ import { auth } from "@/app/auth";
 import { db } from "@/db";
 import { quests } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -49,6 +50,8 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     NextResponse.json({ staus: 500, message: "Failed to change quest state" });
   }
+
+  revalidatePath("/[village]/journal/analytics", "page");
 
   return NextResponse.json({ status: 200 });
 }
