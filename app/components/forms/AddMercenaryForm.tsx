@@ -95,7 +95,7 @@ export default function AddUserForm({
         <ul
           className={`${
             !debouncedSearch.length ? "hidden" : "absolute"
-          }  w-full mt-2 p-2  rounded-md bg-mauve3  border-2 border-mauve9 max-h-[400px]`}
+          }  w-full mt-2 p-2  rounded-md bg-mauve3  border-2 border-mauve9 max-h-[400px] overflow-y-auto`}
         >
           {!!users?.length &&
             users.map((user: User) => (

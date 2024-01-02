@@ -9,6 +9,7 @@ import useSWR from "swr";
 import Image from "next/image";
 import Dropdown from "@/ui/Dropdown";
 import RemoveMercenary from "@/app/components/OverviewPanels/Social/RemoveMercenary";
+import AddUserForm from "@/app/components/forms/AddMercenaryForm";
 export default function PeoplePage({
   params,
 }: {
@@ -50,11 +51,14 @@ export default function PeoplePage({
             onChange={handleDebounce}
           />
         </div>
-        <button className="flex items-center justify-center p-3 rounded-md bg-mauve12 text-mauve1">
-          <FontAwesomeIcon icon={faAdd} />
-        </button>
+        <div className="flex items-center justify-center w-10 h-10 rounded-md bg-mauve12 text-mauve1">
+          <AddUserForm
+            mercenaries={mercenaries ?? []}
+            village={params.village}
+          />
+        </div>
       </div>
-      <div className="grid grid-flow-col-dense gap-4 mt-10">
+      <div className="grid grid-flow-col-dense gap-4 mt-10 ">
         {mercenaries?.map((mercenary) => (
           <div
             key={mercenary.id}
