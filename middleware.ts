@@ -7,19 +7,25 @@ export async function middleware(req: NextRequest) {
   //returns user object
   const session = await auth();
 
-  if (req.headers.get("next-action") || pathname.startsWith("/api/")) {
+  //append new routes if needed in future
+  const authRoutes = ["/sign-up", "/sign-in"];
+  const sensitiveRoutes = ["/new-user"];
+  const apiRoutes = [
+    "/api/mercenaries",
+    "/api/quest",
+    "/api/users",
+    "/api/village/level",
+  ];
+
+  const isAccessing = (routes: string[]) =>
+    routes.some((route) => pathname.startsWith(route));
+
+  if (req.headers.get("next-action") || isAccessing(apiRoutes)) {
     if (!session)
       return NextResponse.json({ error: "Unathorized" }, { status: 401 });
 
     NextResponse.next();
   }
-
-  const isAccessing = (routes: string[]) =>
-    routes.some((route) => pathname.startsWith(route));
-
-  //append new routes if needed in future
-  const authRoutes = ["/sign-up", "/sign-in"];
-  const sensitiveRoutes = ["/new-user"];
 
   //auth safeguards
   if (isAccessing(authRoutes)) {
