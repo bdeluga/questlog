@@ -7,6 +7,13 @@ export async function middleware(req: NextRequest) {
   //returns user object
   const session = await auth();
 
+  if (req.headers.get("next-action") || pathname.startsWith("/api/")) {
+    if (!session)
+      return NextResponse.json({ error: "Unathorized" }, { status: 401 });
+
+    NextResponse.next();
+  }
+
   const isAccessing = (routes: string[]) =>
     routes.some((route) => pathname.startsWith(route));
 
