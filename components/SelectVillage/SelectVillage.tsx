@@ -87,3 +87,21 @@ export default function SelectVillage({
     </div>
   );
 }
+
+[
+  {
+    userId: "asfsaf",
+    groupId: "asfsaf",
+    permissions: ["r", "w"],
+  },
+  {
+    userId: "asfsaf",
+    groupId: "asfsaf",
+    permissions: ["r", "w"],
+  },
+  {
+    userId: "asfsaf",
+    groupId: "asfsaf",
+    permissions: ["r", "w"],
+  },
+];

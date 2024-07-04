@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { NewQuest, Quest, User, quests, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { auth } from "../auth";
+import { auth } from "@/auth";
 import calculateExp from "@/utils/calculateExp";
 export default async function updateQuestAction(
   quest: Quest & { mercenary: { id: string; name: string } | null }

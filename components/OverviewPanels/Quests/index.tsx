@@ -27,7 +27,7 @@ export default function Quests({ village }: { village: Village["name"] }) {
 
   if (isLoading) return <Loading />;
   return (
-    <div className="flex flex-col p-4 h-full justify-start">
+    <div className="flex flex-col p-4 h-full justify-start outline">
       <Table data={quests ?? []} columns={columns} />
     </div>
   );

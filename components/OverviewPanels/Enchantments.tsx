@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Enchantments() {
   return (
-    <div className="flex flex-col h-full justify-start">
+    <div className="flex flex-col h-full justify-start outline p-2">
       <div className="flex  text-lg gap-1">
         <h1>Latest Enchantments</h1>
       </div>

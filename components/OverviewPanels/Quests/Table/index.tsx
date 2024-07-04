@@ -78,7 +78,7 @@ export function Table<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className=" border-y last-of-type:border-y-0 border-mauve4 text-left data-[state=selected]:bg-mauve4"
+                  className=" border-2 my-2 border-cyan8 text-left data-[state=selected]:bg-mauve4"
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (

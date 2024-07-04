@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { User, Village, users, villages } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { auth } from "../auth";
+import { auth } from "@/auth";
 export default async function updateUserDetailsAction(
   plan: User["plan"],
   villageName: Village["name"]

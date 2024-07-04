@@ -37,7 +37,7 @@ export default function Social({ village }: { village: Village["name"] }) {
   );
 
   return (
-    <div className="flex flex-col h-full justify-start ">
+    <div className="flex flex-col h-full justify-start outline p-2 ">
       <div className="flex items-center justify-between text-lg gap-1">
         <h1>Tavern</h1>
         <AddUserForm mercenaries={mercenaries} village={village} />
@@ -60,7 +60,7 @@ export default function Social({ village }: { village: Village["name"] }) {
           {mercenaries?.map((mercenary: User) => (
             <li
               key={mercenary.id}
-              className="justify-between flex items-center"
+              className="justify-between flex items-center outline outline-grass10"
             >
               <div className="p-2 rounded w-full text-left relative hover:bg-mauve4 flex justify-between">
                 <div className="flex items-center gap-1">
@@ -76,7 +76,7 @@ export default function Social({ village }: { village: Village["name"] }) {
                 <Dropdown
                   side="bottom"
                   trigger={
-                    <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve3">
+                    <button className="p-1 w-8 h-8 rounded outline outline-plum9 flex justify-center items-center hover:bg-mauve2 active:bg-mauve2 data-[state=open]:bg-mauve3">
                       <FontAwesomeIcon icon={faEllipsisV} />
                     </button>
                   }

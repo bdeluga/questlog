@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Realms() {
   return (
-    <div className="flex flex-col h-full justify-start">
+    <div className="flex flex-col h-full justify-start outline p-2">
       <div className="flex items-center justify-between text-lg gap-1">
         <h1>Active Realms</h1>
         <button>

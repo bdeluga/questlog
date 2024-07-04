@@ -1,4 +1,4 @@
-import StaggeredList from "@/app/components/StaggeredList";
+import StaggeredList from "@/components/StaggeredList";
 export default function Home() {
   return (
     <main className="w-full relative p-12">

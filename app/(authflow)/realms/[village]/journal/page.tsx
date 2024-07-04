@@ -1,4 +1,4 @@
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import NoticeBoard from "@/app/components/NoticeBoard/NoticeBoard";
 import NoticeBoardMenu from "@/app/components/NoticeBoard/NoticeBoardMenu";
 import { db } from "@/db";

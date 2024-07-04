@@ -1,17 +1,19 @@
 import Link from "next/link";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookJournalWhills } from "@fortawesome/free-solid-svg-icons";
+import { faBookBookmark } from "@fortawesome/free-solid-svg-icons";
 
-async function NoAuthLayout({ children }: { children: React.ReactElement }) {
+export default async function NoAuthLayout({
+  children,
+}: {
+  children: React.ReactElement;
+}) {
   return (
     <>
       <header className="flex justify-between items-center p-4 border-mauve3 border-b">
-        <Link href={"/"} className="text-4xl">
-          <FontAwesomeIcon
-            icon={faBookJournalWhills}
-            className="text-orange11"
-          />
+        <Link href={"/"} className="text-2xl">
+          <FontAwesomeIcon icon={faBookBookmark} className="text-orange11" />
+          <span className="ml-1">Questlog</span>
         </Link>
         <div className="flex gap-4">
           <Link
@@ -32,5 +34,3 @@ async function NoAuthLayout({ children }: { children: React.ReactElement }) {
     </>
   );
 }
-
-export default NoAuthLayout;

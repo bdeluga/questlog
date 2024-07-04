@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { mercenaries, villages } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { auth } from "../auth";
+import { auth } from "@/auth";
 
 export default async function removeMercenary(
   mercenaryId: string,

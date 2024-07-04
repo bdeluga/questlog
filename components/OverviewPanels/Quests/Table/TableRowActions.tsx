@@ -21,7 +21,7 @@ export default function TableRowActions<TData>({
     <Dropdown
       side="left"
       trigger={
-        <button className="p-1 w-8 h-8 rounded flex justify-center items-center hover:bg-mauve3 active:bg-mauve2 data-[state=open]:bg-mauve3">
+        <button className="p-1 w-8 h-8 rounded outline outline-plum9 flex justify-center items-center hover:bg-mauve3 active:bg-mauve2 data-[state=open]:bg-mauve3">
           <FontAwesomeIcon icon={faEllipsisH} />
         </button>
       }

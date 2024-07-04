@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { mercenaries, quests, villages } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { auth } from "../auth";
+import { auth } from "@/auth";
 
 export default async function addMercenary(
   mercenaryId: string,

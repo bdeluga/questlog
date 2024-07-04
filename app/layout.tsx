@@ -5,7 +5,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 import NextAuthProvider from "@/app/context/AuthProvider";
-import { auth } from "./auth";
+import { auth } from "@/auth";
 import ToastProvider from "@/app/context/ToastProvider";
 import Toast from "@/ui/Toast";
 

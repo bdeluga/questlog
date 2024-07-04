@@ -2,7 +2,7 @@
 import { db } from "@/db";
 import { NewQuest, Quest, quests } from "@/db/schema";
 import { revalidatePath } from "next/cache";
-import { auth } from "../auth";
+import { auth } from "@/auth";
 import calculateExp from "@/utils/calculateExp";
 export default async function addQuestAction(
   formData: {

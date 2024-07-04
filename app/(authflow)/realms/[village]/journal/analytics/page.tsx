@@ -1,4 +1,4 @@
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import BarChart from "@/app/components/BarChart";
 import { db } from "@/db";
 import { Quest } from "@/db/schema";

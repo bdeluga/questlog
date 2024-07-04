@@ -13,7 +13,7 @@ export default function Switch({ id, defaultChecked }: Props) {
       id={id}
       defaultChecked={defaultChecked}
     >
-      <SwitchMenu.Thumb className="block w-5 h-5 bg-mauve11 rounded-full  transition-transform duration-150  will-change-transform data-[state=checked]:translate-x-5" />
+      <SwitchMenu.Thumb className="block w-4 h-4 bg-mauve11 rounded-full translate-x-1  transition-transform duration-150  will-change-transform data-[state=checked]:translate-x-5" />
     </SwitchMenu.Root>
   );
 }

@@ -44,7 +44,7 @@ export default function TablePagination<TData>({
         </div>
         <div className="flex text-sm items-center space-x-2">
           <button
-            className="hidden w-8 h-8 rounded-md hover:bg-mauve4 disabled:pointer-events-none lg:block"
+            className="hidden w-8 h-8 rounded-md outline outline-olive8 hover:bg-mauve4 disabled:pointer-events-none lg:block"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -52,7 +52,7 @@ export default function TablePagination<TData>({
             <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
           <button
-            className="w-8 h-8 rounded-md hover:bg-mauve4 disabled:pointer-events-none"
+            className="w-8 h-8 rounded-md outline outline-olive8 hover:bg-mauve4 disabled:pointer-events-none"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -60,7 +60,7 @@ export default function TablePagination<TData>({
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <button
-            className="w-8 h-8 rounded-md hover:bg-mauve4 disabled:pointer-events-none aspect-square"
+            className="w-8 h-8 rounded-md outline outline-olive8 hover:bg-mauve4 disabled:pointer-events-none aspect-square"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -68,7 +68,7 @@ export default function TablePagination<TData>({
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
           <button
-            className="hidden w-8 h-8 rounded-md hover:bg-mauve4 disabled:pointer-events-none lg:block"
+            className="hidden w-8 h-8 rounded-md outline outline-olive8 hover:bg-mauve4 disabled:pointer-events-none lg:block"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >

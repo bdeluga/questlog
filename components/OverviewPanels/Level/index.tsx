@@ -22,7 +22,7 @@ export default function Level({ village }: { village: Village["name"] }) {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="flex flex-col h-full justify-between">
+    <div className="flex flex-col h-full justify-between outline p-2">
       <div className="flex justify-between items-baseline text-lg">
         Level
         <div className="flex items-center gap-1 bg-mauve3 w-fit px-2  rounded-md">

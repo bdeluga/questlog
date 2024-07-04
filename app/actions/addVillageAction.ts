@@ -2,7 +2,7 @@
 import { db } from "@/db";
 import { villages } from "@/db/schema";
 import { revalidatePath } from "next/cache";
-import { auth } from "../auth";
+import { auth } from "@/auth";
 
 export default async function addVillageAction(formData: FormData) {
   const user = await auth();
